@@ -1,0 +1,9 @@
+.mylink{
+color: #000;
+}
+
+.mylink:hover{
+text-decoration: underline;
+color: rgba(151, 103, 7, 0.514);
+}
+
