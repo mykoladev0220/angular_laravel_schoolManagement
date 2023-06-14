@@ -9,7 +9,6 @@ import { AdiminRoutingModule } from './adimin-routing.module';
 import { AdmindashboardComponent } from './components/admindashboard/admindashboard.component';
 import { UsermoduleModule } from '../usermodule/usermodule.module';
 
-
 import { FormsModule } from '@angular/forms';
 
 import { CreateactiveperiodComponent } from './components/createactiveperiod/createactiveperiod.component';
@@ -38,7 +37,7 @@ import { UsersComponent } from './components/users/users.component';
 import { UserRightsComponent } from './components/user-rights/user-rights.component';
 import { ViewBatchComponent } from './components/view-batch/view-batch.component';
 import { BlacklistComponent } from './components/blacklist/blacklist.component';
-
+import { ReportsComponent } from './components/reports/reports.component';
 
 
 @NgModule({
@@ -46,23 +45,23 @@ import { BlacklistComponent } from './components/blacklist/blacklist.component';
     AdmindashboardComponent,
 
     CreateactiveperiodComponent,
-PeriodsComponent,
+    PeriodsComponent,
     BatchesComponent,
-
 
     HostelpreferenceComponent,
 
     HostelsComponent,
-     FloorsComponent,
-     RoomsComponent,
-     RoomstypesComponent,
-     ResavationsComponent,
-     RoomcostsComponent,
-     RoomallocationComponent,
-     UsersComponent,
-     UserRightsComponent,
-     ViewBatchComponent,
-     BlacklistComponent,
+    FloorsComponent,
+    RoomsComponent,
+    RoomstypesComponent,
+    ResavationsComponent,
+    RoomcostsComponent,
+    RoomallocationComponent,
+    UsersComponent,
+    UserRightsComponent,
+    ViewBatchComponent,
+    BlacklistComponent,
+    ReportsComponent,
   ],
   imports: [
     FormsModule,
@@ -70,6 +69,7 @@ PeriodsComponent,
     AdiminRoutingModule,
     UsermoduleModule,
     DataTablesModule,
+
   ],
   providers: [
     LocationService,
@@ -82,7 +82,7 @@ PeriodsComponent,
     YearserviceService,
     DatePipe,
     BatchesService,
-    RoomallocationService
+    RoomallocationService,
   ],
 })
 export class AdiminModule {}

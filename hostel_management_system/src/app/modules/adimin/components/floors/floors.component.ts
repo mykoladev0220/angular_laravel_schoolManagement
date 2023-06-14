@@ -53,14 +53,14 @@ export class FloorsComponent implements OnInit {
       .subscribe((res) => {
         this.hostels = res;
       });
-    this._hostel_id = this.paramsService.getparam('hostel').hostel_id;
-    console.log(this._hostel_id);
+    this.floor.hostel_id = this.paramsService.getparam('hostel').hostel_id;
+
   }
 
   createFloors(form: any) {
     this.feddback_message_status = '';
     this.floorservice
-      .addfloors(form.value, { headers: this.authservice.getHeaders() })
+      .addfloors(this.floor, { headers: this.authservice.getHeaders() })
       .subscribe(
         (res) => {
           this.feddback_message_status = 1;
@@ -97,7 +97,7 @@ export class FloorsComponent implements OnInit {
   getfloors() {
     this.floorservice
       .getFloor(
-        { hostel_id: this._hostel_id },
+        { hostel_id: this.floor.hostel_id },
         { headers: this.authservice.getHeaders() }
       )
       .subscribe((res) => {

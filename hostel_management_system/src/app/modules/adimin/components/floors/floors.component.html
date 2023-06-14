@@ -65,19 +65,20 @@
   </div>
   <!-- /.card-header -->
   <div class="card-body">
+    {{createfloorsForm.value | json}}
     <form #createfloorsForm="ngForm" (ngSubmit)="createFloors(createfloorsForm)">
 
-      <!-- {{createHostelForm.value | json}} -->
+
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
             <label>hostel</label>
 
-            <select class="form-control select2" disabled #hostel_id="ngModel" name="hostel_id" [(ngModel)]="_hostel_id"
+            <select class="form-control select2" disabled  name="hostel_id" [(ngModel)]="floor.hostel_id"
               style="width: 100%;">
 
 
-              <option *ngFor="let hostel of hostels" value="{{hostel.hostel_id}}">{{ hostel.hostel_name }}</option>
+              <option *ngFor="let hostel of hostels" [ngValue]="hostel.hostel_id" >{{ hostel.hostel_name }}</option>
 
             </select>
           </div>

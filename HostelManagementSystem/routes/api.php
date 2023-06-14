@@ -140,6 +140,9 @@ Route::post('createrights', [userController::class, 'createrights']);
 
 Route::post('removeright', [userController::class, 'removeRight']);
 
+
+Route::post('allocationreport',[roomAllocationController::class,'getallocationReportInfo']);
+
 });
 
 Route::get('minimumfees', [studentDetailsController::class, 'getminimum_treshold']);

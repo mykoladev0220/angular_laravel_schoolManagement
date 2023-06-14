@@ -475,21 +475,195 @@ return response()->json(['myallocation' => $my_allocation, 'myapplication' => $M
 
 }
 
-    // public function get_pending_allocation($regnumber)
-    // {
-    //     $datenow = $datenow = Carbon::now();
-    //     $datenow = $datenow = Carbon::now();
-    //     $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
-    //         ->format('Y/m/d');
-    //     $activeallocation = DB::select("SELECT
-    //     COUNT( tbl_room_allocations.room_allocation_id ) AS count
-    // FROM
-    //     tbl_room_allocations
-    //     INNER JOIN tbl_residence_sessions ON tbl_room_allocations.residence_session_id = tbl_residence_sessions.residence_session_id
-    // WHERE
-    //     tbl_residence_sessions.end_date > '$newDate'
-    //     AND tbl_room_allocations.reg_number = '$regnumber'");
 
-    //     return  $activeallocation;
-    // }
+
+public function getallocationReportInfo(Request $request){
+    $request->validate(['room_gender' => 'required', 'reserved' => 'required|boolean', 'residence_session_id' => 'required', 'active_period_id' => 'required']);
+
+    $roomgender = $request['room_gender'];
+    $active_period_id = $request['active_period_id'];
+    $residence_session_id = $request['residence_session_id'];
+    $reserved = $request['reserved'];
+    $datenow = $datenow = Carbon::now();
+    $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
+        ->format('Y/m/d');
+
+        try {
+            if ($reserved) {
+                $rooms_capacity_total= DB::select("SELECT
+            sum(tbl_rooms.room_capacity) as total_capacity
+          FROM
+              tbl_rooms
+              INNER JOIN
+              tbl_room_types
+              ON
+                  tbl_rooms.room_type_id = tbl_room_types.room_type_id
+              INNER JOIN
+              tbl_room_type_costs
+              ON
+                  tbl_room_types.room_type_id = tbl_room_type_costs.room_type_id
+              INNER JOIN
+              tbl_floors
+              ON
+                  tbl_rooms.floor_id = tbl_floors.floor_id
+              INNER JOIN
+              tbl_hostels
+              ON
+                  tbl_floors.hostel_id = tbl_hostels.hostel_id
+              INNER JOIN
+              tbl_locations
+              ON
+                  tbl_hostels.location_id = tbl_locations.location_id
+                  INNER JOIN
+      tbl_resevations
+      ON
+          tbl_rooms.room_id = tbl_resevations.room_id
+          WHERE
+              tbl_rooms.hostel_id IN ((
+                  SELECT
+                      tbl_hostel_preference.hostel_id
+                  FROM
+                      tbl_hostel_preference
+                      INNER JOIN tbl_residence_sessions ON tbl_hostel_preference.residence_session_id = tbl_residence_sessions.residence_session_id
+                      INNER JOIN tbl_active_period_hostel_online_application ON tbl_residence_sessions.active_period_id = tbl_active_period_hostel_online_application.active_period_id
+                  WHERE
+                      tbl_residence_sessions.end_date > '$newDate' and
+                      tbl_residence_sessions.residence_session_id = $residence_session_id
+                      AND tbl_active_period_hostel_online_application.is_active = 1
+                      AND tbl_residence_sessions.available_status = 1
+                  )) AND
+              tbl_rooms.floor_id IN ((
+                  SELECT
+                      tbl_hostel_preference.floor_id
+                  FROM
+                      tbl_hostel_preference
+                      INNER JOIN tbl_residence_sessions ON tbl_hostel_preference.residence_session_id = tbl_residence_sessions.residence_session_id
+                      INNER JOIN tbl_active_period_hostel_online_application ON tbl_residence_sessions.active_period_id = tbl_active_period_hostel_online_application.active_period_id
+                  WHERE
+                      tbl_residence_sessions.end_date > '$newDate'
+                                      and
+                                      tbl_residence_sessions. residence_session_id = $residence_session_id
+
+                  )) AND
+              tbl_room_type_costs.active_period_id = $active_period_id AND
+
+              tbl_rooms.room_id IN ((
+                  SELECT
+                      tbl_resevations.room_id
+                  FROM
+                      tbl_resevations
+                  WHERE
+                  tbl_resevations.residence_session_id = $residence_session_id
+              )) AND
+              tbl_rooms.room_gender = '$roomgender'");
+
+
+$roomoccupants = DB::select("SELECT COUNT( tbl_room_allocations.room_allocation_id ) AS total_allocants
+FROM tbl_room_allocations INNER JOIN tbl_rooms ON tbl_room_allocations.room_id = tbl_rooms.room_id WHERE
+    tbl_rooms.room_gender = '$roomgender' AND tbl_room_allocations.residence_session_id =$residence_session_id
+    AND ( tbl_room_allocations.room_id IN (( SELECT tbl_resevations.room_id FROM tbl_resevations WHERE
+    tbl_resevations.residence_session_id = $residence_session_id )) )  AND tbl_room_allocations.approved_status <> '2'");
+
+$applicants = DB::select("SELECT COUNT(*) AS total_applicants
+FROM tbl_room_allocation_applications INNER JOIN tbl_rooms ON tbl_room_allocation_applications.room_id = tbl_rooms.room_id
+WHERE tbl_rooms.room_gender = '$roomgender' AND tbl_room_allocation_applications.application_status = '0'
+    AND tbl_room_allocation_applications.residence_session_id = $residence_session_id
+    AND (tbl_room_allocation_applications.room_id IN ((SELECT
+    tbl_resevations.room_id FROM tbl_resevations WHERE tbl_resevations.residence_session_id = $residence_session_id )) )");
+            } else {
+              $rooms_capacity_total = DB::select("SELECT sum(tbl_rooms.room_capacity) as total_capacity
+
+          FROM
+              tbl_rooms
+              INNER JOIN
+              tbl_room_types
+              ON
+                  tbl_rooms.room_type_id = tbl_room_types.room_type_id
+              INNER JOIN
+              tbl_room_type_costs
+              ON
+                  tbl_room_types.room_type_id = tbl_room_type_costs.room_type_id
+              INNER JOIN
+              tbl_floors
+              ON
+                  tbl_rooms.floor_id = tbl_floors.floor_id
+              INNER JOIN
+              tbl_hostels
+              ON
+                  tbl_floors.hostel_id = tbl_hostels.hostel_id
+              INNER JOIN
+              tbl_locations
+              ON
+                  tbl_hostels.location_id = tbl_locations.location_id
+          WHERE
+              tbl_rooms.hostel_id IN ((
+                  SELECT
+                      tbl_hostel_preference.hostel_id
+                  FROM
+                      tbl_hostel_preference
+                      INNER JOIN tbl_residence_sessions ON tbl_hostel_preference.residence_session_id = tbl_residence_sessions.residence_session_id
+                      INNER JOIN tbl_active_period_hostel_online_application ON tbl_residence_sessions.active_period_id = tbl_active_period_hostel_online_application.active_period_id
+                  WHERE
+                      tbl_residence_sessions.end_date > '$newDate' and
+                      tbl_residence_sessions.residence_session_id = $residence_session_id
+
+                  )) AND
+              tbl_rooms.floor_id IN ((
+                  SELECT
+                      tbl_hostel_preference.floor_id
+                  FROM
+                      tbl_hostel_preference
+                      INNER JOIN tbl_residence_sessions ON tbl_hostel_preference.residence_session_id = tbl_residence_sessions.residence_session_id
+                      INNER JOIN tbl_active_period_hostel_online_application ON tbl_residence_sessions.active_period_id = tbl_active_period_hostel_online_application.active_period_id
+                  WHERE
+                      tbl_residence_sessions.end_date > '$newDate'
+                                      and
+                                      tbl_residence_sessions. residence_session_id = $residence_session_id
+                      AND tbl_active_period_hostel_online_application.is_active = 1
+                      AND tbl_residence_sessions.available_status = 1
+                  )) AND
+              tbl_room_type_costs.active_period_id = $active_period_id AND
+
+              tbl_rooms.room_id NOT IN ((
+                  SELECT
+                      tbl_resevations.room_id
+                  FROM
+                      tbl_resevations
+                  WHERE
+                  tbl_resevations.residence_session_id = $residence_session_id
+              )) AND
+              tbl_rooms.room_gender = '$roomgender'");
+                $roomoccupants = DB::select("SELECT COUNT( tbl_room_allocations.room_allocation_id ) AS total_allocants
+                FROM tbl_room_allocations INNER JOIN tbl_rooms ON tbl_room_allocations.room_id = tbl_rooms.room_id WHERE
+                    tbl_rooms.room_gender = '$roomgender' AND tbl_room_allocations.residence_session_id =$residence_session_id
+                    AND ( tbl_room_allocations.room_id NOT IN (( SELECT tbl_resevations.room_id FROM tbl_resevations WHERE
+                    tbl_resevations.residence_session_id = $residence_session_id )) )  AND tbl_room_allocations.approved_status <> '2'");
+
+                $applicants = DB::select("SELECT COUNT(*) AS total_applicants
+                FROM tbl_room_allocation_applications INNER JOIN tbl_rooms ON tbl_room_allocation_applications.room_id = tbl_rooms.room_id
+                WHERE tbl_rooms.room_gender = '$roomgender' AND tbl_room_allocation_applications.application_status = '0'
+                    AND tbl_room_allocation_applications.residence_session_id = $residence_session_id
+                    AND (tbl_room_allocation_applications.room_id NOT IN ((SELECT
+                    tbl_resevations.room_id FROM tbl_resevations WHERE tbl_resevations.residence_session_id = $residence_session_id )) )");
+            }
+
+
+$allocation_daily_report=DB::select("SELECT
+COUNT(tbl_room_allocations.room_allocation_id) AS dailytotal,
+Date(tbl_room_allocations.date_allocated) as snapshotdate
+FROM
+tbl_room_allocations
+WHERE
+tbl_room_allocations.residence_session_id = $residence_session_id
+GROUP BY
+Date(tbl_room_allocations.date_allocated)");
+
+              return response()->json(['daily_allocations'=>$allocation_daily_report,'total_session_room_capacity'=>$rooms_capacity_total,'allocants_total'=>$roomoccupants,'applicants_total'=>$applicants], 200);
+          } catch (QueryException $ex) {
+              return response()->json(['message' => $ex->getMessage(), 'success' => false], 500);
+          }
+
+
+}
+
 }

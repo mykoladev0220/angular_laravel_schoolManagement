@@ -1,47 +1,48 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomService {
-
+serverIP=environment.domain;
   constructor(private http:HttpClient) {
 
    }
    reserveRoom(room:any,headers:any){
-    return this.http.post('http://localhost:8000/api/resavations', room,headers);
+    return this.http.post(this.serverIP+'/resavations', room,headers);
    }
    unReserveRoom(room:any,headers:any){
-    return this.http.post('http://localhost:8000/api/unreserve', room,headers);
+    return this.http.post(this.serverIP+'/unreserve', room,headers);
    }
    findReservedRoom(data:any,headers:any){
-    return this.http.post('http://localhost:8000/api/findresevedrooms',data, headers);
+    return this.http.post(this.serverIP+'/findresevedrooms',data, headers);
    }
   getRoomstoreserve(data:any,headers:any){
-    return this.http.post('http://localhost:8000/api/getroomstoreserve',data, headers);
+    return this.http.post(this.serverIP+'/getroomstoreserve',data, headers);
    }
 
    getReservedRoom(headers:any){
-    return this.http.get('http://localhost:8000/api/resavations', headers);
+    return this.http.get(this.serverIP+'/resavations', headers);
    }
 updateroom(data:any,headers:any)
 {
 
-  return this.http.post('http://localhost:8000/api/updateRoom', data,headers);
+  return this.http.post(this.serverIP+'/updateRoom', data,headers);
 }
 
    getRooms(data:any,headers:any)
    {
-    return this.http.post('http://localhost:8000/api/getrooms',data,headers);
+    return this.http.post(this.serverIP+'/getrooms',data,headers);
    }
    deleteRoom(data:any,headers:any)
    {
-    return this.http.post('http://localhost:8000/api/deleteRoom', data,headers);
+    return this.http.post(this.serverIP+'/deleteRoom', data,headers);
    }
    createRooms(data:any,headers:any)
    {
-return this.http.post('http://localhost:8000/api/addroom',data,headers);
+return this.http.post(this.serverIP+'/addroom',data,headers);
 
    }
 }

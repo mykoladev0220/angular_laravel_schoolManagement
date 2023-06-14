@@ -23,6 +23,11 @@
 
     <div class="card-tools">
 
+      <a routerLink="../reports" type="button"  *ngIf="myrights.reserve_rooms" class="btn btn-primary btn-tool nav-btn">
+        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+       Allocation Reports
+      </a>
+
       <a routerLink="../Resevations" type="button"  *ngIf="myrights.reserve_rooms" class="btn btn-primary btn-tool nav-btn">
         <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
        Resavations

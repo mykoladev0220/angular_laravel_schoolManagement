@@ -25,6 +25,7 @@ import { ViewBatchComponent } from './components/view-batch/view-batch.component
 import { CansetroomcostGuard } from 'src/app/guards/cansetroomcost.guard';
 import { CancreateuserGuard } from 'src/app/guards/cancreateuser.guard';
 import { BlacklistComponent } from './components/blacklist/blacklist.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 const routes: Routes = [
   {
@@ -60,6 +61,7 @@ const routes: Routes = [
         canActivate: [CansetroomcostGuard],
       },
       {path: 'blacklist',component:BlacklistComponent},
+      {path: 'reports',component:ReportsComponent},
       {
         path: 'user',
         component: UsersComponent,
