@@ -71,13 +71,11 @@ export class PeriodsComponent implements OnInit {
     this.getlevels();
     this.getyears();
   }
-  deactivate() {
+  deactivate(period:any) {
     this.feedback_status = 0;
     this.activeperiodservice
       .deactivateActiveperiod(
-        {
-          active_period_id: this.activeperiods.active_period_id,
-        },
+    period,
         { headers: this.authservice.getHeaders() }
       )
       .subscribe(
@@ -86,6 +84,9 @@ export class PeriodsComponent implements OnInit {
           this.feedbackmsg = 'period successfully deactivated ';
           this.result = res;
           this.active_periods = this.result.periods;
+          var table=$('#mytable').DataTable();
+          table.destroy();
+          this.dtTrigger.next(null);
         },
         (error) => {
           this.feedback_status = 2;
@@ -121,6 +122,9 @@ export class PeriodsComponent implements OnInit {
 
             this.feedbackmsg = this.result.message;
             this.active_periods = this.result.periods;
+            var table=$('#mytable').DataTable();
+            table.destroy();
+            this.dtTrigger.next(null);
           },
           (error) => {
             this.feedback_status = 2;
@@ -129,13 +133,13 @@ export class PeriodsComponent implements OnInit {
         );
     }
   }
-  activate() {
+  activate(period:any) {
+console.log(period);
+
     this.feedback_status = 0;
     this.activeperiodservice
       .activateActiveperiod(
-        {
-          active_period_id: this.activeperiods.active_period_id,
-        },
+        period,
         { headers: this.authservice.getHeaders() }
       )
       .subscribe(
@@ -144,6 +148,9 @@ export class PeriodsComponent implements OnInit {
           this.feedbackmsg = 'period successfully activated ';
           this.result = res;
           this.active_periods = this.result.periods;
+          var table=$('#mytable').DataTable();
+          table.destroy();
+          this.dtTrigger.next(null);
         },
         (error) => {
           this.feedback_status = 2;
@@ -151,13 +158,13 @@ export class PeriodsComponent implements OnInit {
         }
       );
   }
-  delete() {
+  delete(period:any) {
+    console.log(period);
+
     this.feedback_status = 0;
     this.activeperiodservice
       .deleteActiveperiod(
-        {
-          active_period_id: this.activeperiods.active_period_id,
-        },
+     period,
         { headers: this.authservice.getHeaders() }
       )
       .subscribe(
@@ -166,6 +173,9 @@ export class PeriodsComponent implements OnInit {
           this.feedbackmsg = 'period successfully deleted ';
           this.result = res;
           this.active_periods = this.result.periods;
+          var table=$('#mytable').DataTable();
+          table.destroy();
+          this.dtTrigger.next(null);
         },
         (error) => {
           this.feedback_status = 2;

@@ -11,11 +11,12 @@ use App\Http\Controllers\hostelPreferenceController;
 use App\Http\Controllers\locationController;
 use App\Http\Controllers\minimumTresholdController;
 use App\Http\Controllers\periodController;
+use App\Http\Controllers\preferencelevelController;
 use App\Http\Controllers\resavationsController;
 use App\Http\Controllers\residenceSessionsController;
 use App\Http\Controllers\roomAllocationController;
 use App\Http\Controllers\roomApplicationController;
-use App\Http\Controllers\roomPreferenceController;
+use App\Http\Controllers\programme_sessionController;
 use App\Http\Controllers\roomsController;
 use App\Http\Controllers\roomstatusController;
 use App\Http\Controllers\roomTypeController;
@@ -86,11 +87,19 @@ Route::middleware('auth:api')->group(function () {
     Route::post('deletehostelpreference', [hostelPreferenceController::class, 'deleteHostelPreference']);
     Route::post('gethostelpreference', [hostelPreferenceController::class, 'getHostelPreference']);
     Route::post('gethosteltoadd', [hostelPreferenceController::class, 'getHostelsToadd']);
-    //room preferencen routes
-    Route::post('getroompreference', [roomPreferenceController::class, 'getRoomPreference']);
-    Route::post('setroompreference', [roomPreferenceController::class, 'createRoomPreference']);
-    Route::post('deleteroompreference', [roomPreferenceController::class, 'deleteRoomPreference']);
-    Route::post('getroomstoadd', [roomPreferenceController::class, 'getRoomsToAdd']);
+
+    // level preference removeLevelPreference
+    Route::post('createlevelpreference', [preferencelevelController::class, 'createLevelPreference']);
+    Route::post('removelevelpreference', [preferencelevelController::class, 'removeLevelPreference']);
+    Route::post('getlevelpreference', [preferencelevelController::class, 'getLevelPreference']);
+
+    // programme preference routes
+    Route::post('getsessionprogrammes', [programme_sessionController::class,'getSessionProgrammes']);
+    Route::post('createprogramsession', [programme_sessionController::class,'store']);
+    Route::post('getallprogrames', [programme_sessionController::class,'getAllProgrames']);
+    Route::post('deleteprogramsession', [programme_sessionController::class,'destroy']);
+
+
     // room status routes
     Route::post('setroomstatus', [roomstatusController::class, 'updateRoomStatus']);
 
@@ -106,7 +115,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('getroomtypes', [roomTypeController::class, 'show']);
 
     // resavations Routes
-    Route::apiResource('resavations', resavationsController::class)->only(['store', 'index']);
+    Route::apiResource('resavations', resavationsController::class)->only(['store']);
+    Route::post('getreservedrooms', [resavationsController::class, 'index']);
     Route::post('unreserve', [resavationsController::class, 'unReserve']);
     Route::post('findresevedrooms', [resavationsController::class, 'findResevation']);
     Route::post('getroomstoreserve', [resavationsController::class, 'getToomsToreserve']);

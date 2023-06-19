@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Hostel } from './../../../../models/hostel.model';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
@@ -8,6 +8,7 @@ import { HostelService } from 'src/app/services/hostel.service';
 import { ParamsService } from 'src/app/services/params.service';
 import { LocationService } from 'src/app/services/location.service';
 import { UserRights } from 'src/app/models/user-rights.model';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-hostels',
@@ -15,6 +16,8 @@ import { UserRights } from 'src/app/models/user-rights.model';
   styleUrls: ['./hostels.component.css'],
 })
 export class HostelsComponent implements OnInit {
+  @ViewChild(DataTableDirective,{static:false})
+  datatbleElement:any=DataTableDirective;
   dtoptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
   hostels: any;
@@ -46,6 +49,7 @@ export class HostelsComponent implements OnInit {
       language: {
         searchPlaceholder: 'search',
       },
+      destroy:true
     };
     this.userrole = this.authservice.getRole();
     this.getlocations();
@@ -64,6 +68,8 @@ export class HostelsComponent implements OnInit {
           this.msg = res;
           this.feedback_message = this.msg.message;
           this.hostels = this.msg.hostels;
+          this.datatbleElement.dtInstance.then((dtInstance:DataTables.Api)=>dtInstance.destroy())
+          this.dtTrigger.next(null);
         },
         (error) => {
           this.feddback_message_status = 2;
@@ -85,6 +91,8 @@ export class HostelsComponent implements OnInit {
           this.msg = res;
           this.feedback_message = this.msg.message;
           this.hostels = this.msg.hostels;
+          this.datatbleElement.dtInstance.then((dtInstance:DataTables.Api)=>dtInstance.destroy())
+          this.dtTrigger.next(null);
         },
         (error) => {
           this.feddback_message_status = 2;
@@ -97,6 +105,7 @@ export class HostelsComponent implements OnInit {
     console.log(this.hostel.hostel_id);
   }
   deleteHostel(hostel_id: any) {
+
     this.feddback_message_status = 0;
     this.feedback_message = '';
     this.hostelservice
@@ -110,6 +119,10 @@ export class HostelsComponent implements OnInit {
           this.msg = res;
           this.feedback_message = this.msg.message;
           this.hostels = this.msg.hostels;
+          this.datatbleElement.dtInstance.then((dtInstance:DataTables.Api)=>dtInstance.destroy())
+          this.dtTrigger.next(null);
+
+
         },
         (error) => {
           this.feddback_message_status = 2;

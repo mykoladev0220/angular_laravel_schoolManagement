@@ -17,4 +17,7 @@
   text-decoration: underline;
   color: rgba(151, 103, 7, 0.514);
   }
-
+.check-container{
+  width: 30px;
+  height: auto;
+}

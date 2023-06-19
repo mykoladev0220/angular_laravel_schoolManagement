@@ -8,4 +8,5 @@ export class Batch {
   end_date:any;
   is_program_driven:any;
   available_status:any;
+  programme_code:any;
 }

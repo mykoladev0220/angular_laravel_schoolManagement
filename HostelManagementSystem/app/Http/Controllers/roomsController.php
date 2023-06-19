@@ -73,11 +73,21 @@ class roomsController extends Controller
 
     public function deleteRoom(Request $request)
     {
+        $request->validate([
+            'room_number' => 'required','room_id'=>'required' , 'room_type_id' => 'required', 'room_gender' => 'required', 'hostel_id' => 'required',
+        ]);
+        $room_id = $request['room_id'];
+        $hostel_id=$request['hostel_id'];
+
         try {
 
             $room = room::find($request['room_id']);
 
             $room->delete();
+            $rooms = room::join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
+            ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
+            ->where('tbl_rooms.hostel_id', $hostel_id)->get();
+            return response()->json(['message' => 'successfully deleted room', 'success' => true, 'rooms' =>$rooms], 200);
         } catch (QueryException $e) {
 
             if ($e->errorInfo[1] == 1451) {
@@ -87,7 +97,7 @@ class roomsController extends Controller
             }
         }
 
-        return response()->json(['message' => 'successfully deleted room', 'success' => true, 'rooms' => room::all()], 200);
+
     }
 
     public function searchRoom(Request $request)

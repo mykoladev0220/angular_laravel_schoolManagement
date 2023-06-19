@@ -58,7 +58,9 @@ myresponse:any;
         this.myresponse = res;
         this.studentblacklist=this.myresponse.blacklist;
         this.feedback_message =this.myresponse.message;
-
+        var table=$('#mytable').DataTable();
+        table.destroy();
+        this.dtTrigger.next(null);
       },
       (error) => {
         this.feddback_message_status = 2;
@@ -77,7 +79,9 @@ myresponse:any;
         this.studentblacklist=this.myresponse.blacklist;
         this.feedback_message =this.myresponse.message;
 
-
+        var table=$('#mytable').DataTable();
+        table.destroy();
+        this.dtTrigger.next(null);
       },
       (error) => {
         this.feddback_message_status = 2;

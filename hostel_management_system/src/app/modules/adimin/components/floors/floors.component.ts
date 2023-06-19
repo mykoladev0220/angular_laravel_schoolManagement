@@ -1,11 +1,11 @@
 import { Subject } from 'rxjs';
 import { ParamsService } from './../../../../services/params.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Floor } from 'src/app/models/floor';
 import { FloorService } from 'src/app/services/floor.service';
 import { HostelService } from 'src/app/services/hostel.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { error } from 'jquery';
+
 import { UserRights } from 'src/app/models/user-rights.model';
 
 @Component({
@@ -13,7 +13,7 @@ import { UserRights } from 'src/app/models/user-rights.model';
   templateUrl: './floors.component.html',
   styleUrls: ['./floors.component.css'],
 })
-export class FloorsComponent implements OnInit {
+export class FloorsComponent implements OnInit,OnDestroy {
   dtoptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
   hostels: any;
@@ -31,6 +31,10 @@ export class FloorsComponent implements OnInit {
     private floorservice: FloorService,
     private authservice: AuthService
   ) {}
+  ngOnDestroy(): void {
+
+   this.dtTrigger.unsubscribe();
+  }
   ngOnInit(): void {
     this.dtoptions = {
       pagingType: 'full_numbers',
@@ -68,6 +72,9 @@ export class FloorsComponent implements OnInit {
           this.feedback_message = this.msg.message;
 
           this.floors = this.msg.floors;
+          var table=$('#mytable').DataTable();
+          table.destroy();
+          this.dtTrigger.next(null);
         },
         (error) => {
           this.feddback_message_status = 2;
@@ -87,6 +94,9 @@ export class FloorsComponent implements OnInit {
           this.feedback_message = this.msg.message;
 
           this.floors = this.msg.floors;
+          var table=$('#mytable').DataTable();
+          table.destroy();
+          this.dtTrigger.next(null);
         },
         (error) => {
           this.feddback_message_status = 2;

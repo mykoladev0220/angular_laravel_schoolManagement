@@ -1,0 +1,248 @@
+<div class="row">
+  <div class="col-md-9"></div>
+  <div class="col-md-3">
+    <div *ngIf="feddback_message_status==1" class="alert alert-success alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <i class="icon fas fa-check "></i>
+      <small> {{ feedback_message }}</small>
+    </div>
+    <div *ngIf="feddback_message_status==2" class="alert alert-danger alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <i class="icon fas fa-ban"></i>
+      <small> {{ feedback_message }}</small>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header  " style="height: 33px;">
+
+
+
+
+
+    <div class="card-tools">
+      <div class="card-tools">
+        <a routerLink="../viewbatch" type="button" class="btn btn-primary btn-tool nav-btn">
+          <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+          Hostel Preference
+        </a>
+
+        <a routerLink="../reports" type="button" class="btn btn-primary btn-tool nav-btn">
+          <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+          Allocation Reports
+        </a>
+
+
+
+        <a routerLink="../roomallocation" type="button" class="btn btn-primary btn-tool nav-btn">
+          <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+          Allocation
+        </a>
+
+
+        <a routerLink="../batches" type="button" class="btn btn-primary btn-tool nav-btn">
+          <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+          Batches
+        </a>
+
+        <a routerLink="../Allperiods" type="button" class="btn btn-primary btn-tool nav-btn">
+          <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
+          Periods
+        </a>
+
+
+
+        <button type="button" class="btn btn-tool" data-card-widget="remove">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+
+  <div class="card card-default">
+
+    <div class="card-header">
+      <h3 class="card-title  upper">Create Add Prefered Programs for <small>{{residence_session.session_name}} </small>
+      </h3>
+
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+          <i class="fas fa-minus"></i>
+        </button>
+        <button type="button" class="btn btn-tool" data-card-widget="remove">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <!-- {{  programpreference.programme_code |json}} -->
+      <form #createLevelpeferenceForm="ngForm" >
+        <div class="row">
+          <div class="col-md-6">
+            <label for="">Level</label>
+            <select class="form-control" required name="prefecnce_leve_id" [(ngModel)]="preference_level_id">
+              <option value="">select preference level</option>
+              <option *ngFor="let levelp of preferencelevels" [ngValue]="levelp.preference_level_id" >{{levelp.academic_level}}.{{levelp.semester}}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Program Code</label>
+
+              <ng-multiselect-dropdown
+required
+              [placeholder]="'programme code'"
+              [settings]="dropdownSettings"
+              [data]="programes"
+              [(ngModel)]="programlist"
+              name="programme_code"
+              >
+
+
+            </ng-multiselect-dropdown>
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <!-- /.row -->
+
+
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <button class="btn btn-primary" data-toggle="modal" [attr.data-target]="'#Createmodal'"
+              [disabled]="createLevelpeferenceForm.form.invalid">Create
+              preference</button>
+          </div>
+
+          <div class="modal fade" id="Createmodal">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Confimation</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p class="text-sm">
+                    Are you sure you want Add these programmes
+                    &hellip;
+                  </p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                    Cancel
+                  </button>
+                  <button type="button" data-dismiss="modal" (click)="createprogrampreference()" class="btn btn-danger btn-sm">
+                    Create
+                  </button>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+
+        </div>
+        <!-- /.card-body -->
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+
+
+
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+          <i class="fas fa-minus"></i>
+        </button>
+        <button type="button" class="btn btn-tool" data-card-widget="remove">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <h5>Added Programmes  </h5>
+    </div>
+
+
+    <div class="card-body">
+
+      <table id="mytable" class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtoptions"
+        [dtTrigger]="dtTrigger">
+
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Programme Code </th>
+            <th>Programme name</th>
+            <th>Date Added</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let programme of programmesessions; let i=index">
+            <td>{{i}}</td>
+            <td>{{programme.programme_code}}</td>
+
+            <td>{{programme.programme_name}}</td>
+
+            <td>{{programme.created_at| date}}</td>
+            <td class="btn-group">
+              <button class="btn btn-danger btn-sm" data-toggle="modal" [attr.data-target]="'#modal-sm'+i">
+                <i class="fas fa-trash-alt    "></i> Delete
+              </button>
+
+
+
+            </td>
+
+            <div class="modal fade" id="modal-sm{{ i }}">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Confimation</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p class="text-sm">
+                      Are you sure you want to delete {{programme.programme_name}}
+                      &hellip;
+                    </p>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                      Cancel
+                    </button>
+                    <button type="button" data-dismiss="modal"  (click)="deleteProgrammeSession(programme)"  class="btn btn-danger btn-sm">
+                      Delete
+                    </button>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- /.card-body -->
+    <!-- /.card -->
+  </div>

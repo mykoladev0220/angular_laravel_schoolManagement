@@ -12,10 +12,12 @@ class resavationsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data= $request->validate(['residence_session_id'=>'required']);
+        $residence_session_id = $data['residence_session_id'];
         try {
-            $resevations = DB::select('SELECT
+            $resevations = DB::select("SELECT
 	tbl_locations.location_name,
 	tbl_hostels.hostel_name,
 	tbl_floors.floor_name,
@@ -25,7 +27,8 @@ class resavationsController extends Controller
 	tbl_rooms.room_number,
 	tbl_resevations.resavation_id,
 	tbl_resevations.room_id,
-	tbl_residence_sessions.session_name
+	tbl_residence_sessions.session_name,
+    tbl_resevations.residence_session_id
 FROM
 	tbl_resevations
 	INNER JOIN tbl_rooms ON tbl_resevations.room_id = tbl_rooms.room_id
@@ -33,8 +36,10 @@ FROM
 	INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
 	INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
 	INNER JOIN tbl_residence_sessions ON tbl_resevations.residence_session_id = tbl_residence_sessions.residence_session_id
+    where
+    tbl_resevations.residence_session_id =$residence_session_id
 ORDER BY
-	tbl_resevations.resavation_id DESC');
+	tbl_resevations.resavation_id DESC");
 
             return response()->json($resevations, 200);
         } catch (QueryException $ex) {
@@ -50,6 +55,31 @@ $data = $request->validate(['residence_session_id' => 'required']);
 $residence_session_id = $data['residence_session_id'];
 
  try {
+    $result = DB::select(
+        "SELECT
+        tbl_rooms.room_id,
+        tbl_rooms.room_number,
+        tbl_rooms.room_gender,
+        tbl_rooms.room_capacity,
+        tbl_floors.floor_name,
+        tbl_hostels.hostel_name,
+        tbl_locations.location_name
+    FROM
+        tbl_rooms
+        INNER JOIN tbl_floors ON tbl_rooms.floor_id = tbl_floors.floor_id
+        INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
+        INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
+    WHERE
+        tbl_rooms.room_id NOT IN ((
+            SELECT
+                tbl_resevations.room_id
+            FROM
+                tbl_resevations
+            WHERE
+            tbl_resevations.residence_session_id =$residence_session_id
+        ))"
+    );
+
     $resavation = DB::select("SELECT
 	tbl_locations.location_name,
 	tbl_hostels.hostel_name,
@@ -60,7 +90,8 @@ $residence_session_id = $data['residence_session_id'];
 	tbl_rooms.room_number,
 	tbl_resevations.resavation_id,
 	tbl_resevations.room_id,
-	tbl_residence_sessions.session_name
+	tbl_residence_sessions.session_name,
+    tbl_resevations.residence_session_id
 FROM
 	tbl_resevations
 	INNER JOIN tbl_rooms ON tbl_resevations.room_id = tbl_rooms.room_id
@@ -73,7 +104,7 @@ WHERE
 ORDER BY
 	tbl_resevations.resavation_id DESC");
 
-      return response()->json($resavation, 200);
+      return response()->json(['roomstoreserve'=>$result, 'resevedrooms'=>   $resavation], 200);
  } catch (QueryException $ex) {
     return response()->json(['message' => $ex->getMessage(), 'success' => false], 501);
  }
@@ -85,6 +116,7 @@ ORDER BY
     public function store(Request $request)
     {
         $request->validate(['room_id', 'room_number',  'reserved_by','residence_session_id'=>'required']);
+        $residence_session_id=$request['residence_session_id'];
 
         try {
             $resevations = new resavation();
@@ -94,7 +126,55 @@ ORDER BY
             $resevations->room_number = $request['room_number'];
             $resevations->save();
 
-            return response()->json(['message' => 'room succesfully reserved', 'success' => true], 200);
+            $resavation = DB::select("SELECT
+            tbl_locations.location_name,
+            tbl_hostels.hostel_name,
+            tbl_floors.floor_name,
+            tbl_rooms.room_type_id,
+            tbl_rooms.room_gender,
+            tbl_rooms.room_capacity,
+            tbl_rooms.room_number,
+            tbl_resevations.resavation_id,
+            tbl_resevations.room_id,
+            tbl_residence_sessions.session_name,
+            tbl_resevations.residence_session_id
+        FROM
+            tbl_resevations
+            INNER JOIN tbl_rooms ON tbl_resevations.room_id = tbl_rooms.room_id
+            INNER JOIN tbl_floors ON tbl_rooms.floor_id = tbl_floors.floor_id
+            INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
+            INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
+            INNER JOIN tbl_residence_sessions ON tbl_resevations.residence_session_id = tbl_residence_sessions.residence_session_id
+        WHERE
+            tbl_resevations.residence_session_id = $residence_session_id
+        ORDER BY
+            tbl_resevations.resavation_id DESC");
+             $result = DB::select(
+                "SELECT
+                tbl_rooms.room_id,
+                tbl_rooms.room_number,
+                tbl_rooms.room_gender,
+                tbl_rooms.room_capacity,
+                tbl_floors.floor_name,
+                tbl_hostels.hostel_name,
+                tbl_locations.location_name
+            FROM
+                tbl_rooms
+                INNER JOIN tbl_floors ON tbl_rooms.floor_id = tbl_floors.floor_id
+                INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
+                INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
+            WHERE
+                tbl_rooms.room_id NOT IN ((
+                    SELECT
+                        tbl_resevations.room_id
+                    FROM
+                        tbl_resevations
+                    WHERE
+                    tbl_resevations.residence_session_id =$residence_session_id
+                ))"
+            );
+
+            return response()->json(['message' => 'room succesfully reserved','roomstoreserve'=>$result, 'resevedrooms'=>   $resavation,'success' => true], 200);
 
         } catch (QueryException $ex) {
             if ($ex->errorInfo[1] == 1062) {
@@ -110,12 +190,61 @@ ORDER BY
     {
         $request->validate(['resavation_id']);
         $resavation_id = $request['resavation_id'];
+        $residence_session_id=$request['residence_session_id'];
         try {
         $resevations = resavation::find($resavation_id);
         $resevations->delete();
+        $resavation = DB::select("SELECT
+        tbl_locations.location_name,
+        tbl_hostels.hostel_name,
+        tbl_floors.floor_name,
+        tbl_rooms.room_type_id,
+        tbl_rooms.room_gender,
+        tbl_rooms.room_capacity,
+        tbl_rooms.room_number,
+        tbl_resevations.resavation_id,
+        tbl_resevations.room_id,
+        tbl_residence_sessions.session_name,
+        tbl_resevations.residence_session_id
+    FROM
+        tbl_resevations
+        INNER JOIN tbl_rooms ON tbl_resevations.room_id = tbl_rooms.room_id
+        INNER JOIN tbl_floors ON tbl_rooms.floor_id = tbl_floors.floor_id
+        INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
+        INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
+        INNER JOIN tbl_residence_sessions ON tbl_resevations.residence_session_id = tbl_residence_sessions.residence_session_id
+    WHERE
+        tbl_resevations.residence_session_id = $residence_session_id
+    ORDER BY
+        tbl_resevations.resavation_id DESC");
+         $result = DB::select(
+            "SELECT
+            tbl_rooms.room_id,
+            tbl_rooms.room_number,
+            tbl_rooms.room_gender,
+            tbl_rooms.room_capacity,
+            tbl_floors.floor_name,
+            tbl_hostels.hostel_name,
+            tbl_locations.location_name
+        FROM
+            tbl_rooms
+            INNER JOIN tbl_floors ON tbl_rooms.floor_id = tbl_floors.floor_id
+            INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
+            INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
+        WHERE
+            tbl_rooms.room_id NOT IN ((
+                SELECT
+                    tbl_resevations.room_id
+                FROM
+                    tbl_resevations
+                WHERE
+                tbl_resevations.residence_session_id =$residence_session_id
+            ))"
+        );
 
 
-        return response()->json(['message' => 'room succesfully reserved', 'success' => true], 201);
+
+        return response()->json(['message' => 'room succesfully reserved','roomstoreserve'=>$result, 'resevedrooms'=>   $resavation, 'success' => true], 201);
         } catch (QueryException $ex) {
 
                 return response()->json(['message' => $ex->getMessage(), 'success' => false], 501);

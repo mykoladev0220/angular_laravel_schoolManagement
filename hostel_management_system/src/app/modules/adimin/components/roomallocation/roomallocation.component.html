@@ -17,6 +17,50 @@
     </div>
   </div>
 </div>
+<div class="card">
+  <div class="card-header  " style="height: 33px;">
+
+
+    <!--  -->
+
+
+    <div class="card-tools">
+      <a routerLink="../levelpreference" type="button"   class="btn btn-primary btn-tool nav-btn">
+        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+     Preference Levels
+      </a>
+
+      <a routerLink="../reports" type="button"   class="btn btn-primary btn-tool nav-btn">
+        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+       Allocation Reports
+      </a>
+
+      <a routerLink="../Resevations" type="button"  *ngIf="myrights.reserve_rooms" class="btn btn-primary btn-tool nav-btn">
+        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+       Resavations
+      </a>
+
+
+
+      <a routerLink="../batches" type="button" class="btn btn-primary btn-tool nav-btn">
+        <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+        Batches
+      </a>
+
+
+
+
+
+      <button type="button" class="btn btn-tool" data-card-widget="remove">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+  </div>
+
+
+
+</div>
 <div *ngIf="myrights.allocate_rooms" class="card card-default">
 
   <div class="card-header">
@@ -38,19 +82,19 @@
       <div class="col-md-9"></div>
       <div class="col-md-1">
         <label for="">Reserved</label>
-<div style="width: 30px;"> <input class="form-control" (change)="getroomsToallocate()" type="checkbox" name="reserved" [(ngModel)]="reserved"></div>
+<div style="width: 30px;"> <input  (change)="getroomsToallocate()" type="checkbox" name="reserved" [(ngModel)]="reserved"></div>
       </div>
       <div class="col-md-2">
         <label for="">Gender</label>
-        <select (change)=" getroomsToallocate()" class="form-control mb-2" [(ngModel)]="roomgender">
+        <select (change)=" getroomsToallocate()" class="pl-3" [(ngModel)]="roomgender">
 
           <option value="m">male</option>
           <option value="f">female</option>
         </select>
       </div>
     </div>
-    <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtoptions"
-      [dtTrigger]="dtTrigger">
+    <table id="mytable1" class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtoptions"
+      [dtTrigger]="dtTrigger1">
       <thead>
         <tr>
           <th>No</th>
@@ -60,6 +104,7 @@
           <th>Room Type </th>
           <th>Floor</th>
           <th>Reserved</th>
+          <th>capacity</th>
           <th>Hostel</th>
           <th>Location </th>
           <th>action</th>
@@ -79,6 +124,7 @@
           <td>{{ room.floor_name}}</td>
           <td *ngIf="room.resavation_id!=null">Yes</td>
           <td *ngIf="room.resavation_id==null">No</td>
+          <td>{{room.room_capacity}}</td>
           <td>{{ room.hostel_name }}</td>
 
           <td>{{ room.location_name }}</td>
@@ -140,7 +186,7 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Pending room allocation for {{residenceSession.session_name}}</h3>
+        <h3 class="card-title upper">Pending room allocations for {{residenceSession.session_name}}</h3>
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse">
             <i class="fas fa-minus"></i>
@@ -155,8 +201,8 @@
         <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
           aria-labelledby="custom-tabs-one-home-tab">
           <div class="card-body">
-            <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtoptions"
-              [dtTrigger]="dtTrigger">
+            <table id="mytable2" class="table table-bordered table-striped table-hover"datatable [dtOptions]="dtoptions"
+            [dtTrigger]="dtTrigger2">
               <thead>
                 <tr>
                   <th>No</th>
@@ -190,11 +236,11 @@
 
                     <span class="sr-only">Toggle Dropdown</span>
                     <div *ngIf="myrights.approve_allocations" class="dropdown-menu" style="margin-right: 40px" role="menu">
-                      <a class="dropdown-item mx-auto"  (click)="approve_reject(1,allocation.room_allocation_id)" >
+                      <a class="dropdown-item mx-auto"  (click)="approve_reject(1,allocation)" >
                         <i class="fa fa-caret-left" aria-hidden="true"></i>
                         Approve
                       </a>
-                      <a class="dropdown-item"  (click)="approve_reject(2,allocation.room_allocation_id)" >
+                      <a class="dropdown-item"  (click)="approve_reject(2,allocation)" >
                         <i class="fa fa-caret-left" aria-hidden="true"></i>
                         Reject
                       </a>
@@ -224,7 +270,7 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Approved room allocation for {{residenceSession.session_name}}</h3>
+        <h3 class="card-title upper">Approved room allocations for {{residenceSession.session_name}}</h3>
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse">
             <i class="fas fa-minus"></i>
@@ -239,8 +285,8 @@
         <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
           aria-labelledby="custom-tabs-one-home-tab">
           <div class="card-body">
-            <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtoptions"
-              [dtTrigger]="dtTrigger">
+            <table id="mytable3" class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtoptions"
+            [dtTrigger]="dtTrigger3">
               <thead>
                 <tr>
                   <th>No</th>

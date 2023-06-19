@@ -57,6 +57,7 @@
   </div>
   <!-- /.card-header -->
   <div class="card-body">
+
     <form #createbatchForm="ngForm" (ngSubmit)="createBatch()">
       <div class="row">
 
@@ -79,39 +80,14 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="">Batch Name</label>
-            <input type="text" name="session_name" required [(ngModel)]="batch.session_name" class="form-control">
+            <input type="text" name="session_name" required placeholder="Batch Name" [(ngModel)]="batch.session_name"
+              class="form-control">
           </div>
 
         </div>
         <!-- /.col -->
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Academic Year</label>
-            <select class="form-control select2" required [(ngModel)]="batch.level" name="level" style="width: 100%;">
-              <option value="">select year</option>
-              <option *ngFor="let year of years" [ngValue]="year.year">{{ year.year }}</option>
 
-            </select>
-          </div>
-
-        </div>
-
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Semester</label>
-            <select class="form-control select2" name="semester" required [(ngModel)]="batch.semester"
-              style="width: 100%;">
-              <option value="">select semester</option>
-              <option *ngFor="let level of levels" [ngValue]="level.semester">{{ level.semester }}</option>
-            </select>
-          </div>
-
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
 
       <div class="row">
         <div class="col-md-6">
@@ -135,11 +111,20 @@
         <!-- /.col -->
         <div class="col-md-12 text-danger" *ngIf="errormsg !=null">{{errormsg}}</div>
       </div>
-
       <div class="row">
-        <div class="col-12 col-sm-6">
+        <div class="col-md-6 col-sm-12">
+          <label for="">Program Driven</label>
+       <div class="check-container">   <input type="checkbox" class="form-control"  name="programme_driven"
+        [(ngModel)]="batch. is_program_driven">
+      </div>
+        </div>
+      </div>
+
+      <div class="row pt-2">
+        <div class="col-md-6 col-sm-12">
           <button class="btn btn-primary" [disabled]="createbatchForm.form.invalid" type="submit">Create</button>
         </div>
+
 
       </div>
       <!-- /.card-body -->
@@ -171,16 +156,16 @@
 
   <!-- /.card-header -->
   <div class="card-body">
-    <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger"
+    <table id="mytable" datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger"
       class="table table-bordered table-striped table-hover">
       <thead>
         <tr class="text-sm">
           <th>#</th>
           <th>Batch Name</th>
           <th>Active Status</th>
-          <th>Year</th>
-          <th>Semester</th>
-          <th>Program Driven</th>
+
+          <th>Programme Driven</th>
+
           <th>Start Date</th>
           <th>End Date</th>
 
@@ -191,19 +176,19 @@
         <tr *ngFor="let batch of batches; let i = index" class="text-sm">
           <td>{{ i}}</td>
           <td><a class="mylink" (click)="goTO('admin/viewbatch',batch)">{{ batch.session_name }}</a></td>
-          <td *ngIf="batch.available_status == 1" >
-            <a class="mylink text-success"(click)="setcreds(batch)"
-            data-toggle="modal" [attr.data-target]="'#deactivate-modal-sm' + i">Active</a>
+          <td *ngIf="batch.available_status == 1">
+            <a class="mylink text-success" (click)="setcreds(batch)" data-toggle="modal"
+              [attr.data-target]="'#deactivate-modal-sm' + i">Active</a>
           </td>
-          <td *ngIf="batch.available_status == 0" (click)="setcreds(batch)"
-          data-toggle="modal" [attr.data-target]="'#activate-modal-sm' + i" >
-          <a class="mylink text-danger" >  Not Active</a>
+          <td *ngIf="batch.available_status == 0" (click)="setcreds(batch)" data-toggle="modal"
+            [attr.data-target]="'#activate-modal-sm' + i">
+            <a class="mylink text-danger"> Not Active</a>
           </td>
 
-          <td>{{ batch.level }}</td>
-          <td>{{ batch.semester }}</td>
+
           <td *ngIf="batch.is_program_driven == 0">NO</td>
           <td *ngIf="batch.is_program_driven == 1">Yes</td>
+
           <td>{{batch.start_date}}</td>
           <td>{{ batch.end_date }}</td>
           <td class="btn-group">
@@ -212,7 +197,7 @@
             <span class="sr-only">Toggle Dropdown</span>
             <div class="dropdown-menu" style="margin-right: 40px" role="menu">
               <a class="dropdown-item mx-auto" (click)="goTO('admin/viewbatch',batch)">
-             <i class="fa fa-eye" aria-hidden="true"></i> view
+                <i class="fa fa-eye" aria-hidden="true"></i> view
               </a>
 
 
@@ -221,17 +206,19 @@
                 Edit
               </a>
 
-              <a *ngIf="batch.available_status == 0 && myrights.create_periods" (click)="setcreds(batch)" class="dropdown-item"
-                data-toggle="modal" [attr.data-target]="'#activate-modal-sm' + i"><i class="fa fa-check" aria-hidden="true"></i>
+              <a *ngIf="batch.available_status == 0 && myrights.create_periods" (click)="setcreds(batch)"
+                class="dropdown-item" data-toggle="modal" [attr.data-target]="'#activate-modal-sm' + i"><i
+                  class="fa fa-check" aria-hidden="true"></i>
                 activate
               </a>
-              <a *ngIf="batch.available_status == 1&& myrights.create_periods" (click)="setcreds(batch)" class="dropdown-item"
-                data-toggle="modal" [attr.data-target]="'#deactivate-modal-sm' + i"><i class="fa fa-caret-left"
-                  aria-hidden="true"></i>
+              <a *ngIf="batch.available_status == 1&& myrights.create_periods" (click)="setcreds(batch)"
+                class="dropdown-item" data-toggle="modal" [attr.data-target]="'#deactivate-modal-sm' + i"><i
+                  class="fa fa-caret-left" aria-hidden="true"></i>
                 Deactivate
               </a>
-              <a *ngIf="myrights.create_periods" class="dropdown-item text-danger" data-toggle="modal" (click)="setcreds(batch)"
-                [attr.data-target]="'#delete-modal-sm' + i"><i class="fa fa-trash" aria-hidden="true"></i>
+              <a *ngIf="myrights.create_periods" class="dropdown-item text-danger" data-toggle="modal"
+                (click)="setcreds(batch)" [attr.data-target]="'#delete-modal-sm' + i"><i class="fa fa-trash"
+                  aria-hidden="true"></i>
                 Delete
               </a>
             </div>
@@ -357,24 +344,7 @@
                           required class="form-control" name="end_date" />
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <label for="">Year </label>
-                        <select name="level" class="form-control select2" [(ngModel)]="batchmodel.level" required>
-                          <option *ngFor="let year of years" [ngValue]="year.year">
-                            {{ year.year }}
-                          </option>
-                        </select>
-                      </div>
-                      <div class="col-md-6">
-                        <label for="">Semester </label>
-                        <select name="semester" required [(ngModel)]="batchmodel.semester" class="form-control select2">
-                          <option *ngFor="let level of levels" [ngValue]="level.semester">
-                            {{ level.semester }}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
+
 
                     <div class="modal-footer justify-content-between">
                       <button type="button" class="btn btn-default" data-dismiss="modal">

@@ -1,8 +1,9 @@
+import { Room } from 'src/app/models/room.model';
 import { BatchesService } from './../../../../services/batches.service';
 import { Batch } from './../../../../models/batch.model';
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, count } from 'rxjs';
 import { Roomallocation } from 'src/app/models/roomallocation';
 import { ActiveperiodsService } from 'src/app/services/activeperiods.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,9 +18,9 @@ import { UserRights } from 'src/app/models/user-rights.model';
   templateUrl: './roomallocation.component.html',
   styleUrls: ['./roomallocation.component.css'],
 })
-export class RoomallocationComponent {
+export class RoomallocationComponent  implements OnInit{
   batch: any;
-  reserved=true;
+  reserved=false;
   activeperiodid: any;
 
   batchallocations_appproved: any;
@@ -33,17 +34,18 @@ export class RoomallocationComponent {
   residence_session_id: any;
   feedback_message: any;
   myrights=new UserRights();
+  count=0;
   periods: any;
   userrole: any;
   residenceSession: any;
   dtoptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject<any>();
+
+  dtTrigger1: Subject<any> = new Subject<any>();
+  dtTrigger2: Subject<any> = new Subject<any>();
+   dtTrigger3: Subject<any> = new Subject<any>();
   roomallocation = new Roomallocation();
   active_period_id: any;
-  changed(){
-    console.log(this.reserved);
 
-  }
   ngOnInit(): void {
     this.dtoptions = {
       searching: true,
@@ -77,6 +79,7 @@ export class RoomallocationComponent {
     private batchesService: BatchesService
   ) {}
 
+
   getRoomsallocations() {
     this.roomallocationservice
       .getRoomallocation(
@@ -90,7 +93,14 @@ export class RoomallocationComponent {
 
           this.batchallocations_appproved = this.msg.allocations_appproved;
           this.batchallocations_pending = this.msg.allocations_pending;
-          this.dtTrigger.next(null);
+          var table2=$('#mytable2').DataTable();
+          table2.destroy();
+          var table3=$('#mytable3').DataTable();
+          table3.destroy();
+
+
+          this.dtTrigger2.next(null);
+          this.dtTrigger3.next(null);
         },
         (error) => {
           console.log(error);
@@ -99,7 +109,10 @@ export class RoomallocationComponent {
   }
 
   getroomsToallocate() {
-    if (this.roomgender != null) {
+    // console.log("we are here tsaga error");
+
+
+    // if (this.roomgender != null) {
       var data = {
         room_gender: this.roomgender,
         batch_id: this.residence_session_id,
@@ -111,26 +124,38 @@ export class RoomallocationComponent {
         .subscribe(
           (res) => {
             this.roomstoallocate = res;
+            var table1=$('#mytable1').DataTable();
+            table1.destroy();
 
-           this.dtTrigger.next;
+
+
+            this.dtTrigger1.next(null);
+
+
           },
           (error) => {
             console.log(error);
           }
         );
-    }
-    this.roomstoallocate = null;
+
+
+
   }
   setroomid(room_id: any) {
     this.roomallocation.room_id = room_id;
   }
 
-  approve_reject(status: any, room_allocation_id: any) {
+  approve_reject(status: any, room_allocation: any) {
+    this.feddback_message_status = 0;
+    this.feedback_message = '';
     var data = {
       approved_status: status,
+      room_id:room_allocation.room_id,
       residence_session_id: this.residenceSession.residence_session_id,
-      room_allocation_id: room_allocation_id,
+      room_allocation_id: room_allocation.room_allocation_id,
     };
+    console.log(data);
+
     this.roomallocationservice
       .approve_reject(data, {
         headers: this.authservice.getHeaders(),
@@ -141,13 +166,24 @@ this.msg=res;
 
           this.batchallocations_appproved = this.msg.allocations_appproved;
 
-          console.log(this.msg.allocations_appproved);
 
           this.batchallocations_pending = this.msg.allocations_pending;
-          this.dtTrigger.next;
+          var table2=$('#mytable2').DataTable();
+          table2.destroy();
+          var table3=$('#mytable3').DataTable();
+          table3.destroy();
+
+          this.dtTrigger2.next(null);
+          this.dtTrigger3.next(null);
+          this.getroomsToallocate();
+          this.feddback_message_status = 1;
+          this.feedback_message = this.msg.message;
         },
         (error) => {
           console.log(error);
+
+          this.feddback_message_status = 2;
+          this.feedback_message = error.error.message;
         }
       );
   }
@@ -171,11 +207,11 @@ this.msg=res;
           this.feddback_message_status = 1;
           this.msg = res;
           this.feedback_message = this.msg.message;
-          this.batchallocations_pending = this.msg.rooms;
-          // console.log(res);
+      this.getRoomsallocations()
+      this.getroomsToallocate();
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
 
           this.feddback_message_status = 2;
           this.feedback_message = error.error.message;

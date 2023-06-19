@@ -43,6 +43,8 @@ export class ViewBatchComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.residence_session = this.params.getparam('batch');
+
+
     this.hostelpreference.hostel_id = '';
     this.hostelpreference.floor_id = '';
     this.location_id = '';
@@ -86,7 +88,9 @@ this.hostelprefernceservice.deletehostelpreference(hostel,{ headers: this.authse
     this.feddback_message_status = 1;
     this.msg = res;
     this.feedback_message = this.msg.message;
+    this.getfloors(this.hostelpreference.hostel_id);
 this.getBatchHostels();
+
 
   },
   (error) => {
@@ -106,7 +110,6 @@ this.getBatchHostels();
     this.hostelpreference.active_period_id =
       this.residence_session.active_period_id;
 
-    console.log(this.hostelpreference);
 
     this.hostelprefernceservice
       .sethostelpreference(this.hostelpreference, {
@@ -114,13 +117,14 @@ this.getBatchHostels();
       })
       .subscribe(
         (res) => {
-          console.log(res);
+
 
           this.feddback_message_status = 1;
           this.msg = res;
           this.feedback_message = this.msg.message;
           this.getfloors(this.hostelpreference.hostel_id);
           this.getBatchHostels();
+
         },
         (error) => {
           console.log(error);
@@ -135,7 +139,9 @@ this.getBatchHostels();
     this.hostelprefernceservice.gethostelpreference({residence_session_id:this.residence_session.residence_session_id},{headers:this.authservice.getHeaders()}).subscribe(
       res=>{
   this.batchhostels=res;
-  console.log(res);
+  var table=$('#mytable').DataTable();
+  table.destroy();
+  this.dtTrigger.next(null);
 
 
 

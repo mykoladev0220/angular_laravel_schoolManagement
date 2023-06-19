@@ -38,6 +38,10 @@ import { UserRightsComponent } from './components/user-rights/user-rights.compon
 import { ViewBatchComponent } from './components/view-batch/view-batch.component';
 import { BlacklistComponent } from './components/blacklist/blacklist.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { LevelPreferenceComponent } from './components/level-preference/level-preference.component';
+import { ProgrampreferenceComponent } from './components/programpreference/programpreference.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 
 
 @NgModule({
@@ -62,13 +66,15 @@ import { ReportsComponent } from './components/reports/reports.component';
     ViewBatchComponent,
     BlacklistComponent,
     ReportsComponent,
+    LevelPreferenceComponent,
+    ProgrampreferenceComponent,
   ],
   imports: [
     FormsModule,
     CommonModule,
     AdiminRoutingModule,
-    UsermoduleModule,
     DataTablesModule,
+   NgMultiSelectDropDownModule.forRoot()
 
   ],
   providers: [

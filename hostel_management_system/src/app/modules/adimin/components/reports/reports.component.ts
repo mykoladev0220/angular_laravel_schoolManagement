@@ -18,7 +18,8 @@ Chart.register(ChartDataLabels);
 export class ReportsComponent implements AfterViewInit,OnInit{
 linechartdates=new Array();
 linechartvalues=new Array();
-
+allocation_status:any;
+application_status:any;
 batch:any;
 form={
   active_period_id:null,
@@ -87,7 +88,7 @@ if(remainingcapacity>totaloccupants)
   ];
 }
 if(this.linechart!=undefined){
-  this.linechart.clear();
+
   this.linechart.destroy();
 }
 
@@ -164,55 +165,23 @@ hoverOffset: 4,
   }
 
 });
-if(this.piechart!=undefined){
-  this.piechart.destroy();
-}
-
-    this.piechart  = new Chart("MyPieChart", {
-      type: 'pie', //this denotes tha type of chart
-
-      data: {// values on X-Axis
-        labels: ['Remaining Capacity', 'Capcity Used' ],
-	       datasets: [{
-
-    data: [remainingcapacity,totaloccupants],
 
 
-    backgroundColor,
-
-
-  }],
-
-
-      }
-    ,
-
-      options: {
-        plugins: {
-          // Change options for ALL labels of THIS CHART
-          title: {
-            display: true,
-            text: 'Capacity Status'
-        },
-          datalabels: {
-            color: '#fff'
-          }
-        },
-        aspectRatio:2.5
-      }
-
-    });
   }
 getchartData(){
 this.reportservice.getallocationsReports(this.form,{
   headers: this.authservice.getHeaders(),
 }).subscribe(res=>{
   this.myres=res;
-console.log(res);
+// console.log(res);
 
   this.allocants=this.myres.allocants_total[0].total_allocants;
   this.applicants=this.myres.applicants_total[0].total_applicants;
   this.totalcapacity=this.myres.total_session_room_capacity[0].total_capacity;
+  this.allocation_status=this.myres.allocation_status;
+this.application_status=this.myres.application_status;
+
+// console.log(this.allocation_status);
 
 
 for(let i=0;i < this.myres.daily_allocations.length;i++){
@@ -226,6 +195,9 @@ for(let i=0;i < this.myres.daily_allocations.length;i++){
 
 
 this.createChart(this.totalcapacity, this.allocants,this.applicants);
+
+
+
 })
 }
 

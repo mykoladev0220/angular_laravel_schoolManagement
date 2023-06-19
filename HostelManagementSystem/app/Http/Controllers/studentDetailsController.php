@@ -13,7 +13,8 @@ class studentDetailsController extends Controller
 {
     public function getStudentDetails($reg_number)
     {
-        $student = DB::connection('mysql_2')->select("SELECT
+        $student = DB::connection('mysql_2')->select("
+        SELECT
         tblstudent.reg_number,
         tblstudent.first_name,
         tblstudent.surname,
@@ -25,7 +26,8 @@ class studentDetailsController extends Controller
         tblregistration_level.semester,
         tblstudent.student_id,
         tblbursary_link.accountnumber,
-        tblstudent_personal.sex
+        tblstudent_personal.sex,
+        tblprogramme.programme_code
     FROM
         tblstudent
         INNER JOIN tblprogramme_session ON tblstudent.student_id = tblprogramme_session.student_id
@@ -33,11 +35,14 @@ class studentDetailsController extends Controller
         INNER JOIN tblregistration_level ON tblregistration.registration_id = tblregistration_level.registration_id
         INNER JOIN tblbursary_link ON tblstudent.reg_number = tblbursary_link.regnum
         INNER JOIN tblstudent_personal ON tblstudent.student_id = tblstudent_personal.student_id
+        INNER JOIN tblintake ON tblprogramme_session.intake_id = tblintake.intake_id
+        INNER JOIN tblprogramme ON tblintake.programme_id = tblprogramme.programme_id
     WHERE
         tblstudent.reg_number = '$reg_number'
     ORDER BY
         tblregistration.registration_id DESC
-        LIMIT 1");
+        LIMIT 1
+        ");
 
         return $student;
     }
@@ -47,22 +52,23 @@ class studentDetailsController extends Controller
         $result = DB::connection('mysql_2')->select("SELECT registry.tblbursary_link.accountnumber FROM registry.tblbursary_link WHERE registry.tblbursary_link.regnum= '$reg_number'");
         $accountnumber = $result[0]->accountnumber;
 
-        $feesBal = DB::connection('mysql_2')->select("SELECT ((SUM(debit)*-1)+SUM(credit)) AS balance FROM registry.`tblpastel_transactions` where registry.`tblpastel_transactions`.`account_number`=  '".$accountnumber."'");
+        $feesBal = DB::connection('mysql_2')->select("SELECT ((SUM(debit)*-1)+SUM(credit)) AS balance FROM registry.`tblpastel_transactions` where registry.`tblpastel_transactions`.`account_number`=  '" . $accountnumber . "'");
 
         return $feesBal[0]->balance;
     }
-public function is_blacklisted($reg_number){
+    public function is_blacklisted($reg_number)
+    {
 
-    $isblacklisted= blacklistedstudent::where('student_regnumber',$reg_number)->first();
+        $isblacklisted = blacklistedstudent::where('student_regnumber', $reg_number)->first();
 
 
 
-    if( $isblacklisted ){
-        return 1;
-    }else{
-        return 0;
+        if ($isblacklisted) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
-}
 
 
     public function is_student_registered($student_id)
@@ -73,13 +79,13 @@ public function is_blacklisted($reg_number){
         $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
             ->format('Y/m/d');
 
-            $active_period = active_period_hostel_online_application::where('is_active', 1)->get();
+        $active_period = active_period_hostel_online_application::where('is_active', 1)->get();
 
-            $count = 0;
-            if (count($active_period)) {
+        $count = 0;
+        if (count($active_period)) {
 
-            foreach($active_period as $period){
-                $period_id=$period->period_id;
+            foreach ($active_period as $period) {
+                $period_id = $period->period_id;
                 $registered = DB::connection('mysql_2')->select("SELECT
                 COUNT( registry.tblprogramme_session.programme_session_id ) AS cntx
             FROM
@@ -92,14 +98,12 @@ public function is_blacklisted($reg_number){
                     registry.tblregistration.period_id =$period_id
                 AND registry.tblperiod.end_date > '$datenow'
                 )");
-                if($registered[0]->cntx > 0){
+                if ($registered[0]->cntx > 0) {
                     $count++;
                 }
             }
-
-        }
-        else{
-$count=-5;
+        } else {
+            $count = -5;
         }
 
         return $count;
@@ -109,12 +113,12 @@ $count=-5;
     {
         $minimum_treshold = minimumTreshold::where('period_id', $period_id)->first();
 
-if ($minimum_treshold) {
-    $minimum_treshold_value = $minimum_treshold->minimum_threshhold;
+        if ($minimum_treshold) {
+            $minimum_treshold_value = $minimum_treshold->minimum_threshhold;
 
-    return $minimum_treshold_value;
-} else {
-    return 0;
-}
+            return $minimum_treshold_value;
+        } else {
+            return 0;
+        }
     }
 }

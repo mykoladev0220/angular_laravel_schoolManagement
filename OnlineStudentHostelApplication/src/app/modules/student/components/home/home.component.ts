@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
   studentdatails: any;
   studentdatails1: any;
+  programme_code:any;
 
   constructor(
     private applicationservice: ApplicationService,
@@ -52,6 +53,9 @@ export class HomeComponent implements OnInit {
 
     this.semester = JSON.parse(this.studentdatails1).semester;
     this.period_id = JSON.parse(this.studentdatails1).period_id;
+this.programme_code=JSON.parse(this.studentdatails1).programme_code;
+    // console.log(this.studentdatails1);
+
     this.getBaches();
     this.getMyAllocation();
 
@@ -70,7 +74,7 @@ export class HomeComponent implements OnInit {
         }
       )
       .subscribe((res) => {
-        console.log(res);
+        // console.log(res);
 this.myresponse=res;
 this.myapplication=this.myresponse.myapplication;
 
@@ -90,11 +94,13 @@ this.myapplication=this.myresponse.myapplication;
     this.param.setparam('mybatch', this.ennceservice.encrypt(JSON.stringify(batch)));
     this.router.navigate(['student/application']);
   }
+
   getBaches() {
     var data = {
       period_id: this.period_id,
       level: this.level,
       semester: this.semester,
+      programme_code:this.programme_code
     };
 
     this.applicationservice

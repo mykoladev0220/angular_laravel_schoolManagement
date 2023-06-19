@@ -2,3 +2,17 @@
 {
   text-transform: uppercase;
 }
+.nav-btn {
+  background-color: #24b0ed;
+  color: #000;
+  margin-right: 10px;
+}
+
+.nav-btn:hover {
+  background-color: #c2a458;
+
+
+}
+.upper{
+  text-transform: uppercase;
+}

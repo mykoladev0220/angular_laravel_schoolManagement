@@ -156,7 +156,7 @@ class activePeriodsController extends Controller
     $currentdate = now()->format('Y-m-d');
         try {
             // $activeperiod = active_period_hostel_online_application::orderBy('active_period_id','desc')->limit(3)->get();
-            $activeperiod = active_period_hostel_online_application::join('registry.tblperiod', 'registry.tblperiod.period_id', '=', 'tbl_active_period_hostel_online_application.period_id')->orderBy('active_period_id', 'desc')->limit(3)->get();
+            $activeperiod = active_period_hostel_online_application::join('registry.tblperiod', 'registry.tblperiod.period_id', '=', 'tbl_active_period_hostel_online_application.period_id')->orderBy('active_period_id', 'desc')->limit(15)->get();
 
             return response()->json($activeperiod);
         } catch (QueryException $ex) {

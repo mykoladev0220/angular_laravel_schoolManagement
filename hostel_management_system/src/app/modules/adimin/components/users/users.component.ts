@@ -49,6 +49,9 @@ activateUser(user_id:any){
       this.msg = res;
       this.feedback_message = this.msg.message;
       this.users = this.msg.users;
+      var table=$('#mytable').DataTable();
+      table.destroy();
+      this.dtTrigger.next(null);
     },
     (error) => {
       this.feedback_message_status = 2;
@@ -65,6 +68,9 @@ DeactivateUser(user_id:any){
       this.msg = res;
       this.feedback_message = this.msg.message;
       this.users = this.msg.users;
+      var table=$('#mytable').DataTable();
+      table.destroy();
+      this.dtTrigger.next(null);
     },
     (error) => {
       this.feedback_message_status = 2;
@@ -87,6 +93,7 @@ this.router.navigate(['admin/rights']);
       .subscribe(
         (res) => {
           this.users = res;
+          this.dtTrigger.next(null);
         },
         (error) => {
           this.feedback_message_status = 2;
@@ -109,6 +116,9 @@ this.router.navigate(['admin/rights']);
           this.msg = res;
           this.feedback_message = this.msg.message;
           this.users = this.msg.users;
+          var table=$('#mytable').DataTable();
+          table.destroy();
+          this.dtTrigger.next(null);
         },
         (error) => {
           this.feedback_message_status = 2;

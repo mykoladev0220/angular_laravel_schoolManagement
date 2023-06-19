@@ -35,6 +35,7 @@ import { ChangepasswordComponent } from './components/changepassword/changepassw
     ToastrModule.forRoot(), // ToastrModule added
 
 
+
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

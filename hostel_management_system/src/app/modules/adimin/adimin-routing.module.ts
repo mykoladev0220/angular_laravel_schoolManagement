@@ -26,6 +26,8 @@ import { CansetroomcostGuard } from 'src/app/guards/cansetroomcost.guard';
 import { CancreateuserGuard } from 'src/app/guards/cancreateuser.guard';
 import { BlacklistComponent } from './components/blacklist/blacklist.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { LevelPreferenceComponent } from './components/level-preference/level-preference.component';
+import { ProgrampreferenceComponent } from './components/programpreference/programpreference.component';
 
 const routes: Routes = [
   {
@@ -62,6 +64,11 @@ const routes: Routes = [
       },
       {path: 'blacklist',component:BlacklistComponent},
       {path: 'reports',component:ReportsComponent},
+      {
+        path:'levelpreference',component:LevelPreferenceComponent
+      },{
+        path:'programmepreference',component:ProgrampreferenceComponent
+      },
       {
         path: 'user',
         component: UsersComponent,

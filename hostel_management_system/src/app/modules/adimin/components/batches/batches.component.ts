@@ -39,7 +39,7 @@ export class BatchesComponent implements OnInit {
   userrole:any;
 
   ngOnInit(): void {
-
+    this.batch.programme_code=null;
     this.dtoptions = {
       pagingType: 'full_numbers',
       searching: true,
@@ -75,8 +75,12 @@ destroy:true,
   ) {}
   createBatch(){
     this.feedback_status=0;
-    this.batch.is_program_driven="0";
+
     this.batch.available_status="0";
+    this.batch.is_program_driven="0";
+    if(this.batch.is_program_driven){
+      this.batch.is_program_driven="1";
+    }
 if(this.batch.end_date<=this.batch.start_date){
   this.feedback_status=2;
       this.feedbackmsg="end date must be greater start date "
@@ -91,7 +95,9 @@ if(this.batch.end_date<=this.batch.start_date){
 
         this.batches = this.msg.residence_session;
 
-
+        var table=$('#mytable').DataTable();
+        table.destroy();
+        this.dtTrigger.next(null);
 
     },(error)=>{
 
@@ -153,7 +159,7 @@ if(this.batch.end_date<=this.batch.start_date){
   getlevel() {
     this.levelservice.getlevels({ headers: this.authservice.getHeaders() }).subscribe((res) => {
       this.levels = res;
-      console.log(this.levels);
+
     });
   }
   goTO(path:any,batch:any){
@@ -164,7 +170,7 @@ this.router.navigate([path]);
   getYears() {
     this.yearservice.getyears({ headers: this.authservice.getHeaders() }).subscribe((res) => {
       this.years = res;
-      console.log(this.years);
+
     });
   }
   delete() {
@@ -176,6 +182,9 @@ this.router.navigate([path]);
         this.feedbackmsg = 'batch successfully deleted ';
         this.result = res;
         this.batches = this.result.residence_session;
+        var table=$('#mytable').DataTable();
+        table.destroy();
+        this.dtTrigger.next(null);
       },
       (error) => {
         this.feedback_status = 2;
@@ -193,6 +202,9 @@ this.router.navigate([path]);
         this.result = res;
         this.batches = this.result.residence_session;
         this.feedbackmsg = this.result.message;
+        var table=$('#mytable').DataTable();
+        table.destroy();
+        this.dtTrigger.next(null);
       },
       (error) => {
         this.feedback_status = 2;
@@ -210,6 +222,9 @@ this.router.navigate([path]);
         this.result = res;
         this.batches = this.result.residence_session;
         this.feedbackmsg = this.result.message;
+        var table=$('#mytable').DataTable();
+        table.destroy();
+        this.dtTrigger.next(null);
       },
       (error) => {
         this.feedback_status = 2;
@@ -232,6 +247,9 @@ sethostelPreference(batch:any){
         this.result = res;
         this.batches = this.result.residence_session;
         this.feedbackmsg = this.result.message;
+        var table=$('#mytable').DataTable();
+        table.destroy();
+        this.dtTrigger.next(null);
       },
       (error) => {
         this.feedback_status = 2;

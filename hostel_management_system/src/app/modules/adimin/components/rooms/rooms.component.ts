@@ -1,23 +1,27 @@
 import { RoomtypeService } from './../../../../services/roomtype.service';
 import { ParamsService } from './../../../../services/params.service';
 import { RoomService } from './../../../../services/room.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { Subject } from 'rxjs';
 import { Room } from 'src/app/models/room.model';
-import Swal from 'sweetalert2';
+
 import { AuthService } from 'src/app/services/auth.service';
 import { Resavation } from 'src/app/models/resavation';
-import { error } from 'jquery';
+import * as jQuery from 'jquery';
 import { FloorService } from 'src/app/services/floor.service';
 import { HostelService } from 'src/app/services/hostel.service';
 import { UserRights } from 'src/app/models/user-rights.model';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.css'],
 })
-export class RoomsComponent implements OnInit, OnDestroy {
+export class RoomsComponent implements OnInit {
+  @ViewChild(DataTableDirective,{static:false})
+  datatbleElement:any=DataTableDirective;
+
   dtoptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
   roomgender={
@@ -34,6 +38,7 @@ myrights= new UserRights();
   resavation=new Resavation();
   feedback_message: any;
   hostels:any;
+  table:any;
   floors:any;
   userrole:any;
   constructor(private roomservice: RoomService,private floorservice: FloorService,private roomtypeservice:RoomtypeService, private hostelservice:HostelService, private paramsService:ParamsService,private roomtypeService:RoomtypeService,private authservice:AuthService) {}
@@ -42,14 +47,13 @@ myrights= new UserRights();
     this.dtoptions = {
       pagingType: 'full_numbers',
       searching: true,
-      //  paging:false
+
       lengthChange: false,
       language: {
         searchPlaceholder: 'Text Customer',
       },
+      destroy:true
     };
-
-  ;
   this.userrole=this.authservice.getRole();
 
   this.myrights=this.paramsService.getparam('myrights');
@@ -64,16 +68,24 @@ myrights= new UserRights();
     this.getFloors(this.hostelid);
   }
 
-  // constructor(private authservice:AuthService, private roomservice:RoomService,  private hostelservice:HostelService,private ){}
+
 createRooms(){
+
   this.feddback_message_status=0;
     this.feedback_message="";
   this.roomservice.createRooms(this.room,{ headers: this.authservice.getHeaders() }).subscribe(res=>{
+    var table=$('.table').DataTable();
+    table.clear();
     this.feddback_message_status=1;
     this.msg = res;
     this.feedback_message=this.msg.message;
-    this.rooms=this.msg.rooms
 
+
+    this.rooms=this.msg.rooms;
+
+
+    table.destroy();
+    this.dtTrigger.next(null);
 
   },error=>{
     this.feddback_message_status=2;
@@ -128,6 +140,11 @@ this.roomtypes=res;
       this.feedback_message=this.msg.message;
       this.rooms=this.msg.rooms;
 
+      var table=$('#mytable').DataTable();
+table.clear();
+        table.destroy();
+this.dtTrigger.next(null);
+
     },error=>{
       this.feddback_message_status=2;
       this.feedback_message=error.error.message;
@@ -155,11 +172,19 @@ this.roomtypes=res;
     this.feddback_message_status=0;
     this.feedback_message="";
     this.roomservice
-      .deleteRoom({ room_id: this.room.room_id },{ headers: this.authservice.getHeaders() })
+      .deleteRoom(this.room,{ headers: this.authservice.getHeaders() })
       .subscribe(res=>{
-        this.feddback_message_status=1;
+
         this.msg = res;
+
+        this.feddback_message_status=1;
         this.feedback_message=this.msg.message;
+        this.rooms=this.msg.rooms;
+        var table=$('#mytable').DataTable();
+
+        table.destroy();
+this.dtTrigger.next(null);
+
 
       },error=>{
         this.feddback_message_status=2;
@@ -183,10 +208,10 @@ return hostel.hostel_id;
 
       this.rooms = res;
 
+      var table=$('#mytable').DataTable();
+      table.destroy();
       this.dtTrigger.next(null);
     });
   }
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
-  }
+
 }

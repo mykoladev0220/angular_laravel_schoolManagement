@@ -41,50 +41,6 @@
     </div>
 
   </div>
-
-   <div class="card-body">
-    <form #createHostelpeferenceForm="ngForm">
-      <div class="row">
-
-        <!-- /.col -->
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="exampleInputEmail1">Period</label>
-            <select class="form-control select2" (change)="getBatches(batchmodel.active_period_id)" name="active_period_id" #active_period_id required  style="width: 100%;"  [(ngModel)]="batchmodel.active_period_id" >
-              <option value=""> select period</option>
-
-
-              <option *ngFor="let period of active_Periods" [ngValue]="period.active_period_id"> {{period.period_name}}</option>
-
-
-            </select>
-          </div>
-
-        </div>
-        <!-- /.col -->
-        <div class="col-md-4">
-          <div class="form-group">
-            <label>Batch</label>
-
-            <select class="form-control select2" name="batch_id" (change)="batchChange()" required style="width: 100%;" [(ngModel)]="batchmodel.residence_session_id"  >
-              <option value=""> select batch </option>
-
-              <option *ngFor="let batch of batches"   [ngValue]="batch.residence_session_id"  > {{batch.session_name}} </option>
-
-
-            </select>
-          </div>
-
-        </div>
-      </div>
-
-
-
-    </form>
-   </div>
-
-
-
 </div>
 
 <div class="row p-3">
@@ -116,7 +72,7 @@
             aria-labelledby="custom-tabs-one-home-tab">
             <div class="card-body">
 
-              <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger"  class="table table-bordered table-striped table-hover">
+              <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger2"  id="mytable2"  class="table table-bordered table-striped table-hover">
                 <thead>
                 <tr>
 
@@ -180,7 +136,7 @@
 
 
             <div class="card-body">
-              <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger"  class="table table-bordered table-striped table-hover">
+              <table datatable   [dtOptions]="dtoptions" [dtTrigger]="dtTrigger1"  id="mytable" class="table table-bordered table-striped table-hover">
                 <thead>
                 <tr>
 
@@ -189,7 +145,7 @@
                   <th>Floor</th>
                   <th>Hostel</th>
                   <th>Location</th>
-
+               
                   <th>Action</th>
 
                 </tr>
@@ -200,9 +156,6 @@
                     <td>{{  _room.room_number}}</td>
                     <td>{{ _room.floor_name }}</td>
                     <td>{{ _room.hostel_name }}</td>
-
-
-
                     <td>{{ _room.location_name }}</td>
 
                     <td >   <button class="btn btn-primary btn-sm" (click)="setRoom(_room)" data-toggle="modal" [attr.data-target]="'#modal-md-reserve'+ i ">Reserve</button>
