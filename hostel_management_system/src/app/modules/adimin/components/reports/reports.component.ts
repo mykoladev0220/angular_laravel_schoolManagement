@@ -1,3 +1,5 @@
+import { RoomapplicationService } from './../../../../services/roomapplication.service';
+import { RoomallocationService } from 'src/app/services/roomallocation.service';
 
 import { ParamsService } from './../../../../services/params.service';
 
@@ -7,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs';
 
 Chart.register(ChartDataLabels);
 
@@ -16,6 +19,9 @@ Chart.register(ChartDataLabels);
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent implements AfterViewInit,OnInit{
+  dtoptions: DataTables.Settings = {};
+  dtTrigger1: Subject<any> = new Subject<any>();
+  dtTrigger2: Subject<any> = new Subject<any>();
 linechartdates=new Array();
 linechartvalues=new Array();
 allocation_status:any;
@@ -30,7 +36,8 @@ reserved:false
 allocants:any;
 myres:any;
 linechart:any;
-
+applications:any;
+allocations:any;
 applicants:any;
 totalcapacity:any
 sub:any;
@@ -44,7 +51,9 @@ sub:any;
 
 
 
-  constructor(private param:ParamsService,private reportservice:ReportsService,private authservice:AuthService){
+  constructor(private param:ParamsService,private reportservice:ReportsService,private authservice:AuthService
+    ,private allocationservice:RoomallocationService,private applicationservice:RoomapplicationService
+    ){
 
   }
   ngAfterViewInit(): void {
@@ -54,7 +63,16 @@ sub:any;
     })
   }
   ngOnInit(): void {
-
+    this.dtoptions = {
+      pagingType: 'full_numbers',
+      searching: true,
+      pageLength: 5,
+      lengthChange: true,
+      language: {
+        searchPlaceholder: 'search',
+      },
+      destroy: true,
+    };
 this.batch=this.param.getparam('batch');
 this.form.active_period_id=this.batch.active_period_id;
 this.form.residence_session_id=this.batch.residence_session_id;
@@ -64,10 +82,32 @@ this.form.reserved=false;
 
 
 this.getchartData();
-
+    this.getApplications();
+    this.getAllocations()
 
 
   }
+
+getApplications(){
+  this.applicationservice.getapplicationreport(this.batch,{
+    headers: this.authservice.getHeaders(),
+  }).subscribe(res=>{
+    console.log(res);
+
+    this.applications=res;
+this.dtTrigger1.next(null);
+  })
+}
+getAllocations(){
+  this.allocationservice.getallocationreport(this.batch,{
+    headers: this.authservice.getHeaders(),
+  }).subscribe(res=>{
+    this.allocations=res;
+    this.dtTrigger2.next(null)
+
+  })
+}
+
 
 
 

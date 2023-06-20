@@ -109,23 +109,24 @@
 
         </div>
         <!-- /.col -->
-        <div class="col-md-12 text-danger" *ngIf="errormsg !=null">{{errormsg}}</div>
+
       </div>
       <div class="row">
         <div class="col-md-6 col-sm-12">
           <label for="">Program Driven</label>
-       <div class="check-container">   <input type="checkbox" class="form-control"  name="programme_driven"
-        [(ngModel)]="batch. is_program_driven">
+       <div class="check-container">
+         <input type="checkbox" class="form-control"  name="programme_driven"  [(ngModel)]="batch.is_program_driven">
       </div>
         </div>
       </div>
+<div class="row"> <div class="col-md-12 text-danger" *ngIf="errormsg !=null">{{errormsg}}</div></div>
 
       <div class="row pt-2">
         <div class="col-md-6 col-sm-12">
           <button class="btn btn-primary" [disabled]="createbatchForm.form.invalid" type="submit">Create</button>
         </div>
 
-
+<!--  -->
       </div>
       <!-- /.card-body -->
     </form>
@@ -323,6 +324,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
+                  {{batch.is_program_driven}}
                   <form #editbatchform="ngForm">
                     <div class="row">
                       <div class="col-md-6">
@@ -331,6 +333,12 @@
                           [(ngModel)]="batchmodel.session_name" />
                       </div>
                       <input name="session_id" hidden [(ngModel)]="batchmodel.residence_session_id" />
+                      <div class="col-md-6 col-sm-12">
+                        <label for="">Program Driven</label>
+                     <div class="check-container">
+                       <input type="checkbox" class="form-control"  name="programme_driven"  [(ngModel)]="batch.is_program_driven">
+                    </div>
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6">

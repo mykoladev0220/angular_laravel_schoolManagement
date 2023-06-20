@@ -5,12 +5,12 @@ import { ServerDetails } from '../models/server-details';
 @Injectable({
   providedIn: 'root'
 })
-export class ReportsService {
-serverIp=ServerDetails.serverIP;
+export class RoomapplicationService {
+serverip=ServerDetails.serverIP;
   constructor(private httpclient:HttpClient) { }
-  getallocationsReports(data:any,headers:any)
-  {
-return this.httpclient.post(this.serverIp+'/allocationreport',data,headers);
+
+  getapplicationreport(data:any,headers:any){
+    return this.httpclient.post(this.serverip+"/getapplicationsreports",data,headers);
 
   }
 }

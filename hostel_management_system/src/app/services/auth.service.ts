@@ -2,59 +2,62 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ParamsService } from './params.service';
 
+import { ServerDetails } from '../models/server-details';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   user: any = null;
+  serverIp = ServerDetails.serverIP;
 
   constructor(private httppclient: HttpClient,private paramservice:ParamsService) {}
 
   login(data: any) {
-    return this.httppclient.post('http://localhost:8000/api/login', data);
+    return this.httppclient.post(this.serverIp+'/login', data);
   }
   register(data: any, headers: any) {
     return this.httppclient.post(
-      'http://localhost:8000/api/register',
+      this.serverIp+'/register',
       data,
       headers
     );
   }
   activateUser(data: any, headers: any) {
     return this.httppclient.post(
-      'http://localhost:8000/api/activateUser',
+      this.serverIp+'/activateUser',
       data,
       headers
     );
   }
   deactivateUser(data: any, headers: any) {
     return this.httppclient.post(
-      'http://localhost:8000/api/deactivateUser',
+      this.serverIp+'/deactivateUser',
       data,
       headers
     );
   }
 
   getUsers(headers: any) {
-    return this.httppclient.get('http://localhost:8000/api/getusers', headers);
+    return this.httppclient.get(this.serverIp+'/getusers', headers);
   }
   changePassword(data: any, headers: any) {
     return this.httppclient.post(
-      'http://localhost:8000/api/changePassword',
+      this.serverIp+'/changePassword',
       data,
       headers
     );
   }
   removeRight(data: any, headers: any) {
 return    this.httppclient.post(
-      'http://localhost:8000/api/removeright',
+      this.serverIp+'/removeright',
       data,
       headers
     );
   }
   assignRights(data: any, headers: any) {
     return this.httppclient.post(
-      'http://localhost:8000/api/createrights',
+      this.serverIp+'/createrights',
       data,
       headers
     );
@@ -62,7 +65,7 @@ return    this.httppclient.post(
 
   getrights(user: any, headers: any) {
     return this.httppclient.post(
-      'http://localhost:8000/api/getrights',
+      this.serverIp+'/getrights',
       user,
       headers
     );

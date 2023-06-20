@@ -77,9 +77,14 @@ destroy:true,
     this.feedback_status=0;
 
     this.batch.available_status="0";
-    this.batch.is_program_driven="0";
+// console.log(this.batch.is_program_driven);
+
     if(this.batch.is_program_driven){
       this.batch.is_program_driven="1";
+    }
+    else{
+      this.batch.is_program_driven="0";
+
     }
 if(this.batch.end_date<=this.batch.start_date){
   this.feedback_status=2;
@@ -240,6 +245,16 @@ sethostelPreference(batch:any){
   UpdateBatch() {
     this.feedbackmsg = null;
     this.feedback_status = 0;
+   
+
+    if(this.batch.is_program_driven){
+      this.batch.is_program_driven="1";
+    }
+    else{
+      this.batch.is_program_driven="0";
+
+    }
+
     this.batchservice.updateBatch(this.batchmodel,{ headers: this.authservice.getHeaders() }).subscribe(
       (res) => {
         this.feedback_status = 1;

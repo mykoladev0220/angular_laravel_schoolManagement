@@ -65,7 +65,7 @@
   </div>
   <!-- /.card-header -->
   <div class="card-body">
-   
+
     <form #createfloorsForm="ngForm" (ngSubmit)="createFloors(createfloorsForm)">
 
 
@@ -88,8 +88,16 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="exampleInputEmail1">Floor Name</label>
-            <input type="text" class="form-control" name="floor_name" required [(ngModel)]="floor.floor_name"
-              placeholder="Enter hostel name">
+
+
+              <select class="form-control" name="floor_name" required [(ngModel)]="floor.floor_name" >
+                <option value="ground">ground</option>
+                <option value="first">first</option>
+                <option value="second">second</option>
+                <option value="third">third</option>
+                <option value="fourth">fourth</option>
+                <option value="fifth">fifth</option>
+              </select>
           </div>
 
         </div>

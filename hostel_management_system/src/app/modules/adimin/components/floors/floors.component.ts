@@ -46,7 +46,8 @@ export class FloorsComponent implements OnInit,OnDestroy {
       },
       destroy:true
     };
-    this.myrights=this.paramsService.getparam('myrights');
+    this.floor.floor_name="groundy";
+        this.myrights=this.paramsService.getparam('myrights');
     this.userrole = this.authservice.getRole();
     this.getHostel();
     this.getfloors();

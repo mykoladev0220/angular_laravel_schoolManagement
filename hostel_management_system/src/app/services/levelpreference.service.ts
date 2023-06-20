@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment.development';
+
+import { ServerDetails } from '../models/server-details';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LevelpreferenceService {
-  serverIP = environment.domain;
+  serverIP = ServerDetails.serverIP;
   constructor(private httpclient: HttpClient) {}
 
   CreateLevelPerefernce(data: any, headers: any) {

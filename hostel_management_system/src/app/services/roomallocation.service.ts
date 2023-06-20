@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment.development';
+
+import { ServerDetails } from '../models/server-details';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class RoomallocationService {
-serverip=environment.domain;
+serverip=ServerDetails.serverIP;
   constructor(
 private httpclient:HttpClient,
 
@@ -28,4 +29,11 @@ return this.httpclient.post(this.serverip+"/getroomstoallocate",data,headers);
   getRoomallocation(data:any,headers:any){
     return this.httpclient.post(this.serverip+"/getroomallocation",data,headers);
   }
+
+  getallocationreport(data:any,headers:any){
+    return this.httpclient.post(this.serverip+"/allocationsreport",data,headers);
+
+  }
+
+
 }

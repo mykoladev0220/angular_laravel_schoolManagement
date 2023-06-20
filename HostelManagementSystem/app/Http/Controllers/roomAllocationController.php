@@ -8,6 +8,7 @@ use App\Models\roomapplication;
 use App\Models\roomstatus;
 use App\Models\student;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -691,4 +692,56 @@ GROUP BY
             return response()->json(['message' => $ex->getMessage(), 'success' => false], 500);
         }
     }
+
+
+  public function  getAllocations(Request $request){
+
+$data=$request->validate(['residence_session_id'=>'required']);
+
+$residence_session_id=$data['residence_session_id'];
+
+try{
+    $allocation=DB::select("SELECT
+	tbl_room_allocations.room_allocation_id,
+	tbl_room_allocations.reg_number,
+	tbl_rooms.room_gender,
+	tbl_rooms.room_number,
+	tbl_floors.floor_name,
+	tbl_hostels.hostel_name,
+	tbl_locations.location_name,
+	tbl_room_allocation_status.`status`,
+	tbl_room_allocations.date_allocated,
+	tbl_room_allocations.allocated_by
+FROM
+	tbl_room_allocations
+	INNER JOIN
+	tbl_rooms
+	ON
+		tbl_room_allocations.room_id = tbl_rooms.room_id
+	INNER JOIN
+	tbl_floors
+	ON
+		tbl_rooms.floor_id = tbl_floors.floor_id
+	INNER JOIN
+	tbl_hostels
+	ON
+		tbl_floors.hostel_id = tbl_hostels.hostel_id
+	INNER JOIN
+	tbl_locations
+	ON
+		tbl_hostels.location_id = tbl_locations.location_id
+	INNER JOIN
+	tbl_room_allocation_status
+	ON
+		tbl_room_allocations.approved_status = tbl_room_allocation_status.status_code
+WHERE
+	tbl_room_allocations.residence_session_id = $residence_session_id");
+   return response()->json($allocation, 200);
+}catch(QueryException $ex){
+    return response()->json(['success'=>'false', 'message' => $ex->getMessage()], 500);
+}
+
+
+
+  }
 }

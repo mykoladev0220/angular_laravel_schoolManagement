@@ -1,37 +1,85 @@
-<section class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">
-
-              <div class="card-tools pl-5">
-                <a routerLink="../levelpreference" type="button"   class="btn btn-primary btn-tool nav-btn">
-                  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-               Preference Levels
-                </a>
-
-                <a routerLink="../viewbatch" type="button"   class="btn btn-primary btn-tool nav-btn">
-                  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-              Hostel Preference
-                </a>
-                <a routerLink="../reports" type="button" class="btn btn-primary btn-tool nav-btn">
-                  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-                  Allocation Reports
-                </a>
 
 
-                <a routerLink="../roomallocation" type="button" class="btn btn-primary btn-tool nav-btn">
-                  <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-                  Allocation
-                </a>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+
+            <div class="card-tools pl-5">
+              <a routerLink="../levelpreference" type="button"   class="btn btn-primary btn-tool nav-btn">
+                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+             Preference Levels
+              </a>
+
+              <a routerLink="../viewbatch" type="button"   class="btn btn-primary btn-tool nav-btn">
+                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+            Hostel Preference
+              </a>
+              <a routerLink="../reports" type="button" class="btn btn-primary btn-tool nav-btn">
+                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+              Reports
+              </a>
 
 
-                <a routerLink="../batches" type="button" class="btn btn-primary btn-tool nav-btn">
-                  <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
-                  Batches
-                </a>
+              <a routerLink="../roomallocation" type="button" class="btn btn-primary btn-tool nav-btn">
+                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                Allocation
+              </a>
 
+
+              <a routerLink="../batches" type="button" class="btn btn-primary btn-tool nav-btn">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+                Batches
+              </a>
+
+
+
+
+              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+
+
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+
+
+
+<div class="col-12 col-sm-12">
+  <div class="card  card-tabs">
+    <div class="card-header p-0 pt-1">
+      <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill"
+            href="#charts" role="tab" aria-controls="custom-tabs-one-home"
+            aria-selected="true">Charts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill"
+            href="#tables" role="tab" aria-controls="custom-tabs-one-profile"
+            aria-selected="false">Tables </a>
+        </li>
+
+
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content" id="custom-tabs-one-tabContent">
+        <div class="tab-pane fade show active" id="charts" role="tabpanel"
+          aria-labelledby="custom-tabs-one-home-tab">
+          <div class="card">
+            <div class="card-header  " style="height: 33px;">
+
+              <div class="card-tools">
 
 
 
@@ -41,162 +89,271 @@
               </div>
 
 
+            </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><i class="fa fa-solid fa-envelope"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Applications </span>
+                <span class="info-box-number">
+
+
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div *ngFor="let appstatus of application_status " class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span *ngIf="appstatus.status=='pending'" class="info-box-icon bg-warning elevation-1"><i class="fas fa-spinner fa-beat"></i></span>
+              <span *ngIf="appstatus.status=='forfeited'" class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-down"></i></span>
+              <span *ngIf="appstatus.status=='approved'" class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">{{appstatus.status}}</span>
+                <span class="info-box-number">{{ appstatus.total }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="clearfix hidden-md-up"></div>
+          <!-- fix for small devices only -->
+
+
+
+          <!-- /.col -->
+
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1"></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Allocations </span>
+
+
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div *ngFor="let allstatus of allocation_status"  class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span *ngIf="allstatus.status=='pending'" class="info-box-icon bg-warning elevation-1"><i class="fas fa-spinner fa-beat"></i></span>
+              <span *ngIf="allstatus.status=='rejected '" class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-down"></i></span>
+              <span *ngIf="allstatus.status=='approved '" class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">{{allstatus.status}}</span>
+                <span class="info-box-number">{{ allstatus.total }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+
+            <!-- /.info-box -->
+          </div>
+
+        </div>
+      </div>
+
 
           </div>
 
 
-        </div>
-      </div>
 
+
+
+
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Room Allocations  Reports</h3>
+                  <div style="display: flex;
+                  flex-direction: row; float: right;">
+                          <div> <label for="">Male</label>
+                            <input type="radio" class="" name="room_gender" (change)="this.getchartData()" value='m'
+                              [(ngModel)]="form.room_gender">
+                            <label for=""> Female</label>
+                            <input type="radio" class="" name="room_gender" (change)="this.getchartData()" value='f'
+                              [(ngModel)]="form.room_gender">
+                          </div>
+                          <div class="pl-5"> <label class="">Not Reserved</label>
+                            <input type="radio" class="" name="reserved" (change)="this.getchartData()" [value]=false
+                              [(ngModel)]="form.reserved">
+                            <label for=""> Reserved</label>
+                            <input type="radio" class="" name="reserved" (change)="this.getchartData()" [value]=true
+                              [(ngModel)]="form.reserved">
+                          </div>
+
+                  <div class="card-tools pl-3 pt-2">
+
+
+
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                </div>
+                <div class="cardy">
+                  <div class="row">
+                    <div class="col-md-6"> <canvas style=" height: 50vh;" id="mylinechart">{{ linechart }}</canvas></div>
+                    <div class="col-md-6">  <canvas id="MyDonutChart">{{ Doughnutchart }}</canvas></div>
+
+
+
+
+                   </div>
+
+
+
+                </div>
+                <!-- /.card-header -->
+
+                <!-- /.card-body -->
+              </div>
+        </div>
+        <div class="tab-pane fade" id="tables" role="tabpanel"
+          aria-labelledby="custom-tabs-one-profile-tab">
+          <div class="card">
+            <div class="card-header">
+
+  <h5>Applications</h5>
+
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+              <table  id="mytable" class="table  table-hover" datatable [dtOptions]="dtoptions"
+                [dtTrigger]="dtTrigger1">
+
+                <thead>
+                  <tr>
+
+                    <th>Location </th>
+                    <th>Hostel </th>
+                    <th>Floor</th>
+                    <th>Room number</th>
+                    <th>regnumber</th>
+                    <th>Date applied</th>
+
+                    <th>Status</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let app of applications" >
+                    <td>{{app.location_name}}</td>
+                    <td>{{app.hostel_name}}</td>
+                    <td>{{app.floor_name}}</td>
+                    <td>{{app.room_number}}</td>
+                    <td>{{app.reg_number}}</td>
+
+                    <td>{{app.date_of_application | date}}</td>
+                    <td>{{app.status}}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+            <!-- /.card -->
+          </div>
+
+
+
+          <div class="card">
+            <div class="card-header">
+
+  <h5>Allocations</h5>
+
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+              <table  id="mytable" class="table  table-hover" datatable [dtOptions]="dtoptions"
+                [dtTrigger]="dtTrigger2">
+
+                <thead>
+                  <tr>
+
+                    <th>Location </th>
+                    <th>Hostel </th>
+                    <th>Floor</th>
+                    <th>Room number</th>
+                    <th>regnumber</th>
+                    <th>Date allocated</th>
+                    <th>Allocated By</th>
+                    <th>Status</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let alloc of allocations" >
+
+                    <td>{{alloc.location_name}}</td>
+                    <td>{{alloc.hostel_name}}</td>
+                    <td>{{alloc.floor_name}}</td>
+                    <td>{{alloc.room_number}}</td>
+                    <td>{{alloc.reg_number}}</td>
+
+                    <td>{{alloc.date_allocated | date}}</td>
+                    <td>{{alloc.allocated_by}}</td>
+                    <td>{{alloc.status}}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+            <!-- /.card -->
+          </div>
+
+        </div>
+
+
+      </div>
     </div>
-    <div class="card">
-      <div class="card-header  " style="height: 33px;">
-
-        <div class="card-tools">
-
-
-
-          <button type="button" class="btn btn-tool" data-card-widget="remove">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-
-
-      </div>
-<div class="card-body">
-  <div class="row">
-    <div class="col-12 col-sm-6 col-md-3">
-      <div class="info-box">
-        <span class="info-box-icon bg-info elevation-1"><i class="fa fa-solid fa-envelope"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">Applications </span>
-          <span class="info-box-number">
-         
-
-          </span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-    <!-- /.col -->
-    <div *ngFor="let appstatus of application_status " class="col-12 col-sm-6 col-md-3">
-      <div class="info-box mb-3">
-        <span *ngIf="appstatus.status=='pending'" class="info-box-icon bg-warning elevation-1"><i class="fas fa-spinner fa-beat"></i></span>
-        <span *ngIf="appstatus.status=='forfeited'" class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-down"></i></span>
-        <span *ngIf="appstatus.status=='approved'" class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">{{appstatus.status}}</span>
-          <span class="info-box-number">{{ appstatus.total }}</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-    <!-- /.col -->
-    <div class="clearfix hidden-md-up"></div>
-    <!-- fix for small devices only -->
-
-
-
-    <!-- /.col -->
-
-  </div>
-  <div class="row">
-    <div class="col-12 col-sm-6 col-md-3">
-      <div class="info-box">
-        <span class="info-box-icon bg-info elevation-1"></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">Allocations </span>
-
-
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-    <!-- /.col -->
-    <div *ngFor="let allstatus of allocation_status"  class="col-12 col-sm-6 col-md-3">
-      <div class="info-box mb-3">
-        <span *ngIf="allstatus.status=='pending'" class="info-box-icon bg-warning elevation-1"><i class="fas fa-spinner fa-beat"></i></span>
-        <span *ngIf="allstatus.status=='rejected '" class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-down"></i></span>
-        <span *ngIf="allstatus.status=='approved '" class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">{{allstatus.status}}</span>
-          <span class="info-box-number">{{ allstatus.total }}</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-
-      <!-- /.info-box -->
-    </div>
-    <!-- /.c
-    <!-- /.col -->
-
-    <!-- fix for small devices only -->
-    <div class="clearfix hidden-md-up"></div>
-
-
-    <!-- /.col -->
-
-    <!-- /.col -->
+    <!-- /.card -->
   </div>
 </div>
 
 
-    </div>
 
 
 
 
 
 
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Room Allocations  Reports</h3>
-            <div style="display: flex;
-            flex-direction: row; float: right;">
-                    <div> <label for="">Male</label>
-                      <input type="radio" class="" name="room_gender" (change)="this.getchartData()" value='m'
-                        [(ngModel)]="form.room_gender">
-                      <label for=""> Female</label>
-                      <input type="radio" class="" name="room_gender" (change)="this.getchartData()" value='f'
-                        [(ngModel)]="form.room_gender">
-                    </div>
-                    <div class="pl-5"> <label class="">Not Reserved</label>
-                      <input type="radio" class="" name="reserved" (change)="this.getchartData()" [value]=false
-                        [(ngModel)]="form.reserved">
-                      <label for=""> Reserved</label>
-                      <input type="radio" class="" name="reserved" (change)="this.getchartData()" [value]=true
-                        [(ngModel)]="form.reserved">
-                    </div>
 
-            <div class="card-tools pl-3 pt-2">
-              <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-          </div>
-          </div>
-          <div class="cardy">
-            <div class="row">
-              <div class="col-md-6"> <canvas style=" height: 50vh;" id="mylinechart">{{ linechart }}</canvas></div>
-              <div class="col-md-6">  <canvas id="MyDonutChart">{{ Doughnutchart }}</canvas></div>
-
-
-
-
-             </div>
-
-
-
-          </div>
-          <!-- /.card-header -->
-
-          <!-- /.card-body -->
-        </div>
 

@@ -126,6 +126,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('getroomallocation', [roomAllocationController::class, 'show']);
     Route::post('getroomstoallocate', [roomAllocationController::class, 'getroomstoallocate']);
     Route::post('approve_reject', [roomAllocationController::class, 'approve_reject']);
+    Route::post('allocationsreport', [roomAllocationController::class, 'getAllocations']);
+
+// allpoication
+Route::post('getapplicationsreports', [roomApplicationController::class, 'getApplications']);
 
     //minimum treshold
 

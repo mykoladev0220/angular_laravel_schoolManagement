@@ -193,6 +193,7 @@ class residenceSessionsController extends Controller
 
         $request->validate([
             'residence_session_id' => 'required',
+            'is_program_driven'=>'required',
             'start_date' => 'date|required',
             'end_date' => 'required|date', 'session_name' => 'required',
         ]);
@@ -201,7 +202,7 @@ class residenceSessionsController extends Controller
 
         try {
             $batch->session_name = $request['session_name'];
-
+$batch->is_program_driven=$request['is_program_driven'];
             $batch->start_date = $request['start_date'];
             $batch->end_date = $request['end_date'];
             if ($batch->end_date < $batch->start_date) {

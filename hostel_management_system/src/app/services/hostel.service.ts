@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment.development';
+
 import { AuthService } from './auth.service';
+import { ServerDetails } from '../models/server-details';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HostelService {
-serverIp=environment.domain;
+serverIp=ServerDetails.serverIP;
 
   constructor(private httpClient:HttpClient) {
 

@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment.development';
+
+import { ServerDetails } from '../models/server-details';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomtypeService {
-  serverIP=environment.domain;
+  serverIP=ServerDetails.serverIP;
   constructor(private httpclient:HttpClient) { }
   getRoomType(headers:any){
    return this.httpclient.get(this.serverIP+"/getroomtypes",headers);

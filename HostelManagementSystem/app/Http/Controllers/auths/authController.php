@@ -17,31 +17,38 @@ class authController extends Controller
     public function login(Request $request)
     {
         $validator = $request->validate(['email' => 'required|string', 'password' => 'required|string']);
-        $user = User::where('email', $request->email)->first();
 
-        if ($user) {
-            if (Hash::check($request->password, $user->password)) {
-                if ($user->is_active == 0) {
-                    return response()->json(['success' => false, 'message' => 'account in active contact you administrator for assistance'], 401);
-                } else {
-                    $prompt_change = 0;
+        try{
+            $user = User::where('email', $request->email)->first();
 
-                    if (Hash::check($user->email, $user->password)) {
-                        $prompt_change = 1;
+            if ($user) {
+                if (Hash::check($request->password, $user->password)) {
+                    if ($user->is_active == 0) {
+                        return response()->json(['success' => false, 'message' => 'account in active contact you administrator for assistance'], 401);
+                    } else {
+                        $prompt_change = 0;
+
+                        if (Hash::check($user->email, $user->password)) {
+                            $prompt_change = 1;
+                        }
+
+                        $user_id = $user->user_id;
+
+                        $myrights = userright::where('user_id', $user_id)->first();
+
+                        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+
+                        return response()->json(['user_details' => $user,  'prompt_change' => $prompt_change, 'myrights' => $myrights, 'access_token' => $token], 200);
                     }
-
-                    $user_id = $user->user_id;
-
-                    $myrights = userright::where('user_id', $user_id)->first();
-
-                    $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-
-                    return response()->json(['user_details' => $user,  'prompt_change' => $prompt_change, 'myrights' => $myrights, 'access_token' => $token], 200);
+                } else {
+                    return response()->json(['success' => false, 'message' => 'username or password not correct'], 401);
                 }
-            } else {
-                return response()->json(['success' => false, 'message' => 'username or password not correct'], 401);
             }
         }
+        catch(QueryException $ex){
+            return response()->json(['success' => false, 'message' => 'server error'], 401);
+        }
+
 
         return response()->json(['success' => false, 'message' => 'username or password not correct'], 401);
     }
