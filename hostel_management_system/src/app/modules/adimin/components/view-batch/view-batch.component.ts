@@ -21,7 +21,7 @@ export class ViewBatchComponent implements OnInit {
   msg: any;
 
   feedback_message: any;
-  dtoptions: DataTables.Settings = {};
+  dtoptions: any = {};
   dtTrigger: Subject<any> = new Subject<any>();
   locations: any;
   hostels: any;
@@ -60,6 +60,10 @@ this.myrights= this.params.getparam('myrights');
         searchPlaceholder: 'search',
       },
       destroy: true,
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf'
+    ]
     };
 this. getBatchHostels();
     this.getlocations();

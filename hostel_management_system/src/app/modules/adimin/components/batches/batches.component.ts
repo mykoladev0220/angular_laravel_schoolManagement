@@ -16,7 +16,7 @@ import { UserRights } from 'src/app/models/user-rights.model';
   styleUrls: ['./batches.component.css'],
 })
 export class BatchesComponent implements OnInit {
-  dtoptions: DataTables.Settings = {};
+  dtoptions: any = {};
   dtTrigger: Subject<any> = new Subject<any>();
   urlparams: any;
   batches: any;
@@ -49,6 +49,10 @@ export class BatchesComponent implements OnInit {
         searchPlaceholder: 'search',
       },
 destroy:true,
+dom: 'Bfrtip',
+buttons: [
+  'copy', 'csv', 'excel', 'pdf'
+]
     };
     this.myrights = this.paramsservice.getparam('myrights');
     this.userrole=this.authservice.getRole();
@@ -245,7 +249,7 @@ sethostelPreference(batch:any){
   UpdateBatch() {
     this.feedbackmsg = null;
     this.feedback_status = 0;
-   
+
 
     if(this.batch.is_program_driven){
       this.batch.is_program_driven="1";

@@ -18,7 +18,7 @@ export class RoomstypesComponent implements OnInit  {
   feddback_message_status: any;
   msg: any;
   myrights= new UserRights();
-  dtoptions: DataTables.Settings = {};
+  dtoptions:any = {};
   dtTrigger: Subject<any> = new Subject<any>();
   feedback_message: any;
   ngOnInit(): void {
@@ -31,6 +31,10 @@ export class RoomstypesComponent implements OnInit  {
         searchPlaceholder: 'Text Customer',
 
       },
+      destroy:true,
+      dom: 'Bfrtip',    buttons: [
+        'copy', 'csv', 'excel', 'pdf'
+    ]
 
     };
 this.myrights=this.params.getparam('myrights');

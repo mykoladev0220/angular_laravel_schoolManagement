@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class UsersComponent implements OnInit {
   msg: any;
-  dtoptions: DataTables.Settings = {};
+  dtoptions:any= {};
   dtTrigger: Subject<any> = new Subject<any>();
   feedback_message: any;
   feedback_message_status: any;
@@ -22,10 +22,15 @@ export class UsersComponent implements OnInit {
   usermodel = new User();
   ngOnInit(): void {
     this.dtoptions = {
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv' ,'excel' ,'pdf'
+    ],
       pagingType: 'full_numbers',
       searching: true,
 
-      lengthChange: false,
+      lengthChange: true,
+      pageLength:5,
       language: {
         searchPlaceholder: 'search',
       },

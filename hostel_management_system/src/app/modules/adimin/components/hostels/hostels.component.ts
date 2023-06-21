@@ -18,7 +18,7 @@ import { DataTableDirective } from 'angular-datatables';
 export class HostelsComponent implements OnInit {
   @ViewChild(DataTableDirective,{static:false})
   datatbleElement:any=DataTableDirective;
-  dtoptions: DataTables.Settings = {};
+  dtoptions: any= {};
   dtTrigger: Subject<any> = new Subject<any>();
   hostels: any;
   hostel = new Hostel();
@@ -49,7 +49,11 @@ export class HostelsComponent implements OnInit {
       language: {
         searchPlaceholder: 'search',
       },
-      destroy:true
+      destroy:true,
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel' ,'pdf'
+    ]
     };
     this.userrole = this.authservice.getRole();
     this.getlocations();

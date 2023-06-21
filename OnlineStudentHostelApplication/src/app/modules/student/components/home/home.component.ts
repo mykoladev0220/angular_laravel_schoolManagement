@@ -82,6 +82,7 @@ this.myapplication=this.myresponse.myapplication;
         this.myallocations = this.myresponse.myallocation
 
 
+// console.log(this.myapplication);
 
 
 

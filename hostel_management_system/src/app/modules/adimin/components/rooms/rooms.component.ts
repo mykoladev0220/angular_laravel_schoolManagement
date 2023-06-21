@@ -22,7 +22,7 @@ export class RoomsComponent implements OnInit {
   @ViewChild(DataTableDirective,{static:false})
   datatbleElement:any=DataTableDirective;
 
-  dtoptions: DataTables.Settings = {};
+  dtoptions: any= {};
   dtTrigger: Subject<any> = new Subject<any>();
   roomgender={
     male:'m',
@@ -52,7 +52,11 @@ myrights= new UserRights();
       language: {
         searchPlaceholder: 'Text Customer',
       },
-      destroy:true
+      destroy:true,
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf'
+    ]
     };
   this.userrole=this.authservice.getRole();
 

@@ -14,7 +14,7 @@ import { UserRights } from 'src/app/models/user-rights.model';
   styleUrls: ['./floors.component.css'],
 })
 export class FloorsComponent implements OnInit,OnDestroy {
-  dtoptions: DataTables.Settings = {};
+  dtoptions:any = {};
   dtTrigger: Subject<any> = new Subject<any>();
   hostels: any;
   _hostel_id: any;
@@ -44,9 +44,13 @@ export class FloorsComponent implements OnInit,OnDestroy {
       language: {
         searchPlaceholder: 'Text Customer',
       },
-      destroy:true
+      destroy:true,
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf'
+    ]
     };
-    this.floor.floor_name="groundy";
+    this.floor.floor_name="ground";
         this.myrights=this.paramsService.getparam('myrights');
     this.userrole = this.authservice.getRole();
     this.getHostel();

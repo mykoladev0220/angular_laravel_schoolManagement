@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { EncriprionserviceService } from 'src/app/services/encriprionservice.service';
 import { ParamsService } from 'src/app/services/params.service';
 
@@ -19,11 +20,16 @@ student:any
 
 
 
-    console.log(this.studentname);
-    console.log(this.studentsurname);
+    // console.log(this.studentname);
+    // console.log(this.studentsurname);
 
 
   }
-  constructor(private encsercive:EncriprionserviceService,private params:ParamsService){}
+  constructor(private encsercive:EncriprionserviceService,private params:ParamsService,private authservice:AuthService){
 
+
+  }
+logout(){
+  this.authservice.logout();
+}
 }

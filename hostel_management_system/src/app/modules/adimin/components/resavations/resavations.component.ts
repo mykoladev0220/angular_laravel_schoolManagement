@@ -51,6 +51,7 @@ toreservelist=[{}]
         searchPlaceholder: 'Text Customer',
       },
       destroy: true,
+      dom: 'Bfrtip',
     };
 
 

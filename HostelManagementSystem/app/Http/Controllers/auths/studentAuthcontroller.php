@@ -56,12 +56,12 @@ class studentAuthcontroller extends Controller
 
                 // $fees_balance = app('App\http\Controllers\studentDetailsController')->getFeesBalance($regnumber);
 
-                // $period_id = $student_details[0]->period_id;
-                // $minimum_threshhold = app('App\http\Controllers\studentDetailsController')->getminimum_treshold($period_id);
+                $period_id = $student_details[0]->period_id;
+                $minimum_threshhold = app('App\http\Controllers\studentDetailsController')->getminimum_treshold($period_id);
 
 
                 // if($minimum_threshhold>$fees_balance){
-                //     return response()->json(['success' => false, 'message' => "mari ishoma " ], 403);
+                //     return response()->json(['success' => false, 'message' => "sorry your fees does not meet the minimum fees threshold " ], 403);
                 // }
 
 

@@ -58,6 +58,7 @@ export class RoomallocationComponent  implements OnInit{
         searchPlaceholder: 'search',
       },
       destroy: true,
+      dom: 'Bfrtip',
     };
 
 

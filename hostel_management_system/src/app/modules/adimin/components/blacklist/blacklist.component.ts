@@ -18,7 +18,7 @@ export class BlacklistComponent implements OnInit {
   blacklist= new Blacklist();
 myresponse:any;
   studentblacklist:any;
-  dtoptions: DataTables.Settings = {};
+  dtoptions: any= {};
   dtTrigger: Subject<any> = new Subject<any>();
 
   constructor(private blacklistservice:BlacklistService,private authservice:AuthService){
@@ -33,6 +33,11 @@ myresponse:any;
       language: {
         searchPlaceholder: 'Text Customer',
       },
+      destroy:true,
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf'
+    ]
     };
    this. getBlacklist();
   }

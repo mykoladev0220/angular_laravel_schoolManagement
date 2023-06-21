@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EncriprionserviceService } from './encriprionservice.service';
 import { ParamsService } from './params.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +17,13 @@ export class AuthService {
   constructor(
     private httpclient: HttpClient,
  private params:ParamsService,
- private encservice:EncriprionserviceService
+ private encservice:EncriprionserviceService,
+ private router:Router
   ) {}
 logout()
 {
-  
+ sessionStorage.clear();
+  this.router.navigate(['login']);
 }
 
 

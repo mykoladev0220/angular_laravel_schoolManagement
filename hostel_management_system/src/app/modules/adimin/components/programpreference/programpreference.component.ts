@@ -26,7 +26,7 @@ export class ProgrampreferenceComponent implements OnInit {
   residence_session: any;
   programlist: any;
   feedback_message: any;
-  dtoptions: DataTables.Settings = {};
+  dtoptions: any= {};
   programpreference = new ProgramPreference();
   myrights = new UserRights();
   dropdownList = [{}];
@@ -50,6 +50,10 @@ export class ProgrampreferenceComponent implements OnInit {
       searching: true,
 
       lengthChange: false,
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv' ,'excel' ,'pdf'
+    ],
       language: {
         searchPlaceholder: 'search',
       },

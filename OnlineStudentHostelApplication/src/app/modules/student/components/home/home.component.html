@@ -35,7 +35,7 @@
 
 
               <th>Batch Name</th>
-            
+
               <th>action</th>
 
 
@@ -139,6 +139,7 @@
               <th>hostel Name</th>
 
               <th>Room Number</th>
+              <th>Expiry Date </th>
                <th>status</th>
 
 
@@ -154,6 +155,7 @@
               <td>{{application.hostel_name}}</td>
 
               <td>{{application.room_number}}</td>
+              <td>{{application.expiration_date}}</td>
               <td *ngIf="application.application_status==0" class="text-success">Pending</td>
               <td *ngIf="application.application_status==2" class="text-danger">Forfeited</td>
 

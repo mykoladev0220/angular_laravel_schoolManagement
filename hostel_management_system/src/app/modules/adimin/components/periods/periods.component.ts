@@ -30,7 +30,7 @@ export class PeriodsComponent implements OnInit {
   userrole: any;
   myrights=new UserRights();
   date = new Date();
-  dtoptions: DataTables.Settings = {};
+  dtoptions: any = {};
   dtTrigger: Subject<any> = new Subject<any>();
 
   activeperiods: any = new Activeperiods();
@@ -63,6 +63,10 @@ export class PeriodsComponent implements OnInit {
       language: {
         searchPlaceholder: 'search',
       },
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf'
+    ]
     };
     this.userrole = this.authservice.getRole();
     this.initfields();

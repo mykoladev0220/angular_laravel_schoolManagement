@@ -15,7 +15,7 @@ export class RoomcostsComponent implements OnInit{
   roomTypes:any;
   feddback_message_status: any;
   msg: any;
-  dtoptions: DataTables.Settings = {};
+  dtoptions: any = {};
   dtTrigger: Subject<any> = new Subject<any>();
   feedback_message: any;
 periods:any;
@@ -30,6 +30,22 @@ myrights=new UserRights();
     private params:ParamsService
   ) {}
   ngOnInit(): void {
+    this.dtoptions = {
+      pagingType: 'full_numbers',
+      searching: true,
+      processing:true,
+      //  paging:false
+
+      lengthChange: false,
+      language: {
+        searchPlaceholder: 'Text Customer',
+      },
+      destroy: true,
+      dom: 'Bfrtip',
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf'
+    ]
+    };
     this.getroomtypeCosts("max");
     this.getroomtypes();
     this.getPeriods();
@@ -45,11 +61,16 @@ myrights=new UserRights();
    console.log(form.value);
 
     this.roomtypeservice.setRoomcost(form.value,{headers:this.authservice.getHeaders()}).subscribe(res=>{
+      var table=$('#mytable').DataTable();
+      table.clear();
       this.feddback_message_status=1;
       this.msg = res;
       this.feedback_message=this.msg.message;
       // this.roomTypes=this.msg.roomtypes;
       this.roomTypeCost=this.msg.roomcost
+
+      table.destroy();
+      this.dtTrigger.next(null);
 
     },error=>{
       this.feddback_message_status=2;
@@ -84,6 +105,7 @@ console.log(res);
     this.feedback_message = "";
 this.roomtypeservice.getRoomType({headers:this.authservice.getHeaders()}).subscribe(res=>{
 this.roomTypes=res;
+this.dtTrigger.next(null)
 
 },error=>{
   this.feddback_message_status = 2;
