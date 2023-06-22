@@ -108,7 +108,7 @@
             <!-- /.info-box -->
           </div>
           <!-- /.col -->
-          <div *ngFor="let appstatus of application_status " class="col-12 col-sm-6 col-md-3">
+          <div *ngFor="let appstatus of application_status" class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
               <span *ngIf="appstatus.status=='pending'" class="info-box-icon bg-warning elevation-1"><i class="fas fa-spinner fa-beat"></i></span>
               <span *ngIf="appstatus.status=='forfeited'" class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-down"></i></span>

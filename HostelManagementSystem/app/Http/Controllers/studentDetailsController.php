@@ -7,10 +7,21 @@ use App\Models\blacklistedstudent;
 use App\Models\minimumTreshold;
 use App\Models\period;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class studentDetailsController extends Controller
 {
+    public function findStudent(Request $request){
+        $request->validate(['reg_number']);
+        $regnumber=$request['reg_number'];
+if($this->getStudentDetails($regnumber)==null){
+    return response()->json(['message' => 'student not found ', 'success' => false], 403);
+
+}
+return response()->json($this->getStudentDetails($regnumber), 200);
+
+    }
     public function getStudentDetails($reg_number)
     {
         $student = DB::connection('mysql_2')->select("
@@ -77,7 +88,7 @@ class studentDetailsController extends Controller
 
         $datenow = $datenow = Carbon::now();
         $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
-            ->format('Y/m/d');
+            ->format('Y-m-d');
 
         $active_period = active_period_hostel_online_application::where('is_active', 1)->get();
 
@@ -96,7 +107,7 @@ class studentDetailsController extends Controller
                 registry.tblprogramme_session.student_id = '$student_id'
                 AND (
                     registry.tblregistration.period_id =$period_id
-                AND registry.tblperiod.end_date > '$datenow'
+                AND registry.tblperiod.end_date > '$newDate'
                 )");
                 if ($registered[0]->cntx > 0) {
                     $count++;

@@ -15,6 +15,7 @@ success:any;
 
   constructor(private authservice:AuthService,private router:Router){}
   ngOnInit(): void {
+ 
   this.error=null;
   this.success=null;
   }

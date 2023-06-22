@@ -3,6 +3,7 @@
 use App\Http\Controllers\academicLevelControler;
 use App\Http\Controllers\activePeriodsController;
 use App\Http\Controllers\auths\authController;
+use App\Http\Controllers\auths\forgetController;
 use App\Http\Controllers\auths\studentAuthcontroller;
 use App\Http\Controllers\blacklist;
 use App\Http\Controllers\floorsController;
@@ -36,6 +37,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+
+
+
+    Route::post('sendresertlink', [forgetController::class, 'sendResertLink']);
+
+    Route::post('changeforgotPassword', [forgetController::class, 'changePassword']);
+
+
 
 //passport protected routes
 Route::middleware('auth:api')->group(function () {
@@ -132,6 +142,8 @@ Route::middleware('auth:api')->group(function () {
 Route::post('getapplicationsreports', [roomApplicationController::class, 'getApplications']);
 
     //minimum treshold
+
+    Route::post('getastudentdetails', [studentDetailsController::class, 'findStudent']);
 
     Route::post('gettreshold', [minimumTresholdController::class, 'show']);
     // user Route

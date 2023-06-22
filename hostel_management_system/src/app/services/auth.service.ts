@@ -16,6 +16,16 @@ export class AuthService {
   login(data: any) {
     return this.httppclient.post(this.serverIp+'/login', data);
   }
+
+  resertpassword(data:any){
+
+
+return this.httppclient.post(this.serverIp+'/sendresertlink',data);
+  }
+
+  changePasswordForgot(data:any){
+    return this.httppclient.post(this.serverIp+'/changeforgotPassword',data);
+  }
   register(data: any, headers: any) {
     return this.httppclient.post(
       this.serverIp+'/register',

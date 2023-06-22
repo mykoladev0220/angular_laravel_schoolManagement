@@ -32,7 +32,7 @@
               </div>
             </div>
           </div>
-          <div *ngIf="error!=null" class="bg-danger p-3">
+          <div *ngIf="error!=null" class="text-danger p-3">
             {{error}}
           </div>
 
@@ -44,8 +44,8 @@
             </div>
             <!-- /.col -->
             <div class="col-4">
-              <button type="submit" [disabled]="loginform.invalid" class="btn  btn-block"
-                style="background-color: #24b0ed; color: #fff;">Sign In &nbsp;<img *ngIf="loading" style="width:25%;"
+              <button type="submit" [disabled]="loginform.invalid" class="btn  btn-block submit"
+               >Sign In &nbsp;<img *ngIf="loading" style="width:25%;"
                   src="https://i.gifer.com/ZKZg.gif" /></button>
             </div>
             <!-- /.col -->

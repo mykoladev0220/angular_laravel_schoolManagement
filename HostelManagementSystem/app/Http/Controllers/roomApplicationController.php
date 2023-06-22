@@ -30,7 +30,7 @@ class roomApplicationController extends Controller
 $period_id=$request['period_id'];
         $datenow = $datenow = Carbon::now();
         $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
-            ->format('Y/m/d');
+            ->format('Y-m-d');
 
         $result = DB::select("SELECT
         tbl_rooms.room_id,
@@ -515,7 +515,7 @@ return response()->json(['message'=>'ýou are already allocated a room'],403);
         $datenow = $datenow = Carbon::now();
         $datenow = $datenow = Carbon::now();
         $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
-            ->format('Y/m/d');
+            ->format('Y-m-d');
 
     $myapplication = DB::select("SELECT
 	COUNT(tbl_room_allocation_applications.room_allocation_application_id) as cntx

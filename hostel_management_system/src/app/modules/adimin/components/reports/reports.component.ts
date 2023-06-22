@@ -73,7 +73,7 @@ sub:any;
       },
       destroy: true,
       dom: 'Bfrtip',
-  
+
     };
 this.batch=this.param.getparam('batch');
 this.form.active_period_id=this.batch.active_period_id;

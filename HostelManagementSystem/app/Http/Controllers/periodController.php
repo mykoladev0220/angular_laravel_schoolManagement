@@ -13,7 +13,7 @@ class periodController extends Controller
     {
         try {
 
-            $period = period::orderBy('period_id', 'desc')->limit(5)->get();
+            $period = period::orderBy('period_id', 'desc')->limit(10)->get();
 
             return response()->json($period, 200);
         } catch (Exception $ex) {

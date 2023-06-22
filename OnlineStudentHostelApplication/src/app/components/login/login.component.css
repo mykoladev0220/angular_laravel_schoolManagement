@@ -13,8 +13,8 @@ background-repeat: no-repeat center center fixed;;
 
 .login1 {
 
-  width: 460px;
-  height: auto;
+  width: 600px;
+  height: 600px;
 
   /* background-color: #c2a458; */
   ;
@@ -24,23 +24,66 @@ background-repeat: no-repeat center center fixed;;
 
 .card {
   width: 99%;
+ height: 80%;
   border-radius: 40px;
   font-family: 'Poppins-thin';
+
+  color :#c2a458;;
+  z-index: 200;
+  border-color: #c2a458;;
+opacity: .85;
+  border-width: 1px;
+  /* box-shadow: 5px 10px ; */
 
 }
 
 .card-body {
 
   border-radius: 40px;
+  background: transparent;
+}
+.login-box-msg{
+
+  color:#c2a458;;
 }
 
 .myinput {
+  border-color: #c2a458;;
 
-  border-radius: 10px;
+  border-width: thin;
+  border-radius: 30px;
+  background-color:transparent;
+z-index: 500;
+  color:#c2a458;;
+  box-shadow: 3px 6px;
 }
+.input-group-append{
+  border-width: thin;
 
+  background-color:#c2a458;;
+  color:#c2a458;;
+  box-shadow: 3px 6px;
+}.submit{
+  border-radius: 30px;
+  background-color:#c2a458;;;
+  color: #fff;
+  box-shadow: 1px 2px #c2a458;;;
+  opacity: 1;
+}
 .card-header,
 .login-box-msg {
   text-transform: uppercase;
   font-family: Material-Design-Iconic-Font;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color:#c2a458;;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #c2a458;;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #c2a458;;
 }

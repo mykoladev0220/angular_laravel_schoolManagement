@@ -6,6 +6,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { ChangepasswordComponent } from './components/changepassword/changepassword.component';
 import { IsPasswordvalidGuard } from './guards/is-passwordvalid.guard';
+import { PasswordChangeComponent } from './components/password-change/password-change.component';
+import { PasswordResertComponent } from './components/password-resert/password-resert.component';
 
 const routes: Routes = [
   // {
@@ -23,6 +25,8 @@ const routes: Routes = [
     canActivate: [AuthGuard,IsPasswordvalidGuard],
   },
   { path: 'changepassword', component: ChangepasswordComponent },
+  {path: 'resertpassword',component: PasswordResertComponent},
+  {path: 'changeforgotpassword',component: PasswordChangeComponent},
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 

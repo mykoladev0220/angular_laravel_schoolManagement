@@ -161,21 +161,62 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form #edithostel="ngForm">
-                    <label for="">Registration Number</label>
-                    <input type="text" required class="form-control" name="reg_number"
-                      [(ngModel)]="roomallocation.reg_number">
-                    <input type="hidden" required class="form-control" [value]="room.room_id" name="room_id"
-                      [(ngModel)]="roomallocation.room_id">
-                    <div class="modal-footer justify-content-between">
-                      <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                        Close
-                      </button>
-                      <button type="submit" (click)="allocateRooms() " data-dismiss="modal" class="btn btn-primary btn-sm">
-                        Save changes
-                      </button>
+                  <div class="row">
+                    <div class="col-md-8">
+                      <label for="">Registration Number</label>
+                      <div class="input-group mb-3">
+
+                        <input type="text" required class="form-control" name="reg_number"
+                          [(ngModel)]="searchreg_number">
+                          <a (click)="getstudentDetails(searchreg_number)" class="input-group-append">
+                            <div class="input-group-text">
+                              <span class="fas fa-search"></span>
+                            </div>
+                          </a>
+                      </div>
+
                     </div>
-                  </form>
+                  </div>
+                  <div class="error text-danger">{{error}}</div>
+                  <div class="row">
+                    <div class="col-md-3">   <input type="text" disabled  class="form-control" name="name"
+                      [(ngModel)]="mystudent.first_name">
+                    </div>
+                    <div class="col-md-3">   <input type="text" disabled   class="form-control" name="name"
+                    [(ngModel)]="mystudent.surname">
+                    </div>
+                    <div class="col-md-2">   <input type="text" disabled  required class="form-control" name="name"
+                    [(ngModel)]="mystudent.programme_code">
+                    </div>
+                    <div class="col-md-2">   <input type="text" disabled   class="form-control" name="name"
+                    [(ngModel)]="mystudent.academic_level">
+                    </div>
+                    <div class="col-md-2">   <input type="text" disabled required  class="form-control" name="name"
+                    [(ngModel)]="mystudent.semester">
+                    </div>
+                    </div>
+<form #allocateform="ngForm" >
+  <input type="text" hidden required class="form-control" name="reg_number"
+  [(ngModel)]="roomallocation.reg_number">
+
+
+
+<input hidden required class="form-control" [value]="room.room_id" name="room_id"
+[(ngModel)]="roomallocation.room_id">
+<div class="modal-footer justify-content-between">
+  <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+    Close
+  </button>
+  <button type="submit" (click)="allocateRooms()"  [disabled]="allocateform.form.invalid"  data-dismiss="modal" class="btn btn-primary btn-sm">
+    Save changes
+  </button>
+</div>
+
+</form>
+
+
+
+
                 </div>
               </div>
               <!-- /.modal-content -->
@@ -244,17 +285,75 @@
 
                     <span class="sr-only">Toggle Dropdown</span>
                     <div *ngIf="myrights.approve_allocations" class="dropdown-menu" style="margin-right: 40px" role="menu">
-                      <a class="dropdown-item mx-auto"  (click)="approve_reject(1,allocation)" >
+                      <a class="dropdown-item mx-auto"data-toggle="modal"  [attr.data-target]="'#approve-modal-sm' + i"   >
                         <i class="fa fa-caret-left" aria-hidden="true"></i>
                         Approve
                       </a>
-                      <a class="dropdown-item"  (click)="approve_reject(2,allocation)" >
+                      <a class="dropdown-item" data-toggle="modal" [attr.data-target]="'#reject-modal-sm' + i">
                         <i class="fa fa-caret-left" aria-hidden="true"></i>
                         Reject
                       </a>
 
 
 
+                    </div>
+                              <!-- deactivate modal -->
+          <div class="modal fade" id="reject-modal-sm{{ i }}">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Confimation</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p class="text-sm">
+                    Are you sure you want to reject this application
+                    &hellip;
+                  </p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                    Cancel
+                  </button>
+                  <button type="button" data-dismiss="modal" (click)="approve_reject(2,allocation)"  class="btn btn-warning btn-sm">
+                  reject
+                  </button>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+                    <!-- deactivate modal -->
+                    <div class="modal fade" id="approve-modal-sm{{ i }}">
+                      <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title">Confimation</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <p class="text-sm">
+                              Are you sure you want to approve this application
+                              &hellip;
+                            </p>
+                          </div>
+                          <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                              Cancel
+                            </button>
+                            <button type="button" (click)="approve_reject(1,allocation)"   data-dismiss="modal" class="btn btn-warning btn-sm">
+                             approve
+                            </button>
+                          </div>
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
                     </div>
                   </td>
 

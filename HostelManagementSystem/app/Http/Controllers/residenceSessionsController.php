@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\hostelpreference;
+use App\Models\preference_level;
 use App\Models\program_session;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -46,15 +48,15 @@ class residenceSessionsController extends Controller
             'level' => 'required',
             'semester' => 'required',
             'period_id' => 'required',
-            'programme_code'=>'required|string'
+            'programme_code' => 'required|string'
         ]);
         $datenow = $datenow = Carbon::now();
         $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
-            ->format('Y/m/d');
+            ->format('Y-m-d');
         $level = $request['level'];
         $period = $request['period_id'];
         $semester = $request['semester'];
-        $programme_code=$request['programme_code'];
+        $programme_code = $request['programme_code'];
         $batches = DB::select("SELECT
         tbl_residence_sessions.session_name,
         tbl_residence_sessions.active_period_id,
@@ -133,10 +135,36 @@ class residenceSessionsController extends Controller
     {
         $request->validate([
             'residence_session_id' => 'required', 'available_status' => 'required',
+            'is_program_driven' => 'required'
 
         ]);
+        $residence_session_id = $request['residence_session_id'];
+        $is_program_driven = $request['is_program_driven'];
         try {
-            $residence_session = residenceSession::find($request['residence_session_id']);
+            $hostelspreference = hostelpreference::where('residence_session_id', $residence_session_id)->count();
+            if ($hostelspreference <= 0) {
+                return response()->json(['message' => 'you need to add hostels before activation a batch', 'success' => false], 403);
+            }
+
+            $leveprefence = preference_level::where('residence_session_id', $residence_session_id)->count();
+            if ($leveprefence <= 0) {
+                return response()->json(['message' => 'you need to levels before activating a batch', 'success' => false], 403);
+            }
+
+            $programme_preference = program_session::where('residence_session_id', $residence_session_id)->count();
+            if ($programme_preference <= 0 && $is_program_driven == '1') {
+                return response()->json(['message' => 'you need to add programmes before activating a batch', 'success' => false], 403);
+            }
+            $datenow = $datenow = Carbon::now();
+            $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
+                ->format('Y-m-d');
+            $enddate = $request['end_date'];
+
+            if ($enddate < $newDate) {
+                return response()->json(['message' => 'cannot activate an expired batch'], 500);
+            }
+
+            $residence_session = residenceSession::find($residence_session_id);
             $residence_session->available_status = 1;
 
             $residence_session->update();
@@ -155,7 +183,7 @@ class residenceSessionsController extends Controller
             return response()->json(['message' => 'successfully activated batch', 'success' => true, 'residence_session' =>  $residence_session], 200);
         } catch (QueryException $e) {
 
-            return response()->json(['error' => $e->getMessage(), 'success' => false], 500);
+            return response()->json(['message' => $e->getMessage(), 'success' => false], 500);
         }
     }
 
@@ -193,7 +221,7 @@ class residenceSessionsController extends Controller
 
         $request->validate([
             'residence_session_id' => 'required',
-            'is_program_driven'=>'required',
+            'is_program_driven' => 'required',
             'start_date' => 'date|required',
             'end_date' => 'required|date', 'session_name' => 'required',
         ]);
@@ -202,7 +230,7 @@ class residenceSessionsController extends Controller
 
         try {
             $batch->session_name = $request['session_name'];
-$batch->is_program_driven=$request['is_program_driven'];
+            $batch->is_program_driven = $request['is_program_driven'];
             $batch->start_date = $request['start_date'];
             $batch->end_date = $request['end_date'];
             if ($batch->end_date < $batch->start_date) {

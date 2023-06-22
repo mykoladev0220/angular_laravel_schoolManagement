@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { ChangepasswordComponent } from './components/changepassword/changepassword.component';
+import { PasswordChangeComponent } from './components/password-change/password-change.component';
+import { PasswordResertComponent } from './components/password-resert/password-resert.component';
 
 
 
@@ -25,6 +27,8 @@ import { ChangepasswordComponent } from './components/changepassword/changepassw
     SidenavbarComponent,
     NavbarComponent,
     ChangepasswordComponent,
+    PasswordChangeComponent,
+    PasswordResertComponent,
 
   ],
   imports: [

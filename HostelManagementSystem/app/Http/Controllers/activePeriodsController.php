@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\active_period_hostel_online_application;
-use Illuminate\Database\QueryException;
+use Carbon\Carbon;
+use App\Models\roomtype;
+use App\Models\roomTypeCost;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+use App\Models\active_period_hostel_online_application;
 
 class activePeriodsController extends Controller
 {
@@ -89,16 +92,35 @@ class activePeriodsController extends Controller
 
         ]);
 
+        $activeperiod_id=$request['active_period_id'];
         $activeperiod = active_period_hostel_online_application::find($request['active_period_id']);
         $allPeriods = null;
         try {
+
+$roomtypes= roomtype::count();
+
+       $roomcost=roomTypeCost::where('active_period_id',$activeperiod_id)->count();
+if($roomtypes>$roomcost){
+    return response()->json(['message' => 'room costs not fully set' ], 500);
+}
+
+$datenow = $datenow = Carbon::now();
+$newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
+    ->format('Y-m-d');
+$enddate=$request['end_date'] ;
+    if($enddate<$newDate){
+        return response()->json(['message' => 'cannot activate an expired period'], 500);
+    }
+
+
+
 
             $activeperiod->is_active = '1';
 
             $activeperiod->update();
             $allPeriods = active_period_hostel_online_application::join('registry.tblperiod', 'registry.tblperiod.period_id', '=', 'tbl_active_period_hostel_online_application.period_id')->orderBy('active_period_id', 'desc')->get();
         } catch (QueryException $ex) {
-            return response()->json(['error' => $ex->getMessage()], 500);
+            return response()->json(['message' => $ex->getMessage(),'success'=>false], 500);
         }
 
         return response()->json(['message' => 'sucessfully activated period', 'success' => false, 'periods' => $allPeriods], 200);

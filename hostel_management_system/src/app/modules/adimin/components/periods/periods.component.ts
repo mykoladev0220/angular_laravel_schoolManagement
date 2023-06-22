@@ -106,8 +106,8 @@ export class PeriodsComponent implements OnInit {
       });
   }
   createActivePeriod() {
-    this.activeperiod.is_active = '1';
-    this.activeperiod.activated_by = '1';
+    this.activeperiod.is_active = '0';
+    this.activeperiod.activated_by = this.authservice.getUserId();
     this.feedback_status = '';
 
     this.feedbackmsg = '';
@@ -138,7 +138,7 @@ export class PeriodsComponent implements OnInit {
     }
   }
   activate(period:any) {
-console.log(period);
+
 
     this.feedback_status = 0;
     this.activeperiodservice

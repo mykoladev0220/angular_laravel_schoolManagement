@@ -8,7 +8,6 @@ use App\Models\roomapplication;
 use App\Models\roomstatus;
 use App\Models\student;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -126,7 +125,7 @@ class roomAllocationController extends Controller
         $reserved = $request['reserved'];
         $datenow = $datenow = Carbon::now();
         $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
-            ->format('Y/m/d');
+            ->format('Y-m-d');
         try {
             if ($reserved) {
                 $rooms = DB::select("SELECT
@@ -348,11 +347,11 @@ tbl_room_allocations.room_allocation_id DESC");
 
     public function approve_reject(Request $request)
     {
-        $data = $request->validate(['approved_status' => 'required','room_id'=>'required', 'room_allocation_id' => 'required', 'residence_session_id' => 'required']);
+        $data = $request->validate(['approved_status' => 'required', 'room_id' => 'required', 'room_allocation_id' => 'required', 'residence_session_id' => 'required']);
 
         $approved_status = $data['approved_status'];
         $room_allocation_id = $data['room_allocation_id'];
-        $room_id=$request['room_id'];
+        $room_id = $request['room_id'];
 
         $residenceSessionId = $data['residence_session_id'];
 
@@ -360,15 +359,14 @@ tbl_room_allocations.room_allocation_id DESC");
         $room_allocation->approved_status = $approved_status;
         $room_allocation->update();
 
-if( $room_allocation->approved_status==2){
+        if ($room_allocation->approved_status == 2) {
 
 
-    $roomstatus=roomstatus::where('room_id',$room_id)->where('residence_session_id',$residenceSessionId)->first();
-    if($roomstatus){
-        $roomstatus->delete();
-    }
-
-}
+            $roomstatus = roomstatus::where('room_id', $room_id)->where('residence_session_id', $residenceSessionId)->first();
+            if ($roomstatus) {
+                $roomstatus->delete();
+            }
+        }
 
 
 
@@ -478,7 +476,7 @@ ORDER BY
         $reserved = $request['reserved'];
         $datenow = $datenow = Carbon::now();
         $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
-            ->format('Y/m/d');
+            ->format('Y-m-d');
 
         try {
             if ($reserved) {
@@ -650,7 +648,7 @@ tbl_room_allocations.residence_session_id = $residence_session_id
 GROUP BY
 Date(tbl_room_allocations.date_allocated)");
 
-$application_status_report=DB::select("SELECT
+            $application_status_report = DB::select("SELECT
 tbl_room_application_status.`status`,
 COUNT( tbl_room_allocation_applications.room_allocation_application_id ) AS total
 FROM
@@ -662,7 +660,7 @@ OR tbl_room_allocation_applications.residence_session_id IS NULL
 GROUP BY
 tbl_room_application_status.`status`");
 
-$allocation_status_report=DB::select("
+            $allocation_status_report = DB::select("
 SELECT
 	tbl_room_allocation_status.`status`,
 	COUNT(tbl_room_allocations.room_allocation_id) AS total
@@ -683,25 +681,27 @@ GROUP BY
 
 
             return response()->json([
-                'allocation_status'=>$allocation_status_report,
-                'application_status'=>$application_status_report,
+                'allocation_status' => $allocation_status_report,
+                'application_status' => $application_status_report,
                 'daily_allocations' => $allocation_daily_report,
-             'total_session_room_capacity' => $rooms_capacity_total, 'allocants_total' => $roomoccupants,
-             'applicants_total' => $applicants], 200);
+                'total_session_room_capacity' => $rooms_capacity_total, 'allocants_total' => $roomoccupants,
+                'applicants_total' => $applicants
+            ], 200);
         } catch (QueryException $ex) {
             return response()->json(['message' => $ex->getMessage(), 'success' => false], 500);
         }
     }
 
 
-  public function  getAllocations(Request $request){
+    public function  getAllocations(Request $request)
+    {
 
-$data=$request->validate(['residence_session_id'=>'required']);
+        $data = $request->validate(['residence_session_id' => 'required']);
 
-$residence_session_id=$data['residence_session_id'];
+        $residence_session_id = $data['residence_session_id'];
 
-try{
-    $allocation=DB::select("SELECT
+        try {
+            $allocation = DB::select("SELECT
 	tbl_room_allocations.room_allocation_id,
 	tbl_room_allocations.reg_number,
 	tbl_rooms.room_gender,
@@ -736,12 +736,9 @@ FROM
 		tbl_room_allocations.approved_status = tbl_room_allocation_status.status_code
 WHERE
 	tbl_room_allocations.residence_session_id = $residence_session_id");
-   return response()->json($allocation, 200);
-}catch(QueryException $ex){
-    return response()->json(['success'=>'false', 'message' => $ex->getMessage()], 500);
-}
-
-
-
-  }
+            return response()->json($allocation, 200);
+        } catch (QueryException $ex) {
+            return response()->json(['success' => 'false', 'message' => $ex->getMessage()], 500);
+        }
+    }
 }

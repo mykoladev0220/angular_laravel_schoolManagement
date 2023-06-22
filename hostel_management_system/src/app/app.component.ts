@@ -21,13 +21,14 @@ export class AppComponent implements OnInit {
 
   constructor(private authservice: AuthService, private router: Router) {
     this.router.events.subscribe((event) => {
+
+
       if (
-        !this.authservice.authenticated() || (this.authservice.chengePassword()==1)
+        !this.authservice.authenticated() ||
+        this.authservice.chengePassword() == 1 
 
       ) {
         this.isVisible = false;
-
-
       } else {
         this.isVisible = true;
       }

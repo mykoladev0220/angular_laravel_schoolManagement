@@ -54,7 +54,7 @@ class studentAuthcontroller extends Controller
 
 
 
-                // $fees_balance = app('App\http\Controllers\studentDetailsController')->getFeesBalance($regnumber);
+                //  $fees_balance = app('App\http\Controllers\studentDetailsController')->getFeesBalance($regnumber);
 
                 $period_id = $student_details[0]->period_id;
                 $minimum_threshhold = app('App\http\Controllers\studentDetailsController')->getminimum_treshold($period_id);

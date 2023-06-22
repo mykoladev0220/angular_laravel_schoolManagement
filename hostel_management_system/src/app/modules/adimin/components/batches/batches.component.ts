@@ -236,6 +236,8 @@ this.router.navigate([path]);
         this.dtTrigger.next(null);
       },
       (error) => {
+        console.log(error);
+
         this.feedback_status = 2;
         this.feedbackmsg = error.error.message;
       }
