@@ -11,6 +11,7 @@ import { PeriodsService } from 'src/app/services/periods.service';
 import { ParamsService } from 'src/app/services/params.service';
 import { error } from 'jquery';
 import { UserRights } from 'src/app/models/user-rights.model';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-periods',
@@ -42,7 +43,8 @@ export class PeriodsComponent implements OnInit {
     private periodservice: PeriodsService,
     private yearservice: YearserviceService,
     private levelservice: LevelsService,
-    private paramsservice: ParamsService
+    private paramsservice: ParamsService,
+    private toast:ToastService
   ) {}
   gotoBatches(activeperiod: any) {
     this.paramsservice.setparam('activeperiod', activeperiod);
@@ -84,17 +86,17 @@ export class PeriodsComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          this.feedback_status = 1;
-          this.feedbackmsg = 'period successfully deactivated ';
+
           this.result = res;
+          this.toast.firesuccess(this.result.message)
           this.active_periods = this.result.periods;
           var table=$('#mytable').DataTable();
           table.destroy();
           this.dtTrigger.next(null);
         },
         (error) => {
-          this.feedback_status = 2;
-          this.feedbackmsg = error.error.message;
+
+          this.toast.fireError(error.error.message)
         }
       );
   }
@@ -112,8 +114,9 @@ export class PeriodsComponent implements OnInit {
 
     this.feedbackmsg = '';
     if (this.activeperiod.end_date <= this.activeperiod.start_date) {
-      this.feedback_status = 2;
-      this.feedbackmsg = 'end date must be greater start date ';
+      // this.feedback_status = 2;
+      // this.feedbackmsg = ' ';
+      this.toast.fireError('end date must be greater start date');
     } else {
       this.activeperiodservice
         .createActiveperiod(this.activeperiod, {
@@ -121,18 +124,18 @@ export class PeriodsComponent implements OnInit {
         })
         .subscribe(
           (res) => {
-            this.feedback_status = 1;
+            // this.feedback_status = 1;
             this.result = res;
 
-            this.feedbackmsg = this.result.message;
+            // this.feedbackmsg = ;
+            this.toast.firesuccess(this.result.message)
             this.active_periods = this.result.periods;
             var table=$('#mytable').DataTable();
             table.destroy();
             this.dtTrigger.next(null);
           },
           (error) => {
-            this.feedback_status = 2;
-            this.feedbackmsg = error.error.message;
+            this.toast.fireError(error.error.message);
           }
         );
     }
@@ -148,17 +151,16 @@ export class PeriodsComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          this.feedback_status = 1;
-          this.feedbackmsg = 'period successfully activated ';
           this.result = res;
+          this.toast.firesuccess(this.result.message)
+
           this.active_periods = this.result.periods;
           var table=$('#mytable').DataTable();
           table.destroy();
           this.dtTrigger.next(null);
         },
         (error) => {
-          this.feedback_status = 2;
-          this.feedbackmsg = error.error.message;
+          this.toast.fireError(error.error.message);
         }
       );
   }
@@ -173,17 +175,17 @@ export class PeriodsComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          this.feedback_status = 1;
-          this.feedbackmsg = 'period successfully deleted ';
+
           this.result = res;
+          this.toast.firesuccess(this.result.message)
           this.active_periods = this.result.periods;
           var table=$('#mytable').DataTable();
           table.destroy();
           this.dtTrigger.next(null);
         },
         (error) => {
-          this.feedback_status = 2;
-          this.feedbackmsg = error.error.message;
+          this.toast.fireError(error.error.message);
+
         }
       );
   }
@@ -196,15 +198,15 @@ export class PeriodsComponent implements OnInit {
       })
       .subscribe(
         (res) => {
-          this.feedback_status = 1;
+
 
           this.result = res;
-          this.feedbackmsg = this.result.message;
+
+          this.toast.firesuccess(this.result.message)
           this.active_periods = this.result.periods;
         },
         (error) => {
-          this.feedback_status = 2;
-          this.feedbackmsg = error.error.message;
+          this.toast.fireError(error.error.message);
         }
       );
   }

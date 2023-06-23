@@ -13,6 +13,7 @@ import { RoomallocationService } from 'src/app/services/roomallocation.service';
 import { error } from 'jquery';
 import { UserRights } from 'src/app/models/user-rights.model';
 import { StudentService } from 'src/app/services/student.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-roomallocation',
@@ -83,7 +84,8 @@ error:any;
     private params: ParamsService,
     private activeperiodservice: ActiveperiodsService,
     private batchesService: BatchesService,
-    private studentd:StudentService
+    private studentd:StudentService,
+    private toast:ToastService
   ) {}
 
 
@@ -116,10 +118,7 @@ error:any;
   }
 
   getroomsToallocate() {
-    // console.log("we are here tsaga error");
 
-
-    // if (this.roomgender != null) {
       var data = {
         room_gender: this.roomgender,
         batch_id: this.residence_session_id,
@@ -201,14 +200,13 @@ this.msg=res;
           this.dtTrigger2.next(null);
           this.dtTrigger3.next(null);
           this.getroomsToallocate();
-          this.feddback_message_status = 1;
-          this.feedback_message = this.msg.message;
+          this.toast.firesuccess(this.msg.message)
+
         },
         (error) => {
           console.log(error);
+this.toast.fireError(error.error.message);
 
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
         }
       );
   }
@@ -229,20 +227,18 @@ this.msg=res;
       })
       .subscribe(
         (res) => {
-          this.feddback_message_status = 1;
+
           this.msg = res;
-          this.feedback_message = this.msg.message;
+          this.toast.firesuccess(this.msg.message)
       this.getRoomsallocations()
       this.getroomsToallocate();
         },
         (error) => {
-          // console.log(error);
-
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+this.toast.fireError(error.error.message)
+       ;
         }
       );
 
-    
+
   }
 }

@@ -14,5 +14,7 @@
 
 }
 .upper{
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
+  color: #24b0ed;;
+
 }

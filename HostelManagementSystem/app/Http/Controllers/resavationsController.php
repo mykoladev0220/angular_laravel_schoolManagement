@@ -244,7 +244,7 @@ ORDER BY
 
 
 
-        return response()->json(['message' => 'room succesfully reserved','roomstoreserve'=>$result, 'resevedrooms'=>   $resavation, 'success' => true], 201);
+        return response()->json(['message' => 'room succesfully unreserved','roomstoreserve'=>$result, 'resevedrooms'=>   $resavation, 'success' => true], 201);
         } catch (QueryException $ex) {
 
                 return response()->json(['message' => $ex->getMessage(), 'success' => false], 501);

@@ -10,6 +10,7 @@ import { ActiveperiodsService } from 'src/app/services/activeperiods.service';
 import { Batch } from 'src/app/models/batch.model';
 import { UserRights } from 'src/app/models/user-rights.model';
 import { DataTableDirective } from 'angular-datatables';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-resavations',
@@ -78,7 +79,9 @@ toreservelist=[{}]
     private roomservice: RoomService,
     private params: ParamsService,
     private batchservice: BatchesService,
-    private activeperiodservice: ActiveperiodsService
+    private activeperiodservice: ActiveperiodsService,
+    private toast:ToastService
+
   ) {}
 
   checkedsingle(room:any){
@@ -145,10 +148,6 @@ this.toreservelist.push(room);
   }
 
   reserve(room: any) {
-
-
-
-
     this.resevation = room;
     this.resevation.residence_session_id = this.batchmodel.residence_session_id;
 
@@ -158,9 +157,10 @@ this.toreservelist.push(room);
       .reserveRoom(this.resevation, { headers: this.authservice.getHeaders() })
       .subscribe(
         (res) => {
-          this.feddback_message_status = 1;
+
           this.msg = res;
-          this.feedback_message = this.msg.message;
+
+          this.toast.firesuccess(this.msg.message)
            this.rooms=this.msg.resevedrooms;
 
           this.roomstoreserve = this.msg.roomstoreserve;
@@ -177,10 +177,9 @@ table2.destroy();
 
         },
         (error) => {
-          console.log(error);
+      this.toast.fireError(error.error.message)
 
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+
         }
       );
   }
@@ -199,11 +198,11 @@ table2.destroy();
       })
       .subscribe(
         (res) => {
-          this.feddback_message_status = 1;
-          this.msg = res;
-          this.feedback_message = this.msg.message;
-          this.rooms = this.msg.resevedrooms;
 
+          this.msg = res;
+
+          this.rooms = this.msg.resevedrooms;
+this.toast.firesuccess(this.msg.message)
           this.roomstoreserve = this.msg.roomstoreserve;
           var table=$('#mytable').DataTable();
           table.destroy();
@@ -213,10 +212,9 @@ table2.destroy();
                     this.dtTrigger2.next(null)
         },
         (error) => {
-          console.log(error);
+          this.toast.fireError(error.error.message)
 
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+   
         }
       );
   }

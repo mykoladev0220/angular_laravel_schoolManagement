@@ -9,6 +9,9 @@ import { ParamsService } from 'src/app/services/params.service';
 import { LocationService } from 'src/app/services/location.service';
 import { UserRights } from 'src/app/models/user-rights.model';
 import { DataTableDirective } from 'angular-datatables';
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-hostels',
@@ -38,7 +41,8 @@ export class HostelsComponent implements OnInit {
     private router: Router,
     private locationservice: LocationService,
     private paramsservice: ParamsService,
-    private authservice: AuthService
+    private authservice: AuthService,
+    private toast:ToastService
   ) {}
   ngOnInit(): void {
     this.dtoptions = {
@@ -68,16 +72,18 @@ export class HostelsComponent implements OnInit {
       .addHostels(this.hostel, { headers: this.authservice.getHeaders() })
       .subscribe(
         (res) => {
-          this.feddback_message_status = 1;
+          // this.feddback_message_status = 1;
           this.msg = res;
-          this.feedback_message = this.msg.message;
+          // this.feedback_message = ;
+          this.toast.firesuccess(this.msg.message);
           this.hostels = this.msg.hostels;
           this.datatbleElement.dtInstance.then((dtInstance:DataTables.Api)=>dtInstance.destroy())
           this.dtTrigger.next(null);
         },
         (error) => {
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+this.toast.fireError(this.feedback_message = error.error.message);
+          // this.feddback_message_status = 2;
+
         }
       );
   }
@@ -91,16 +97,17 @@ export class HostelsComponent implements OnInit {
       .updateHostel(hostel, { headers: this.authservice.getHeaders() })
       .subscribe(
         (res) => {
-          this.feddback_message_status = 1;
+
+          // this.feddback_message_status = 1;
           this.msg = res;
-          this.feedback_message = this.msg.message;
+          // this.feedback_message = this.msg.message;
+          this.toast.firesuccess(this.msg.message);
           this.hostels = this.msg.hostels;
           this.datatbleElement.dtInstance.then((dtInstance:DataTables.Api)=>dtInstance.destroy())
           this.dtTrigger.next(null);
         },
         (error) => {
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+          this.toast.fireError(this.feedback_message = error.error.message);
         }
       );
   }
@@ -119,18 +126,17 @@ export class HostelsComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          this.feddback_message_status = 1;
+     
           this.msg = res;
-          this.feedback_message = this.msg.message;
+
           this.hostels = this.msg.hostels;
           this.datatbleElement.dtInstance.then((dtInstance:DataTables.Api)=>dtInstance.destroy())
           this.dtTrigger.next(null);
-
+          this.toast.firesuccess(this.msg.message);
 
         },
         (error) => {
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+          this.toast.fireError(this.feedback_message = error.error.message);
         }
       );
   }

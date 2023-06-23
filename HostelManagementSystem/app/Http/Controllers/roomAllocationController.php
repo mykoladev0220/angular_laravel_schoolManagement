@@ -656,7 +656,7 @@ tbl_room_application_status
 LEFT JOIN tbl_room_allocation_applications ON tbl_room_application_status.status_code = tbl_room_allocation_applications.application_status
 WHERE
 tbl_room_allocation_applications.residence_session_id = $residence_session_id
-OR tbl_room_allocation_applications.residence_session_id IS NULL
+
 GROUP BY
 tbl_room_application_status.`status`");
 
@@ -671,8 +671,7 @@ FROM
 	ON
 		tbl_room_allocation_status.status_code = tbl_room_allocations.approved_status
 WHERE
-	tbl_room_allocations.residence_session_id = $residence_session_id OR
-	tbl_room_allocations.residence_session_id IS NULL
+	tbl_room_allocations.residence_session_id = $residence_session_id
 GROUP BY
 	tbl_room_allocation_status.`status`
 

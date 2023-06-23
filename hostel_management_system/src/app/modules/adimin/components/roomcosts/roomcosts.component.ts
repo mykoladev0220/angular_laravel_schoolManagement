@@ -5,6 +5,7 @@ import { ActiveperiodsService } from 'src/app/services/activeperiods.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ParamsService } from 'src/app/services/params.service';
 import { RoomtypeService } from 'src/app/services/roomtype.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-roomcosts',
@@ -27,7 +28,8 @@ myrights=new UserRights();
     private authservice:AuthService,
     private roomtypeservice: RoomtypeService,
     private activeperiodservice:ActiveperiodsService,
-    private params:ParamsService
+    private params:ParamsService,
+    private toast:ToastService
   ) {}
   ngOnInit(): void {
     this.dtoptions = {
@@ -63,18 +65,18 @@ myrights=new UserRights();
     this.roomtypeservice.setRoomcost(form.value,{headers:this.authservice.getHeaders()}).subscribe(res=>{
       var table=$('#mytable').DataTable();
       table.clear();
-      this.feddback_message_status=1;
+      // this.feddback_message_status=1;
       this.msg = res;
-      this.feedback_message=this.msg.message;
-      // this.roomTypes=this.msg.roomtypes;
+
+this.toast.firesuccess(this.msg.message)
       this.roomTypeCost=this.msg.roomcost
 
       table.destroy();
       this.dtTrigger.next(null);
 
     },error=>{
-      this.feddback_message_status=2;
-      this.feedback_message=error.error.message;
+      this.toast.fireError(error.error.message)
+
     });
   }
   filter(period_id:any)

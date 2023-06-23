@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { UserRights } from 'src/app/models/user-rights.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ParamsService } from 'src/app/services/params.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-roomstypes',
@@ -43,7 +44,8 @@ this.myrights=this.params.getparam('myrights');
   constructor(
 private params:ParamsService,
     private authservice:AuthService,
-    private roomtypeservice: RoomtypeService
+    private roomtypeservice: RoomtypeService,
+    private toast:ToastService
   ) {}
 
   getRoomTypes(){
@@ -65,14 +67,15 @@ private params:ParamsService,
     this.feddback_message_status=0;
     this.feedback_message="";
 this.roomtypeservice.deleteRoomType(roomtype,{headers:this.authservice.getHeaders()}).subscribe(res=>{
-  this.feddback_message_status=1;
+
   this.msg = res;
-  this.feedback_message=this.msg.message;
+
+  this.toast.firesuccess(this.msg.message)
   this.roomTypes=this.msg.roomtypes;
 
 },error=>{
-  this.feddback_message_status=2;
-  this.feedback_message=error.error.message;
+  this.toast.fireError(error.error.message)
+
 });
   }
   createRoomTypes(form:any){
@@ -84,14 +87,14 @@ this.roomtypeservice.deleteRoomType(roomtype,{headers:this.authservice.getHeader
       this.feedback_message="invalid room capacity";
     }
   this.roomtypeservice.addroomType(form.value,{headers:this.authservice.getHeaders()}).subscribe(res=>{
-    this.feddback_message_status=1;
+    // this.feddback_message_status=1;
     this.msg = res;
-    this.feedback_message=this.msg.message;
+    // this.feedback_message=this.msg.message;
+    this.toast.firesuccess(this.msg.message);
     this.roomTypes=this.msg.roomtypes;
 
   },error=>{
-    this.feddback_message_status=2;
-    this.feedback_message=error.error.message;
+    this.toast.fireError(error.error.message)
   });
 
   }

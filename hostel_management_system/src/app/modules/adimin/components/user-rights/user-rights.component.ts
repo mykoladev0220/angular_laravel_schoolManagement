@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { UserRights } from 'src/app/models/user-rights.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ParamsService } from 'src/app/services/params.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-user-rights',
@@ -22,7 +23,8 @@ export class UserRightsComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
   constructor(
     private paramservice: ParamsService,
-    private authservice: AuthService
+    private authservice: AuthService,
+    private toast :ToastService
   ) {}
   ngOnInit(): void {
     this.dtoptions = {
@@ -58,13 +60,12 @@ var rights= JSON.stringify(this.right);
           this.response = res;
           this.myrights = this.response.myrights;
           this.rightstoadd = this.response.rightstoadd;
-          this.feedback_message_status = 1;
-          this.feedback_message = this.response.message;
+      
+          this.toast.firesuccess(this.response.message);
           this.dtTrigger.next;
         },
         (error) => {
-          this.feedback_message_status = 2;
-          this.feedback_message = error.error.message;
+        this.toast.fireError(error.error.message);
         }
       );
   }

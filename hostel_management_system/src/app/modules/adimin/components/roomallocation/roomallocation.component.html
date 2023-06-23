@@ -18,7 +18,7 @@
   </div>
 </div>
 <div class="card">
-  <div class="card-header  " style="height: 33px;">
+  <div class="card-header  " >
 
 
     <!--  -->
@@ -40,7 +40,7 @@
 
       <a routerLink="../reports" type="button"   class="btn btn-primary btn-tool nav-btn">
         <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-       Allocation Reports
+       Reports
       </a>
 
       <a routerLink="../Resevations" type="button"  *ngIf="myrights.reserve_rooms" class="btn btn-primary btn-tool nav-btn">
@@ -63,7 +63,7 @@
         <i class="fas fa-times"></i>
       </button>
     </div>
-
+    <h5 class="upper">Room Allocation</h5>
   </div>
 
 
@@ -72,7 +72,7 @@
 <div *ngIf="myrights.allocate_rooms" class="card card-default">
 
   <div class="card-header">
-    <h3 class="card-title  upper">Allocate Rooms for  batch  {{residenceSession.session_name}} </h3>
+    <h3 class="card-title">Allocate Rooms for  batch  {{residenceSession.session_name}} </h3>
 
     <div class="card-tools">
       <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -235,7 +235,7 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title upper">Pending room allocations for {{residenceSession.session_name}}</h3>
+        <h3 class="card-title">Pending room allocations for {{residenceSession.session_name}}</h3>
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse">
             <i class="fas fa-minus"></i>
@@ -377,7 +377,7 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title upper">Approved room allocations for {{residenceSession.session_name}}</h3>
+        <h3 class="card-title">Approved room allocations for {{residenceSession.session_name}}</h3>
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse">
             <i class="fas fa-minus"></i>

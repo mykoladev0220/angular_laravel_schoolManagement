@@ -11,6 +11,7 @@ import { ParamsService } from 'src/app/services/params.service';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { error } from 'jquery';
+import { ToastService } from 'src/app/services/toast.service';
 @Component({
   selector: 'app-programpreference',
   templateUrl: './programpreference.component.html',
@@ -42,7 +43,8 @@ export class ProgrampreferenceComponent implements OnInit {
     private authservice: AuthService,
 
     private programsessionservice: ProgrampreferenceService,
-    private preferencelevel:LevelpreferenceService
+    private preferencelevel:LevelpreferenceService,
+    private toast:ToastService
   ) {}
   ngOnInit(): void {
     this.dtoptions = {
@@ -97,16 +99,16 @@ this.programsessionservice.removeProgramPreference(this.programpreference, {
 
   this.programes=this.myresponse.programmestoadd;
   this.programmesessions=this.myresponse.programe_session;
-  this.feddback_message_status = 1;
-  this.feedback_message = this.myresponse.message;
+
+  this.toast.firesuccess(this.myresponse.message);
   var table=$('#mytable').DataTable();
   table.destroy();
   this.dtTrigger.next(null);
 
 },
 (error) => {
-  this.feddback_message_status = 2;
-  this.feedback_message = error.error.message;
+  this.toast.fireError(error.error.message);
+
 })
   }
 getprogramesessions(){
@@ -150,16 +152,16 @@ getprogramesessions(){
 
           this.programes=this.myresponse.programmestoadd;
           this.programmesessions=this.myresponse.programe_session;
-          this.feddback_message_status = 1;
-          this.feedback_message = this.myresponse.message;
+
+          this.toast.firesuccess(this.myresponse.message);
 
           var table=$('#mytable').DataTable();
           table.destroy();
           this.dtTrigger.next(null);
         },
         (error) => {
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+          this.toast.fireError(error.error.message);
+     
         }
       );
   }

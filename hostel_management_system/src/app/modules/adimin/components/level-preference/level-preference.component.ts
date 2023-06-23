@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { LevelpreferenceService } from 'src/app/services/levelpreference.service';
 import { LevelsService } from 'src/app/services/levels.service';
 import { ParamsService } from 'src/app/services/params.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { YearserviceService } from 'src/app/services/yearservice.service';
 
 @Component({
@@ -32,9 +33,12 @@ export class LevelPreferenceComponent implements OnInit {
     private authservice: AuthService,
     private levelservice: LevelsService,
     private yearservice: YearserviceService,
-    private levelpreferenceservice: LevelpreferenceService
+    private levelpreferenceservice: LevelpreferenceService,
+    private toast:ToastService
   ) {}
   ngOnInit(): void {
+    this.levelpreference.academic_level='';
+    this.levelpreference.semester='';
     this.dtoptions = {
       pagingType: 'full_numbers',
       searching: true,
@@ -64,16 +68,17 @@ destroy:true,
         (res) => {
           this.myressponse=res;
           this.preferences=this.myressponse.levels;
-          this.feddback_message_status = 1;
+          // this.feddback_message_status = 1;
           this.msg = res;
-          this.feedback_message = this.msg.message;
+          // this.feedback_message = ;
+          this.toast.firesuccess(this.msg.message);
           var table=$('#mytable').DataTable();
           table.destroy();
           this.dtTrigger.next(null);
         },
         (error) => {
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+          this.toast.fireError(error.error.message)
+
         }
       );
   }
@@ -88,9 +93,10 @@ destroy:true,
       .subscribe(
         (res) => {
 
-          this.feddback_message_status = 1;
+          // this.feddback_message_status = 1;
           this.msg = res;
-          this.feedback_message = this.msg.message;
+          // this.feedback_message = this.msg.message;
+          this.toast.firesuccess(this.msg.message);
           this.myressponse=res;
           this.preferences=this.myressponse.levels;
           var table=$('#mytable').DataTable();
@@ -99,8 +105,8 @@ destroy:true,
 
         },
         (error) => {
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+
+          this.toast.fireError(error.error.message)
         }
       );
   }

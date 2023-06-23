@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user';
 import { Subject } from 'rxjs';
 import { ParamsService } from 'src/app/services/params.service';
 import { Router } from '@angular/router';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-users',
@@ -42,6 +43,7 @@ export class UsersComponent implements OnInit {
 
   constructor(private authService: AuthService,
    private paramsservice:ParamsService,
+   private toast:ToastService,
    private router:Router) {}
 
 
@@ -50,8 +52,9 @@ activateUser(user_id:any){
   this.feedback_message = '';
   this.authService.activateUser({user_id:user_id},{ headers: this.authService.getHeaders() }).subscribe(
     (res) => {
-      this.feedback_message_status = 1;
+
       this.msg = res;
+      this.toast.firesuccess(this.msg.message)
       this.feedback_message = this.msg.message;
       this.users = this.msg.users;
       var table=$('#mytable').DataTable();
@@ -59,8 +62,8 @@ activateUser(user_id:any){
       this.dtTrigger.next(null);
     },
     (error) => {
-      this.feedback_message_status = 2;
-      this.feedback_message = error.error.message;
+      this.toast.fireError(error.error.message)
+
     }
   );
 }
@@ -69,17 +72,17 @@ DeactivateUser(user_id:any){
   this.feedback_message = '';
   this.authService.deactivateUser({user_id:user_id},{ headers: this.authService.getHeaders() }).subscribe(
     (res) => {
-      this.feedback_message_status = 1;
+
       this.msg = res;
-      this.feedback_message = this.msg.message;
+      this.toast.firesuccess(this.msg.message)
+    ;
       this.users = this.msg.users;
       var table=$('#mytable').DataTable();
       table.destroy();
       this.dtTrigger.next(null);
     },
     (error) => {
-      this.feedback_message_status = 2;
-      this.feedback_message = error.error.message;
+      this.toast.fireError(error.error.message)
     }
   );
 }
@@ -117,18 +120,16 @@ this.router.navigate(['admin/rights']);
       .register(user.value, { headers: this.authService.getHeaders() })
       .subscribe(
         (res) => {
-          this.feedback_message_status = 1;
+
           this.msg = res;
-          this.feedback_message = this.msg.message;
+          this.toast.firesuccess(this.msg.message)
           this.users = this.msg.users;
           var table=$('#mytable').DataTable();
           table.destroy();
           this.dtTrigger.next(null);
         },
         (error) => {
-          this.feedback_message_status = 2;
-          this.feedback_message = error.error.message;
-        }
+      this.toast.fireError(error.error.message)  }
       );
   }
 }

@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ParamsService } from 'src/app/services/params.service';
 import { ActiveperiodsService } from 'src/app/services/activeperiods.service';
 import { UserRights } from 'src/app/models/user-rights.model';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-batches',
@@ -75,7 +76,8 @@ buttons: [
     private authservice:AuthService,
     private activeperiodservice:ActiveperiodsService,
     private paramsservice:ParamsService,
-    private router:Router
+    private router:Router,
+    private toast:ToastService
   ) {}
   createBatch(){
     this.feedback_status=0;
@@ -91,17 +93,18 @@ buttons: [
 
     }
 if(this.batch.end_date<=this.batch.start_date){
-  this.feedback_status=2;
-      this.feedbackmsg="end date must be greater start date "
+
+
+      this.toast.fireError("end date must be greater start date");
 }else{
 
     this.batchservice.createBatch(this.batch,{ headers: this.authservice.getHeaders() }).subscribe(res=>{
 
-        this.feedback_status=1;
+        // this.feedback_status=1;
         this.msg = res;
-        this.feedbackmsg=this.msg.message;
+        // this.feedbackmsg=this.msg.message;
 
-
+this.toast.firesuccess(this.msg.message);
         this.batches = this.msg.residence_session;
 
         var table=$('#mytable').DataTable();
@@ -110,24 +113,10 @@ if(this.batch.end_date<=this.batch.start_date){
 
     },(error)=>{
 
-      if(error.status==500)
-    {
-      this.feedback_status=2;
-      this.feedbackmsg=error.error.message;
-    }
-
-
-    this.feedback_status=2;
-    this.feedbackmsg=error.error.message;
+      this.toast.fireError(error.error.message);
 
 
 
-
-    if(error.status==403)
-    {
-      this.feedback_status=2;
-      this.feedbackmsg=error.error.message;
-    }
 
     })
       }}
@@ -153,6 +142,8 @@ if(this.batch.end_date<=this.batch.start_date){
         (res) => {
           this.result = res;
           this.batches = this.result;
+          var table=$('#mytable').DataTable();
+          table.destroy();
           this.dtTrigger.next(null);
         },
         (error) => {
@@ -187,17 +178,20 @@ this.router.navigate([path]);
     this.feedback_status = 0;
     this.batchservice.deletebatch(this.batchmodel,{ headers: this.authservice.getHeaders() }).subscribe(
       (res) => {
-        this.feedback_status = 1;
-        this.feedbackmsg = 'batch successfully deleted ';
+        // this.feedback_status = 1;
+        // this.feedbackmsg = 'batch successfully deleted ';
         this.result = res;
+
+        this.toast.firesuccess(this.result.message);
         this.batches = this.result.residence_session;
         var table=$('#mytable').DataTable();
         table.destroy();
         this.dtTrigger.next(null);
       },
       (error) => {
-        this.feedback_status = 2;
-        this.feedbackmsg = error.error.message;
+        // this.feedback_status = 2;
+        // this.feedbackmsg =;
+        this.toast.fireError( error.error.message);
       }
     );
   }
@@ -207,17 +201,18 @@ this.router.navigate([path]);
     this.feedback_status = 0;
     this.batchservice.deactivate(this.batchmodel,{ headers: this.authservice.getHeaders() }).subscribe(
       (res) => {
-        this.feedback_status = 1;
+        // this.feedback_status = 1;
         this.result = res;
         this.batches = this.result.residence_session;
-        this.feedbackmsg = this.result.message;
+        // this.feedbackmsg = ;
+        this.toast.firesuccess(this.result.message)
         var table=$('#mytable').DataTable();
         table.destroy();
         this.dtTrigger.next(null);
       },
       (error) => {
-        this.feedback_status = 2;
-        this.feedbackmsg = error.error.message;
+        this.toast.fireError( error.error.message);
+
       }
     );
   }
@@ -226,26 +221,22 @@ this.router.navigate([path]);
     this.feedback_status = 0;
     this.batchservice.activateBatch(this.batchmodel,{ headers: this.authservice.getHeaders() }).subscribe(
       (res) => {
-        this.feedback_status = 1;
+        // this.feedback_status = 1;
 
         this.result = res;
         this.batches = this.result.residence_session;
-        this.feedbackmsg = this.result.message;
+        // this.feedbackmsg = this.result.message;
+        this.toast.firesuccess(this.result.message)
         var table=$('#mytable').DataTable();
         table.destroy();
         this.dtTrigger.next(null);
       },
       (error) => {
-        console.log(error);
-
-        this.feedback_status = 2;
-        this.feedbackmsg = error.error.message;
+       this.toast.fireError( error.error.message);
       }
     );
   }
-sethostelPreference(batch:any){
-// localStorage.setItem("batch")
-}
+
 
 
   UpdateBatch() {
@@ -263,19 +254,19 @@ sethostelPreference(batch:any){
 
     this.batchservice.updateBatch(this.batchmodel,{ headers: this.authservice.getHeaders() }).subscribe(
       (res) => {
-        this.feedback_status = 1;
+        // this.feedback_status = 1;
 
         this.result = res;
         this.batches = this.result.residence_session;
-        this.feedbackmsg = this.result.message;
+        // this.feedbackmsg =
+        this.toast.firesuccess(this.result.message);
         var table=$('#mytable').DataTable();
         table.destroy();
         this.dtTrigger.next(null);
       },
       (error) => {
-        this.feedback_status = 2;
-
-        this.feedbackmsg = error.error.message;
+        this.toast.fireError(error.error.message);
+this.getBatches();
       }
     );
   }

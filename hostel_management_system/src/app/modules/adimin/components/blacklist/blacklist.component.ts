@@ -4,26 +4,29 @@ import { AuthService } from './../../../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { BlacklistService } from 'src/app/services/blacklist.service';
 import { Subject } from 'rxjs';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-blacklist',
   templateUrl: './blacklist.component.html',
-  styleUrls: ['./blacklist.component.css']
+  styleUrls: ['./blacklist.component.css'],
 })
 export class BlacklistComponent implements OnInit {
   feddback_message_status: any;
 
   feedback_message: any;
 
-  blacklist= new Blacklist();
-myresponse:any;
-  studentblacklist:any;
-  dtoptions: any= {};
+  blacklist = new Blacklist();
+  myresponse: any;
+  studentblacklist: any;
+  dtoptions: any = {};
   dtTrigger: Subject<any> = new Subject<any>();
 
-  constructor(private blacklistservice:BlacklistService,private authservice:AuthService){
-
-  }
+  constructor(
+    private blacklistservice: BlacklistService,
+    private authservice: AuthService,
+    private toast:ToastService
+  ) {}
   ngOnInit(): void {
     this.dtoptions = {
       pagingType: 'full_numbers',
@@ -33,67 +36,75 @@ myresponse:any;
       language: {
         searchPlaceholder: 'Text Customer',
       },
-      destroy:true,
+      destroy: true,
       dom: 'Bfrtip',
-      buttons: [
-        'copy', 'csv', 'excel', 'pdf'
-    ]
+      buttons: ['copy', 'csv', 'excel', 'pdf'],
     };
-   this. getBlacklist();
+    this.getBlacklist();
   }
 
-  getBlacklist(){
-    this.blacklistservice.getBlacklist({ headers: this.authservice.getHeaders() }).subscribe(res=>{
-      console.log(res);
-      this.studentblacklist=res;
-      this.dtTrigger.next(null);
-
-    },error=>{console.log(error);
-    })
-
+  getBlacklist() {
+    this.blacklistservice
+      .getBlacklist({ headers: this.authservice.getHeaders() })
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.studentblacklist = res;
+          this.dtTrigger.next(null);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
-  deleteStudent(blacklist:any){
-    this.blacklist=blacklist;
+  deleteStudent(blacklist: any) {
+    this.blacklist = blacklist;
     this.feddback_message_status = 0;
-    this.feedback_message = "";
+    this.feedback_message = '';
 
-    this.blacklistservice.deleteBlacklist(this.blacklist,{ headers: this.authservice.getHeaders() }).subscribe(
-      (res) => {
-        this.feddback_message_status = 1;
-        this.myresponse = res;
-        this.studentblacklist=this.myresponse.blacklist;
-        this.feedback_message =this.myresponse.message;
-        var table=$('#mytable').DataTable();
-        table.destroy();
-        this.dtTrigger.next(null);
-      },
-      (error) => {
-        this.feddback_message_status = 2;
-        this.feedback_message = error.error.message;
-      }
-    );
-
+    this.blacklistservice
+      .deleteBlacklist(this.blacklist, {
+        headers: this.authservice.getHeaders(),
+      })
+      .subscribe(
+        (res) => {
+          // this.feddback_message_status = 1;
+          this.myresponse = res;
+          this.studentblacklist = this.myresponse.blacklist;
+          // this.feedback_message = this.myresponse.message;
+this.toast.firesuccess(this.myresponse.message);
+          var table = $('#mytable').DataTable();
+          table.destroy();
+          this.dtTrigger.next(null);
+        },
+        (error) => {
+          this.toast.fireError( error.error.message);
+          // this.feddback_message_status = 2;
+          // this.feedback_message =;
+        }
+      );
   }
-  createBlacklist(){
+  createBlacklist() {
+    this.blacklist.blacklisted_by = this.authservice.getUserId();
+    this.blacklistservice
+      .createBlacklist(this.blacklist, {
+        headers: this.authservice.getHeaders(),
+      })
+      .subscribe(
+        (res) => {
+          // this.feddback_message_status = 1;
+          this.myresponse = res;
+          this.studentblacklist = this.myresponse.blacklist;
+          // this.feedback_message = this.myresponse.message;
+          this.toast.firesuccess(this.myresponse.message);
 
-    this.blacklist.blacklisted_by=this.authservice.getUserId();
-    this.blacklistservice.createBlacklist(this.blacklist,{ headers: this.authservice.getHeaders() }).subscribe(
-      (res) => {
-        this.feddback_message_status = 1;
-        this.myresponse = res;
-        this.studentblacklist=this.myresponse.blacklist;
-        this.feedback_message =this.myresponse.message;
-
-        var table=$('#mytable').DataTable();
-        table.destroy();
-        this.dtTrigger.next(null);
-      },
-      (error) => {
-        this.feddback_message_status = 2;
-        this.feedback_message = error.error.message;
-      }
-    );
-
+          var table = $('#mytable').DataTable();
+          table.destroy();
+          this.dtTrigger.next(null);
+        },
+        (error) => {
+          this.toast.fireError( error.error.message);
+        }
+      );
   }
-
 }

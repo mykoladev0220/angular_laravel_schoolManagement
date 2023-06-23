@@ -7,6 +7,7 @@ import { HostelService } from 'src/app/services/hostel.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 import { UserRights } from 'src/app/models/user-rights.model';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-floors',
@@ -29,7 +30,8 @@ export class FloorsComponent implements OnInit,OnDestroy {
     private hostelservice: HostelService,
     private paramsService: ParamsService,
     private floorservice: FloorService,
-    private authservice: AuthService
+    private authservice: AuthService,
+    private toast:ToastService
   ) {}
   ngOnDestroy(): void {
 
@@ -72,18 +74,18 @@ export class FloorsComponent implements OnInit,OnDestroy {
       .addfloors(this.floor, { headers: this.authservice.getHeaders() })
       .subscribe(
         (res) => {
-          this.feddback_message_status = 1;
-          this.msg = res;
-          this.feedback_message = this.msg.message;
 
+          this.msg = res;
+
+this.toast.firesuccess(this.msg.message);
           this.floors = this.msg.floors;
           var table=$('#mytable').DataTable();
           table.destroy();
           this.dtTrigger.next(null);
         },
         (error) => {
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+
+          this.toast.fireError(error.error.message);
         }
       );
   }
@@ -94,18 +96,18 @@ export class FloorsComponent implements OnInit,OnDestroy {
       .deleteFloor(this.floor, { headers: this.authservice.getHeaders() })
       .subscribe(
         (res) => {
-          this.feddback_message_status = 1;
+          // this.feddback_message_status = 1;
           this.msg = res;
-          this.feedback_message = this.msg.message;
-
+          // this.feedback_message = this.msg.message;
+          this.toast.firesuccess(this.msg.message)
           this.floors = this.msg.floors;
           var table=$('#mytable').DataTable();
           table.destroy();
           this.dtTrigger.next(null);
         },
         (error) => {
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+          this.toast.fireError(error.error.message);
+       
         }
       );
   }

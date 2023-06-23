@@ -21,3 +21,7 @@
   width: 30px;
   height: auto;
 }
+.upper{
+  text-transform: uppercase;
+  color:  #24b0ed;;;
+}

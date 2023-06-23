@@ -9,6 +9,7 @@ import { HostelService } from 'src/app/services/hostel.service';
 import { LocationService } from 'src/app/services/location.service';
 import { Hostelpreference } from 'src/app/models/hostelpreference';
 import { UserRights } from 'src/app/models/user-rights.model';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-view-batch',
@@ -39,7 +40,8 @@ export class ViewBatchComponent implements OnInit {
     private authservice: AuthService,
     private floorservice: FloorService,
     private hostelprefernceservice: HostelpreferenceService,
-    private locationservice: LocationService
+    private locationservice: LocationService,
+    private toast:ToastService
   ) {}
   ngOnInit(): void {
     this.residence_session = this.params.getparam('batch');
@@ -89,17 +91,18 @@ this. getBatchHostels();
 
 this.hostelprefernceservice.deletehostelpreference(hostel,{ headers: this.authservice.getHeaders() }).subscribe(
   (res) => {
-    this.feddback_message_status = 1;
+
     this.msg = res;
-    this.feedback_message = this.msg.message;
+
+    this.toast.firesuccess(this.msg.message)
     this.getfloors(this.hostelpreference.hostel_id);
 this.getBatchHostels();
 
 
   },
   (error) => {
-    this.feddback_message_status = 2;
-    this.feedback_message = error.error.message;
+    this.toast.fireError(error.error.message)
+
   }
 );
 }
@@ -123,18 +126,17 @@ this.getBatchHostels();
         (res) => {
 
 
-          this.feddback_message_status = 1;
+
           this.msg = res;
-          this.feedback_message = this.msg.message;
+          this.toast.firesuccess(this.msg.message);
           this.getfloors(this.hostelpreference.hostel_id);
           this.getBatchHostels();
 
         },
         (error) => {
           console.log(error);
-
-          this.feddback_message_status = 2;
-          this.feedback_message = error.error.message;
+this.toast.fireError(error.error.message)
+      
         }
       );
   }

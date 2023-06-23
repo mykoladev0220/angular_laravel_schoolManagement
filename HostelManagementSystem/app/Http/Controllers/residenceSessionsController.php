@@ -143,7 +143,7 @@ class residenceSessionsController extends Controller
         try {
             $hostelspreference = hostelpreference::where('residence_session_id', $residence_session_id)->count();
             if ($hostelspreference <= 0) {
-                return response()->json(['message' => 'you need to add hostels before activation a batch', 'success' => false], 403);
+                return response()->json(['message' => 'you need to add hostels before activating a batch', 'success' => false], 403);
             }
 
             $leveprefence = preference_level::where('residence_session_id', $residence_session_id)->count();
