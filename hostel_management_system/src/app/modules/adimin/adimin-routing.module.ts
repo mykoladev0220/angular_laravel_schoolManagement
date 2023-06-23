@@ -28,6 +28,9 @@ import { BlacklistComponent } from './components/blacklist/blacklist.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { LevelPreferenceComponent } from './components/level-preference/level-preference.component';
 import { ProgrampreferenceComponent } from './components/programpreference/programpreference.component';
+import { CanblackliststudentsGuard } from 'src/app/guards/canblackliststudents.guard';
+import { CanallocateroomsGuard } from 'src/app/guards/canallocaterooms.guard';
+import { CanreserveroomsGuard } from 'src/app/guards/canreserverooms.guard';
 
 const routes: Routes = [
   {
@@ -48,7 +51,7 @@ const routes: Routes = [
       { path: 'createactiveperiods', component: CreateactiveperiodComponent },
       { path: 'Allperiods', component: PeriodsComponent },
       { path: 'rights', component: UserRightsComponent },
-      { path: 'Resevations', component: ResavationsComponent },
+      { path: 'Resevations', component: ResavationsComponent,canActivate:[CanreserveroomsGuard] },
       { path: 'floors', component: FloorsComponent },
 
       {
@@ -56,18 +59,21 @@ const routes: Routes = [
         component: RoomstypesComponent,
         canActivate: [IsSuperadminGuard],
       },
-      { path: 'roomallocation', component: RoomallocationComponent },
+      { path: 'roomallocation', component: RoomallocationComponent,canActivate:[CanallocateroomsGuard] },
       {
         path: 'roomcosts',
         component: RoomcostsComponent,
         canActivate: [CansetroomcostGuard],
       },
-      {path: 'blacklist',component:BlacklistComponent},
-      {path: 'reports',component:ReportsComponent},
+      { path: 'blacklist', component: BlacklistComponent, canActivate:[CanblackliststudentsGuard] },
+      { path: 'reports', component: ReportsComponent },
       {
-        path:'levelpreference',component:LevelPreferenceComponent
-      },{
-        path:'programmepreference',component:ProgrampreferenceComponent
+        path: 'levelpreference',
+        component: LevelPreferenceComponent,
+      },
+      {
+        path: 'programmepreference',
+        component: ProgrampreferenceComponent,
       },
       {
         path: 'user',

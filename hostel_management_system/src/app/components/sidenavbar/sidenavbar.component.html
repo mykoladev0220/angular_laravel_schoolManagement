@@ -2,8 +2,8 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
 
-  <span class="brand-text brand-link font-weight-light mt-3 pb-2 text-center" >
-<img style="width: 60%;height:auto;" src="assets/dist/img/logo.png" alt="">
+  <span class="brand-text brand-link font-weight-light mt-3 pb-2 text-center">
+    <img style="width: 60%;height:auto;" src="assets/dist/img/logo.png" alt="">
 
   </span>
 
@@ -21,7 +21,7 @@
 
 
         <li class="nav-item">
-          <a class="nav-link" >
+          <a class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
             <p>
               Hostels
@@ -33,7 +33,7 @@
 
 
             <li class="nav-item">
-              <a routerLink="admin/hostels" class="nav-link" >
+              <a routerLink="admin/hostels" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>All Hostels</p>
               </a>
@@ -59,7 +59,7 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="myrights.create_room_costs || myrights.create_hostel">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
             <p>
@@ -71,19 +71,19 @@
           <ul class="nav nav-treeview">
 
 
-            <li *ngIf="userrole==1" class="nav-item">
+            <li *ngIf="myrights.create_hostel" class="nav-item">
               <a routerLink="admin/roomtypes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Room Types</p>
               </a>
             </li>
-            <li *ngIf="userrole==1" class="nav-item">
+            <li *ngIf="myrights.create_room_costs" class="nav-item">
               <a routerLink="admin/roomcosts" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Room Costs</p>
               </a>
             </li>
-         
+
 
           </ul>
         </li>

@@ -1,22 +1,3 @@
-<div class="row">
-  <div class="col-md-9">
-    <div class="card-header">
-
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div *ngIf="feddback_message_status==1" class="alert alert-success alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <i class="icon fas fa-check "></i>
-      <small> {{ feedback_message }}</small>
-    </div>
-    <div *ngIf="feddback_message_status==2" class="alert alert-danger alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <i class="icon fas fa-ban"></i>
-      <small> {{ feedback_message }}</small>
-    </div>
-  </div>
-</div>
 <div class="card">
   <div class="card-header  " >
 
@@ -69,6 +50,242 @@
 
 
 </div>
+
+<div class="col-12 col-sm-12 ">
+  <div class="card  card-tabs">
+    <div class="card-header p-0 pt-1">
+      <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill"
+            href="#approved" role="tab" aria-controls="custom-tabs-one-home"
+            aria-selected="true">Approved Allocations</a>
+        </li>
+        <li class="nav-item" *ngIf="myrights.allocate_rooms||myrights.approve_allocations">
+          <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill"
+            href="#pending" role="tab" aria-controls="custom-tabs-one-profile"
+            aria-selected="false">Pending Allocations</a>
+        </li>
+        <li class="nav-item" *ngIf="myrights.allocate_rooms">
+          <a class="nav-link" id="custom-tabs-one-messages-tab" data-toggle="pill"
+            href="#allocate" role="tab" aria-controls="custom-tabs-one-messages"
+            aria-selected="false">Allocate Rooms</a>
+        </li>
+
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content" id="">
+        <div class="tab-pane fade show active" id="approved" role="tabpanel"
+          aria-labelledby="custom-tabs-one-home-tab">
+       <!-- Main content -->
+<section  class="content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Approved room allocations for {{residenceSession.session_name}}</h3>
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
+          aria-labelledby="custom-tabs-one-home-tab">
+          <div class="card-body">
+            <table id="mytable3" class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtoptions"
+            [dtTrigger]="dtTrigger3">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Regstration Number </th>
+
+
+                  <th>Room Number </th>
+                  <th>Room Type </th>
+                  <th>Floor</th>
+                  <th>Hostel </th>
+                  <th>Location </th>
+
+
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let allocation of batchallocations_appproved; let i = index">
+                  <td>{{ i }}</td>
+                  <td>{{ allocation.reg_number}}</td>
+
+                  <td>{{ allocation.room_number }}</td>
+                  <td>{{ allocation.room_type }}</td>
+                  <td>{{ allocation.floor_name}}</td>
+                  <td>{{ allocation.hostel_name }}</td>
+
+                  <td>{{ allocation.location_name }}</td>
+
+
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.content-header -->
+  </div>
+</section>
+        </div>
+        <div class="tab-pane fade" id="pending" role="tabpanel"
+          aria-labelledby="custom-tabs-one-profile-tab">
+          <section class="content">
+            <div class="container-fluid">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Pending room allocations for {{residenceSession.session_name}}</h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
+                    aria-labelledby="custom-tabs-one-home-tab">
+                    <div class="card-body">
+                      <table id="mytable2" class="table table-bordered table-striped table-hover"datatable [dtOptions]="dtoptions"
+                      [dtTrigger]="dtTrigger2">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Regstration Number </th>
+
+
+                            <th>Room Number </th>
+                          <th>Room Type</th>
+                            <th>Floor</th>
+                            <th>Hostel </th>
+                            <th>Location </th>
+
+                            <th>action</th>
+
+
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let allocation of batchallocations_pending; let i = index">
+                            <td>{{ i }}</td>
+                            <td>{{ allocation.reg_number}}</td>
+
+                            <td>{{ allocation.room_number }}</td>
+                            <td>{{ allocation.room_type }}</td>
+                            <td>{{ allocation.floor_name}}</td>
+                            <td>{{ allocation.hostel_name }}</td>
+
+                            <td>{{ allocation.location_name }}</td>
+                            <td class="btn-group">
+                              <i class="fa fa-ellipsis-h fa-lg" data-toggle="dropdown"></i>
+
+                              <span class="sr-only">Toggle Dropdown</span>
+                              <div *ngIf="myrights.approve_allocations" class="dropdown-menu" style="margin-right: 40px" role="menu">
+                                <a class="dropdown-item mx-auto"data-toggle="modal"  [attr.data-target]="'#approve-modal-sm' + i"   >
+                                  <i class="fa fa-caret-left" aria-hidden="true"></i>
+                                  Approve
+                                </a>
+                                <a class="dropdown-item" data-toggle="modal" [attr.data-target]="'#reject-modal-sm' + i">
+                                  <i class="fa fa-caret-left" aria-hidden="true"></i>
+                                  Reject
+                                </a>
+
+
+
+                              </div>
+                                        <!-- deactivate modal -->
+                    <div class="modal fade" id="reject-modal-sm{{ i }}">
+                      <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h4 class="modal-title">Confimation</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <p class="text-sm">
+                              Are you sure you want to reject this application
+                              &hellip;
+                            </p>
+                          </div>
+                          <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                              Cancel
+                            </button>
+                            <button type="button" data-dismiss="modal" (click)="approve_reject(2,allocation)"  class="btn btn-warning btn-sm">
+                            reject
+                            </button>
+                          </div>
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                    </div>
+                              <!-- deactivate modal -->
+                              <div class="modal fade" id="approve-modal-sm{{ i }}">
+                                <div class="modal-dialog modal-sm">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title">Confimation</h4>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <p class="text-sm">
+                                        Are you sure you want to approve this application
+                                        &hellip;
+                                      </p>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                      <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                                        Cancel
+                                      </button>
+                                      <button type="button" (click)="approve_reject(1,allocation)"   data-dismiss="modal" class="btn btn-warning btn-sm">
+                                       approve
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                              </div>
+                            </td>
+
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- /.card-body -->
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.content-header -->
+            </div>
+          </section>
+        </div>
+        <div class="tab-pane fade" id="allocate" role="tabpanel"
+          aria-labelledby="custom-tabs-one-messages-tab">
+
 <div *ngIf="myrights.allocate_rooms" class="card card-default">
 
   <div class="card-header">
@@ -229,210 +446,51 @@
     </table>
   </div>
 </div>
-
-<!-- Main content -->
-<section class="content">
-  <div class="container-fluid">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Pending room allocations for {{residenceSession.session_name}}</h3>
-        <div class="card-tools">
-          <button type="button" class="btn btn-tool" data-card-widget="collapse">
-            <i class="fas fa-minus"></i>
-          </button>
-          <button type="button" class="btn btn-tool" data-card-widget="remove">
-            <i class="fas fa-times"></i>
-          </button>
         </div>
+
       </div>
-      <!-- /.card-header -->
-      <div class="card-body">
-        <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
-          aria-labelledby="custom-tabs-one-home-tab">
-          <div class="card-body">
-            <table id="mytable2" class="table table-bordered table-striped table-hover"datatable [dtOptions]="dtoptions"
-            [dtTrigger]="dtTrigger2">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Regstration Number </th>
-
-
-                  <th>Room Number </th>
-                <th>Room Type</th>
-                  <th>Floor</th>
-                  <th>Hostel </th>
-                  <th>Location </th>
-
-                  <th>action</th>
-
-
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let allocation of batchallocations_pending; let i = index">
-                  <td>{{ i }}</td>
-                  <td>{{ allocation.reg_number}}</td>
-
-                  <td>{{ allocation.room_number }}</td>
-                  <td>{{ allocation.room_type }}</td>
-                  <td>{{ allocation.floor_name}}</td>
-                  <td>{{ allocation.hostel_name }}</td>
-
-                  <td>{{ allocation.location_name }}</td>
-                  <td class="btn-group">
-                    <i class="fa fa-ellipsis-h fa-lg" data-toggle="dropdown"></i>
-
-                    <span class="sr-only">Toggle Dropdown</span>
-                    <div *ngIf="myrights.approve_allocations" class="dropdown-menu" style="margin-right: 40px" role="menu">
-                      <a class="dropdown-item mx-auto"data-toggle="modal"  [attr.data-target]="'#approve-modal-sm' + i"   >
-                        <i class="fa fa-caret-left" aria-hidden="true"></i>
-                        Approve
-                      </a>
-                      <a class="dropdown-item" data-toggle="modal" [attr.data-target]="'#reject-modal-sm' + i">
-                        <i class="fa fa-caret-left" aria-hidden="true"></i>
-                        Reject
-                      </a>
-
-
-
-                    </div>
-                              <!-- deactivate modal -->
-          <div class="modal fade" id="reject-modal-sm{{ i }}">
-            <div class="modal-dialog modal-sm">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">Confimation</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p class="text-sm">
-                    Are you sure you want to reject this application
-                    &hellip;
-                  </p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                    Cancel
-                  </button>
-                  <button type="button" data-dismiss="modal" (click)="approve_reject(2,allocation)"  class="btn btn-warning btn-sm">
-                  reject
-                  </button>
-                </div>
-              </div>
-              <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-          </div>
-                    <!-- deactivate modal -->
-                    <div class="modal fade" id="approve-modal-sm{{ i }}">
-                      <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h4 class="modal-title">Confimation</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            <p class="text-sm">
-                              Are you sure you want to approve this application
-                              &hellip;
-                            </p>
-                          </div>
-                          <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                              Cancel
-                            </button>
-                            <button type="button" (click)="approve_reject(1,allocation)"   data-dismiss="modal" class="btn btn-warning btn-sm">
-                             approve
-                            </button>
-                          </div>
-                        </div>
-                        <!-- /.modal-content -->
-                      </div>
-                      <!-- /.modal-dialog -->
-                    </div>
-                  </td>
-
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- /.card-body -->
-        </div>
-      </div>
-      <!-- /.card-body -->
     </div>
-    <!-- /.content-header -->
+    <!-- /.card -->
   </div>
-</section>
-
-<!-- DataTables -->
-
-<!-- Main content -->
-<section  class="content">
-  <div class="container-fluid">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Approved room allocations for {{residenceSession.session_name}}</h3>
-        <div class="card-tools">
-          <button type="button" class="btn btn-tool" data-card-widget="collapse">
-            <i class="fas fa-minus"></i>
-          </button>
-          <button type="button" class="btn btn-tool" data-card-widget="remove">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-      </div>
-      <!-- /.card-header -->
-      <div class="card-body">
-        <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
-          aria-labelledby="custom-tabs-one-home-tab">
-          <div class="card-body">
-            <table id="mytable3" class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtoptions"
-            [dtTrigger]="dtTrigger3">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Regstration Number </th>
-
-
-                  <th>Room Number </th>
-                  <th>Room Type </th>
-                  <th>Floor</th>
-                  <th>Hostel </th>
-                  <th>Location </th>
+</div>
 
 
 
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let allocation of batchallocations_appproved; let i = index">
-                  <td>{{ i }}</td>
-                  <td>{{ allocation.reg_number}}</td>
-
-                  <td>{{ allocation.room_number }}</td>
-                  <td>{{ allocation.room_type }}</td>
-                  <td>{{ allocation.floor_name}}</td>
-                  <td>{{ allocation.hostel_name }}</td>
-
-                  <td>{{ allocation.location_name }}</td>
 
 
 
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- /.card-body -->
-        </div>
-      </div>
-      <!-- /.card-body -->
-    </div>
-    <!-- /.content-header -->
-  </div>
-</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

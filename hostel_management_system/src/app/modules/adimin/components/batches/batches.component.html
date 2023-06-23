@@ -1,34 +1,14 @@
-<div class="row">
-  <div class="col-md-9">
 
-  </div>
-  <div class="col-md-3">
-    <div *ngIf="feedback_status == 1" class="alert alert-success alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        &times;
-      </button>
-      <i class="icon fas fa-check"></i>
-      <small> {{ feedbackmsg }}</small>
-    </div>
-    <div *ngIf="feedback_status == 2" class="alert alert-danger alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-        &times;
-      </button>
-      <i class="icon fas fa-ban"></i>
-      <small> {{ feedbackmsg }}</small>
-    </div>
-  </div>
-</div>
 <div class="card" *ngIf="myrights.create_periods">
   <div class="card-header  " >
 
     <div class="card-tools">
-      <a routerLink="../Allperiods" type="button" class="btn btn-primary btn-tool nav-btn">
+      <a routerLink="../Allperiods"  type="button" class="btn btn-primary btn-tool nav-btn">
         <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
         Periods
       </a>
 
-      <a routerLink="../roomcosts" type="button" class="btn btn-primary btn-tool nav-btn">
+      <a routerLink="../roomcosts" type="button" *ngIf="myrights.create_room_costs" class="btn btn-primary btn-tool nav-btn">
         <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
         Room Costs
       </a>

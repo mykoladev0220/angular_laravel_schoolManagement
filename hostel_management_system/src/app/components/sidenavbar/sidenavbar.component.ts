@@ -1,6 +1,8 @@
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { OnSameUrlNavigation, Router } from '@angular/router';
+import { UserRights } from 'src/app/models/user-rights.model';
+import { ParamsService } from 'src/app/services/params.service';
 
 @Component({
   selector: 'app-sidenavbar',
@@ -11,7 +13,8 @@ export class SidenavbarComponent implements OnInit {
   authenticated:any;
   role:any;
   userrole:any;
-  constructor(private authservice:AuthService,private router:Router){
+  myrights=new UserRights();
+  constructor(private authservice:AuthService,private router:Router,private param:ParamsService){
     this.router.events.subscribe((event) => {
 
       // console.log("change detected");
@@ -25,6 +28,9 @@ export class SidenavbarComponent implements OnInit {
 
   ngOnInit(): void {
 
+this.myrights=this.param.getparam('myrights');
+
+console.log(this.myrights);
 
   }
 

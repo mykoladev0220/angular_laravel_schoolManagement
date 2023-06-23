@@ -35,7 +35,7 @@
 
 
 
-      <a routerLink="../roomallocation" type="button" class="btn btn-primary btn-tool nav-btn">
+      <a routerLink="../roomallocation" *ngIf="myrights.allocate_rooms||myrights.approve_allocations" type="button" class="btn btn-primary btn-tool nav-btn">
         <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
         Allocation
       </a>
