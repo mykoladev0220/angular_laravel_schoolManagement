@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\allocation_rejection_reason;
 use App\Models\room;
 use App\Models\roomAllocation;
 use App\Models\roomapplication;
@@ -359,8 +360,19 @@ tbl_room_allocations.room_allocation_id DESC");
         $room_allocation->approved_status = $approved_status;
         $room_allocation->update();
 
+
         if ($room_allocation->approved_status == 2) {
 
+$request->validate(['reason'=>'required|string','userid'=>'required
+']);
+$reason=$request['reason'];
+$userid=$request['userid'];
+
+$rejectedall= new allocation_rejection_reason();
+$rejectedall->reason=$reason;
+$rejectedall->rejected_by=$userid;
+$rejectedall->allocation_id=$room_allocation_id;
+$rejectedall->save();
 
             $roomstatus = roomstatus::where('room_id', $room_id)->where('residence_session_id', $residenceSessionId)->first();
             if ($roomstatus) {

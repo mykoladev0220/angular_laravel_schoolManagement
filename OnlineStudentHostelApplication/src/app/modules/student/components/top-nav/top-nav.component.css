@@ -3,3 +3,8 @@
 
   font-family: 'Poppins-semibold'!important;
 }
+.active
+{
+background-color:  #c2a458;
+border-radius: 30px;
+}

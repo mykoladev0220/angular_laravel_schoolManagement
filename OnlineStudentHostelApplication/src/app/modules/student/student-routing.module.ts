@@ -1,3 +1,4 @@
+import { HistoryComponent } from './components/history/history.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
@@ -16,7 +17,12 @@ const routes: Routes = [
         component: ApplicationComponent,
         canActivate: [HasappliedGuard],
       },
-      { path: '', redirectTo: 'student/application', pathMatch: 'full' },
+      {
+        path: 'history',
+        component: HistoryComponent,
+
+      },
+      { path: '', redirectTo: 'student/home', pathMatch: 'full' },
     ],
   },
 ];

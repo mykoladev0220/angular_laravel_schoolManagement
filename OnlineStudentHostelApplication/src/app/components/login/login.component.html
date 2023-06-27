@@ -1,19 +1,41 @@
-<div class="hold-transition login-page">
+<div class="login-page">
 
-  <div class="login1">
 
     <!-- /.login-logo -->
     <div class="card">
-      <div class="card-header text-center font-weight-bold">
-        Student Online Hostel Application
-      </div>
-      <div class="login-logo">
-        <img src="assets/images/logo.png" style="height: 130px;" alt="">
-      </div>
-      <div class="card-body login-card-body">
-        <p class="login-box-msg font-weight-bold ">Login </p>
 
-        <form #loginform="ngForm" (ngSubmit)="login(loginform)">
+
+
+        <div class="login-box card-body">
+          <h5>Student Online Hostel Application</h5>
+          <div class="login-logo">
+            <img src="assets/images/logo.png" style="height: 130px;" alt="">
+          </div>
+          <form #loginform="ngForm" (ngSubmit)="login(loginform)">
+            <div class="user-box">
+              <input type="text" name="reg_number" (ngModelChange)="hideError()" required class="form-control myinput" [ngModel]="student.reg_number">
+              <label>Username</label>
+            </div>
+            <div class="user-box">
+              <input type="password" (ngModelChange)="hideError()" required name="password" [ngModel]="student.password">
+              <label>Password</label>
+            </div>
+            <div *ngIf="error!=null" class="text-danger p-3">
+              {{error}}
+            </div>
+            <button type="submit"  class="btn-sm" >
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Submit
+            </button>
+          </form>
+
+        </div>
+
+
+        <!-- <form #loginform="ngForm" >
           <div class="input-group mb-3">
             <input type="text" name="reg_number" (ngModelChange)="hideError()" required class="form-control myinput"
               [ngModel]="student.reg_number" placeholder="Email/username">
@@ -24,17 +46,14 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" class="form-control myinput" (ngModelChange)="hideError()" required name="password"
-              [ngModel]="student.password" placeholder="Password">
+            <input type="password" class="form-control myinput"  placeholder="Password">
             <div class="input-group-append ">
               <div class="input-group-text ">
                 <span class="fas fa-lock"></span>
               </div>
             </div>
           </div>
-          <div *ngIf="error!=null" class="text-danger p-3">
-            {{error}}
-          </div>
+
 
           <div class="row pt-2">
             <div class="col-8" style="float:right">
@@ -42,20 +61,19 @@
 
 
             </div>
-            <!-- /.col -->
+           /.col
             <div class="col-4">
-              <button type="submit" [disabled]="loginform.invalid" class="btn  btn-block submit"
+              <button type="submit"  class="btn  btn-block submit"
                >Sign In &nbsp;<img *ngIf="loading" style="width:25%;"
                   src="https://i.gifer.com/ZKZg.gif" /></button>
             </div>
-            <!-- /.col -->
-          </div>
-        </form>
+            /.col -->
+          <!-- </div>
+        </form> -->
 
 
 
-      </div>
+      </div> 
       <!-- /.login-card-body -->
     </div>
-  </div>
-</div>
+

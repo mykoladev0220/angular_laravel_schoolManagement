@@ -9,6 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TopNavComponent } from './components/top-nav/top-nav.component';
 import { DataTablesModule } from 'angular-datatables';
+import { HistoryComponent } from './components/history/history.component';
 
 
 
@@ -23,7 +24,8 @@ import { DataTablesModule } from 'angular-datatables';
     ApplicationComponent,
     NavbarComponent,
     DashboardComponent,
-    TopNavComponent
+    TopNavComponent,
+    HistoryComponent
   ],
   imports: [
     CommonModule,

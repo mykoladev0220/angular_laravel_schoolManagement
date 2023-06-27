@@ -9,10 +9,19 @@
 }
 
 .nav-item:hover {
-  border: 2px solid #fff;
-border-radius: 25px;
+font-size: 18px;
 
-  background-color:  #c2a458;;
+
 
 }
 
+
+
+.active
+{
+border-width: 0px;
+  border-radius: 25px;
+
+    background-color:  #c2a458;;
+
+}
