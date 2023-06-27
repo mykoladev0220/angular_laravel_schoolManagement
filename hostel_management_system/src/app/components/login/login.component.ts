@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.error=null;
     this.success=null;
-    this.logout();
+  
   }
   logout() {
     if (this.authService.authenticated()) {
@@ -52,7 +52,7 @@ if( myrights=this.user.myrights==null){
 }
 else{
 
- 
+
 
 
   this.paramservice.setparam("myrights",JSON.parse(this.user.myrights.rights));

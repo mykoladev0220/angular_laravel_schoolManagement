@@ -22,6 +22,7 @@ export class RoomcostsComponent implements OnInit{
 periods:any;
 roomTypeCost:any;
 myrights=new UserRights();
+activeperiod:any;
 
   constructor(
 
@@ -29,7 +30,8 @@ myrights=new UserRights();
     private roomtypeservice: RoomtypeService,
     private activeperiodservice:ActiveperiodsService,
     private params:ParamsService,
-    private toast:ToastService
+    private toast:ToastService,
+
   ) {}
   ngOnInit(): void {
     this.dtoptions = {
@@ -48,7 +50,8 @@ myrights=new UserRights();
         'copy', 'csv', 'excel', 'pdf'
     ]
     };
-    this.getroomtypeCosts("max");
+    this.activeperiod= this.params.getparam('activeperiod');
+    this.getroomtypeCosts(this.activeperiod.active_period_id);
     this.getroomtypes();
     this.getPeriods();
     this.myrights=this.params.getparam('myrights');

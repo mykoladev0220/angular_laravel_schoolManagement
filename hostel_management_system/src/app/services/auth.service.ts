@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ParamsService } from './params.service';
 
 import { ServerDetails } from '../models/server-details';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class AuthService {
   user: any = null;
   serverIp = ServerDetails.serverIP;
 
-  constructor(private httppclient: HttpClient,private paramservice:ParamsService) {}
+  constructor(private httppclient: HttpClient,private paramservice:ParamsService,private router:Router) {}
 
   login(data: any) {
     return this.httppclient.post(this.serverIp+'/login', data);
@@ -91,9 +92,9 @@ return    this.httppclient.post(
     return this.user.prompt_change;
   }
   getUserId() {
-    this.user = localStorage.getItem('user');
+    this.user = this.paramservice.getparam('user')
 
-    return JSON.parse(this.user).user_details.user_id;
+    return this.user.user_details.user_id;
   }
   getToken() {
     this.user =  this.paramservice.getparam('user');
@@ -110,9 +111,10 @@ return    this.httppclient.post(
     return headers;
   }
   authenticated() {
-    return localStorage.getItem('user');
+    return this.paramservice.getparam('user');
   }
   logout() {
-    localStorage.clear();
+    this.paramservice.clearAll();
+this.router.navigate(['login']);
   }
 }

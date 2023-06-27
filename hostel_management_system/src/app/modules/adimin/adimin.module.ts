@@ -41,6 +41,8 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { LevelPreferenceComponent } from './components/level-preference/level-preference.component';
 import { ProgrampreferenceComponent } from './components/programpreference/programpreference.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { SidenavbarComponent } from './components/sidenavbar/sidenavbar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 
@@ -68,6 +70,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ReportsComponent,
     LevelPreferenceComponent,
     ProgrampreferenceComponent,
+    SidenavbarComponent,
+    NavbarComponent,
   ],
   imports: [
     FormsModule,

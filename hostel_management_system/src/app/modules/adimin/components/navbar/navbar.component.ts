@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { ParamsService } from 'src/app/services/params.service';
 
 @Component({
@@ -15,9 +16,9 @@ export class NavbarComponent implements OnInit {
     console.log(this.user);
 
   }
+  logout(){
+this.authservice.logout();
+  }
 
-constructor(private params:ParamsService){}
-
-
-
+  constructor(private params:ParamsService,private authservice:AuthService){}
 }

@@ -43,6 +43,7 @@ error:any;
   residenceSession: any;
   mystudent:any={};
   dtoptions: DataTables.Settings = {};
+  rejection_reason:any;
 
   dtTrigger1: Subject<any> = new Subject<any>();
   dtTrigger2: Subject<any> = new Subject<any>();
@@ -177,6 +178,8 @@ this.mystudent=this.msg[0];
       room_id:room_allocation.room_id,
       residence_session_id: this.residenceSession.residence_session_id,
       room_allocation_id: room_allocation.room_allocation_id,
+      reason:this.rejection_reason,
+      userid:this.authservice.getUserId()
     };
     console.log(data);
 
@@ -186,6 +189,8 @@ this.mystudent=this.msg[0];
       })
       .subscribe(
         (res) => {
+          console.log(res);
+
 this.msg=res;
 
           this.batchallocations_appproved = this.msg.allocations_appproved;

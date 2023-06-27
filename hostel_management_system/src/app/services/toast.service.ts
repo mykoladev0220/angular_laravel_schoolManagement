@@ -6,8 +6,33 @@ import Swal from 'sweetalert2';
   providedIn: 'root'
 })
 export class ToastService {
-  toast = Swal.mixin({
+  toastsucces = Swal.mixin({
     toast: true,
+
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  toastinfo = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  toasterror = Swal.mixin({
+    toast: true,
+    color:'red',
+
     position: 'top-end',
     showConfirmButton: false,
     timer: 3000,
@@ -21,21 +46,21 @@ export class ToastService {
   constructor() { }
 
 fireError(message:any){
-  this.toast.fire({
+  this.toasterror.fire({
     icon: 'error',
     title: message
   })
 
 }
 firesuccess(message:any){
-  this.toast.fire({
+  this.toastsucces.fire({
     icon: 'success',
     title: message
   })
 
 }
 fireinfo(message:any){
-  this.toast.fire({
+  this.toastinfo.fire({
     icon: 'info',
     title: message
   })

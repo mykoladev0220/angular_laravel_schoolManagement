@@ -23,18 +23,18 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe((event) => {
 
 
-      if (
-        !this.authservice.authenticated() ||
-        this.authservice.chengePassword() == 1 
+      // if (
+      //   !this.authservice.authenticated() ||
+      //   this.authservice.chengePassword() == 1
 
-      ) {
-        this.isVisible = false;
-      } else {
-        this.isVisible = true;
-      }
+      // ) {
+      //   this.isVisible = false;
+      // } else {
+      //   this.isVisible = true;
+      // }
     });
   }
   ngOnInit(): void {
-    this.tohide.style.display = 'none';
+    // this.tohide.style.display = 'none';
   }
 }

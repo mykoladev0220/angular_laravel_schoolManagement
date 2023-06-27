@@ -7,8 +7,7 @@ import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.co
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
-import { SidenavbarComponent } from './components/sidenavbar/sidenavbar.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
+
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
@@ -24,8 +23,7 @@ import { PasswordResertComponent } from './components/password-resert/password-r
     AppComponent,
     LoginComponent,
     PagenotfoundComponent,
-    SidenavbarComponent,
-    NavbarComponent,
+
     ChangepasswordComponent,
     PasswordChangeComponent,
     PasswordResertComponent,
