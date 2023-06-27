@@ -15,7 +15,7 @@ export class PasswordResertComponent {
   myresponse:any
   constructor(private authservice:AuthService,private router:Router){}
   ngOnInit(): void {
-    this.authservice.logout();
+ 
     this.error=null;
     this.success=null;
 

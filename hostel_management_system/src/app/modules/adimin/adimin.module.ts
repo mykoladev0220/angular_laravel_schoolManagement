@@ -43,6 +43,7 @@ import { ProgrampreferenceComponent } from './components/programpreference/progr
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SidenavbarComponent } from './components/sidenavbar/sidenavbar.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from 'ngx-ui-loader';
 
 
 
@@ -78,7 +79,10 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     CommonModule,
     AdiminRoutingModule,
     DataTablesModule,
-   NgMultiSelectDropDownModule.forRoot()
+   NgMultiSelectDropDownModule.forRoot(),
+
+
+  
 
   ],
   providers: [

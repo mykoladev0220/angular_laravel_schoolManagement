@@ -45,7 +45,7 @@
                                             password has been generated for you. To reset your password, click the
                                             following link and follow the instructions.
                                         </p>
-                                        <a href="http://localhost:4200/changeforgotpassword/?token={{$token}}"
+                                        <a href="http://localhost:49953/changeforgotpassword/?token={{$token}}"
                                             style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
                                             Password</a>
                                     </td>
@@ -60,7 +60,7 @@
                     </tr>
                     <tr>
                         <td style="text-align:center;">
-                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>www.rakeshmandal.com</strong></p>
+                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;"></p>
                         </td>
                     </tr>
                     <tr>

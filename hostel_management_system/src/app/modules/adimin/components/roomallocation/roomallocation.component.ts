@@ -15,6 +15,7 @@ import { UserRights } from 'src/app/models/user-rights.model';
 import { StudentService } from 'src/app/services/student.service';
 import { ToastService } from 'src/app/services/toast.service';
 
+
 @Component({
   selector: 'app-roomallocation',
   templateUrl: './roomallocation.component.html',

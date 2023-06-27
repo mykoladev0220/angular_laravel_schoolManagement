@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.error=null;
     this.success=null;
-  
+
   }
   logout() {
     if (this.authService.authenticated()) {

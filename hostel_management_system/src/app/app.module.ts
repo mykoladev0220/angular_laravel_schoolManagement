@@ -14,6 +14,7 @@ import { AuthService } from './services/auth.service';
 import { ChangepasswordComponent } from './components/changepassword/changepassword.component';
 import { PasswordChangeComponent } from './components/password-change/password-change.component';
 import { PasswordResertComponent } from './components/password-resert/password-resert.component';
+import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from 'ngx-ui-loader';
 
 
 
@@ -35,6 +36,12 @@ import { PasswordResertComponent } from './components/password-resert/password-r
     AppRoutingModule,
     BrowserAnimationsModule,  // required animations module
     ToastrModule.forRoot(), // ToastrModule added
+    NgxUiLoaderModule,
+
+NgxUiLoaderHttpModule.forRoot({
+  showForeground:true
+})
+
 
 
 

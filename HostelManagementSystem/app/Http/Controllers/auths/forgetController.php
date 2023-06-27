@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\QueryException;
+use Illuminate\Validation\Rules\Password;
 
 class forgetController extends Controller
 {
@@ -22,7 +23,7 @@ class forgetController extends Controller
 
 public function changePassword(Request $request){
 $request->validate(['token'=>'required|string',
-'password'=>'required|string'
+'password'=>['required',Password::min(8)->letters()->mixedCase()->symbols()]
 
 ]);
 
