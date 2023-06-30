@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { EncriprionserviceService } from './encriprionservice.service';
 import { ParamsService } from './params.service';
 import { Router } from '@angular/router';
+import { ServerDetails } from '../models/server-details';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  serverip = 'http://127.0.0.1:8000/api';
+  serverip = ServerDetails.serverIP;
   token: any;
   token1: any;
   authenticated:any;

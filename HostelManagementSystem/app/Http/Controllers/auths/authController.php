@@ -18,7 +18,7 @@ class authController extends Controller
     {
         $validator = $request->validate(['email' => 'required|string', 'password' => 'required|string']);
 
-        try{
+        try {
             $user = User::where('email', $request->email)->first();
 
             if ($user) {
@@ -44,9 +44,8 @@ class authController extends Controller
                     return response()->json(['success' => false, 'message' => 'username or password not correct'], 401);
                 }
             }
-        }
-        catch(QueryException $ex){
-            return response()->json(['success' => false, 'message' => 'server error'], 401);
+        } catch (QueryException $ex) {
+            return response()->json(['success' => false, 'message' => $ex->getMessage()], 401);
         }
 
 

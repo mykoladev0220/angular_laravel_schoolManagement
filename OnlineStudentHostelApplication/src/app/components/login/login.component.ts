@@ -44,6 +44,8 @@ export class LoginComponent implements OnInit {
     }else{
       this.auhthservice.login(this.student).subscribe(
         (res) => {
+          console.log(res);
+
           this.studentdetails = res;
 
           this.params.setparam('accesstocken',this.encservice.encrypt(this.studentdetails.access_token));
@@ -60,6 +62,8 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['student/home']);
         },
         (error) => {
+          console.log(error);
+
           this.error = error.error.message;
 
           this.loading = false;

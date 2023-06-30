@@ -12,9 +12,10 @@ use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Controllers\Traits;
 class roomAllocationController extends Controller
 {
+    use Traits\roomstatustrait;
     public function store(Request $request)
     {
         $room_allocation = $request->validate([
@@ -78,7 +79,7 @@ class roomAllocationController extends Controller
                 $room_status['room_status'] = '1';
             }
 
-            $result = app('App\Http\Controllers\roomstatusController')->updateRoomStatus($room_status);
+            $result = $this->updateRoomStatus($room_status);
 
 
 
@@ -99,22 +100,7 @@ class roomAllocationController extends Controller
         }
     }
 
-    public function Autoalocation($room_application)
-    {
-        $room_allocation = new roomAllocation();
-        $room_allocation->student_id = $room_application->student_id;
-        $room_allocation->reg_number = $room_application->reg_number;
-        $room_allocation->room_id = $room_application->room_id;
-        $room_allocation->active_period_id = $room_application->active_period_id;
-        $room_allocation->residence_session_id = $room_application->residence_session_id;
-        $room_allocation->application_id = $room_application->room_allocation_application_id;
-        $room_allocation->approved_status = '1';
-        $room_allocation->approved_by = 'system';
-        $room_allocation->allocated_by = 'system';
-        $room_allocation->save();
-        $room_application->application_status = 1;
-        $room_application->update();
-    }
+
 
     public function getroomsToallocate(Request $request)
     {

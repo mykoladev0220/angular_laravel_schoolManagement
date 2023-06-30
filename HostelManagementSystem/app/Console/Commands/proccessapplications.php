@@ -3,10 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use App\Http\Controllers\Traits;
 
 class proccessapplications extends Command
 {
+    use Traits\applicationtrait;
     /**
      * The name and signature of the console command.
      *
@@ -26,6 +27,7 @@ class proccessapplications extends Command
      */
     public function handle()
     {
-        echo app('App\Http\Controllers\roomApplicationController')->proccessApplications(null);
+        echo $this->proccessApplications(null);
+
     }
 }

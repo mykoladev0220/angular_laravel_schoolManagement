@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ServerDetails } from '../models/server-details';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApplicationService {
-  serverIp = 'http://127.0.0.1:8000/api';
+  serverIp = ServerDetails.serverIP;
   constructor(private httpclient: HttpClient) {}
   applyForRoom(data: any, headers: any) {
     return this.httpclient.post(

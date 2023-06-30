@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\active_period_hostel_online_application;
-use App\Models\minimumTreshold;
-use App\Models\period;
+
 use App\Models\room;
 use App\Models\roomAllocation;
 use App\Models\roomapplication;
@@ -12,11 +11,14 @@ use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Traits;
+
 
 class roomApplicationController extends Controller
 {
-    //
+    use Traits\applicationtrait;
+    use Traits\roomstatustrait;
+    use Traits\studenttrait;
 
     public function getMyrooms(Request $request)
     {
@@ -25,9 +27,9 @@ class roomApplicationController extends Controller
         $residence_session_id = $request['residence_session_id'];
         $active_period_id = $request['active_period_id'];
         $gender = $request['gender'];
-        $level=$request['level'];
-        $semester=$request['semester'];
-$period_id=$request['period_id'];
+        $level = $request['level'];
+        $semester = $request['semester'];
+        $period_id = $request['period_id'];
         $datenow = $datenow = Carbon::now();
         $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
             ->format('Y-m-d');
@@ -122,20 +124,20 @@ $period_id=$request['period_id'];
 
         $request->validate([
             'room_id' => 'required', 'student_id' => 'required',
-            'applied_by' => 'required', 'reg_number'=>'required|string', 'residence_session_id' => 'required', 'active_period_id' => 'required',
+            'applied_by' => 'required', 'reg_number' => 'required|string', 'residence_session_id' => 'required', 'active_period_id' => 'required',
         ]);
 
         try {
-$regnumber=$request['reg_number'];
+            $regnumber = $request['reg_number'];
 
 
             $residenceSessionId = $request['residence_session_id'];
 
-$hasallocation=roomAllocation::where('reg_number',$regnumber)->where('residence_session_id',$residenceSessionId)
-->where('approved_status','!=',2)->count();
-if($hasallocation){
-return response()->json(['message'=>'ýou are already allocated a room'],403);
-}
+            $hasallocation = roomAllocation::where('reg_number', $regnumber)->where('residence_session_id', $residenceSessionId)
+                ->where('approved_status', '!=', 2)->count();
+            if ($hasallocation) {
+                return response()->json(['message' => 'ýou are already allocated a room'], 403);
+            }
 
             $room_id = $request['room_id'];
             $active_period_id = $request['active_period_id'];
@@ -187,23 +189,24 @@ return response()->json(['message'=>'ýou are already allocated a room'],403);
                 $room_status['room_status'] = '1';
             }
 
+$result=$this->updateRoomStatus($room_status);
 
 
-            $result = app('App\Http\Controllers\roomstatusController')->updateRoomStatus($room_status);
 
             if ($result == 1) {
-                $activeperiod=active_period_hostel_online_application::find($active_period_id);
+                $activeperiod = active_period_hostel_online_application::find($active_period_id);
 
-                $period_id=$activeperiod->period_id;
+                $period_id = $activeperiod->period_id;
+                $minimum_treshold_value=$this->getminimum_treshold($period_id);
 
-                $minimum_treshold_value = app('App\Http\Controllers\studentDetailsController')->getminimum_treshold($period_id);
                 $room_cost = $request['room_cost'];
+                $feesBalance=$this->getFeesBalance($room_application['reg_number']);
 
-                $feesBalance = app('App\Http\Controllers\studentDetailsController')->getFeesBalance($room_application['reg_number']);
                 $total_cost = (float) $minimum_treshold_value + $room_cost;
 
                 if ($feesBalance >= $total_cost) {
-                    return app('App\Http\Controllers\roomApplicationController')->proccessApplications($room_application);
+                    return $this->proccessApplications($room_application);
+
                 } else {
                     return response()->json(['message' => 'application saved successfully ', 'success' => true], 201);
                 }
@@ -219,287 +222,7 @@ return response()->json(['message'=>'ýou are already allocated a room'],403);
         }
     }
 
-    public function proccessApplications($room_application)
-    {
 
-        $result = null;
-        if (! is_null($room_application)) {
-            $processresult = 'pending';
-
-            $datenow = Carbon::now();
-            $active_period_id = $room_application->active_period_id;
-            $room_id = $room_application->room_id;
-
-            $active_period=active_period_hostel_online_application::find($active_period_id);
-
-            $period_id=$active_period->period_id;
-
-            $minimum_treshold_value = app('App\Http\Controllers\studentDetailsController')->getminimum_treshold($period_id);
-
-            try {
-
-
-                // $minimum_treshold = minimumTreshold::where('active_period_id', $active_period_id)->get();
-                // return response()->json(['message' => "pano tasvika", $active_period_id, 'success' => false], 201);
-                // $minimum_treshold_value = $minimum_treshold[0]->minimum_threshhold;
-
-                $room_cost = room::join('tbl_room_type_costs', 'tbl_room_type_costs.room_type_id', '=', 'tbl_rooms.room_type_id')
-                    ->where('tbl_room_type_costs.active_period_id', $active_period_id)
-                    ->where('tbl_rooms.room_id', $room_id)
-                    ->first();
-
-                $room_cost_value = $room_cost->room_price;
-
-                $feesBalance = app('App\Http\Controllers\studentDetailsController')->getFeesBalance($room_application['reg_number']);
-                $total_cost = (float) $minimum_treshold_value + $room_cost_value;
-                $feesBalance = $feesBalance;
-
-                // return response()->json(['message' => $feesBalance, 'success' => true], 201);
-                if ($total_cost <= $feesBalance) {
-
-                    // allocate room
-                    $processresult = 'allocated application ';
-
-                    app('App\Http\Controllers\roomAllocationController')->Autoalocation($room_application);
-                    // updating room application
-                    log::info([
-                        'message' => 'approved application',
-                        'application_id' => $room_application->room_allocation_application_id,
-                        'regnumber' => $room_application->reg_number,
-
-                    ]);
-                    $result = [
-                        'message' => 'approved application',
-                        'application_id' => $room_application->room_allocation_application_id,
-                        'regnumber' => $room_application->reg_number,
-
-                    ];
-                    $room_number = $room_application->room_number;
-
-                    return response()->json([
-                        'message' => 'congats you have been allocated room'.$room_number, 'success' => true,
-                    ], 200);
-                } else {
-
-                    log::info([
-                        'message' => 'stalled application',
-                        'application_id' => $room_application->room_allocation_application_id,
-                        'regnumber' => $room_application->reg_number,
-
-                    ]);
-                    $result = [
-                        'message' => 'stalled application',
-                        'application_id' => $room_application->room_allocation_application_id,
-                        'regnumber' => $room_application->reg_number,
-
-                    ];
-                    $expiration_date = $room_application->expiration_date;
-
-                    return response()->json([
-                        'message' => 'Your application is pending until'.$expiration_date.' please make sure you make the payments ', 'success' => false,
-                    ], 200);
-                }
-
-                log::info('process sucessfully done');
-            } catch (QueryException $ex) {
-                if ($ex->errorInfo[1] == 1062) {
-                    $room_application->application_status = 1;
-                    $room_application->update();
-                    log::info([
-                        'message' => 'student already alocated',
-                        'application_id' => $room_application->room_allocation_application_id,
-                        'regnumber' => $room_application->reg_number,
-
-                    ]);
-                    $result = [
-                        'message' => 'student already alocated',
-                        'application_id' => $room_application->room_allocation_application_id,
-                        'regnumber' => $room_application->reg_number,
-
-                    ];
-
-                    return response()->json(['message' => 'you are already allocated a room for this period', 'success' => false], 403);
-                } else {
-
-                    log::info([
-                        'message' => $ex->getMessage(),
-                        'application_id' => $room_application->room_allocation_application_id,
-                        'regnumber' => $room_application->reg_number,
-
-                    ]);
-                    $result = [
-                        'message' => $ex->getMessage(),
-                        'application_id' => $room_application->room_allocation_application_id,
-                        'regnumber' => $room_application->reg_number,
-
-                    ];
-
-                    return response()->json(['message' => $ex->getMessage(), 'success' => false], 500);
-                }
-            }
-
-            log::channel('custom')->info('nothing done');
-
-            if (is_null($result)) {
-                return $result;
-            } else {
-                return implode(' ', $result);
-            }
-        } else {
-            $processresult = 'pending';
-
-            $datenow = Carbon::now();
-            $room_applications = roomapplication::where('application_status', 0)->get();
-            foreach ($room_applications as $room_application) {
-                try {
-                    $active_period_id = $room_application->active_period_id;
-                    $room_id = $room_application->room_id;
-                    $residenceSessionId = $room_application->residence_session_id;
-
-                    $room_cost = room::join('tbl_room_type_costs', 'tbl_room_type_costs.room_type_id', '=', 'tbl_rooms.room_type_id')
-                        ->where('tbl_room_type_costs.active_period_id', $active_period_id)
-                        ->where('tbl_rooms.room_id', $room_id)
-                        ->first();
-
-                    $room_cost_value = $room_cost->room_price;
-
-                    $active_period=active_period_hostel_online_application::find($active_period_id);
-                    $period_id=$active_period->period_id;
-                    $minimum_treshold_value = app('App\Http\Controllers\studentDetailsController')->getminimum_treshold($period_id);
-
-                    $feesBalance = app('App\Http\Controllers\studentDetailsController')->getFeesBalance($room_application['reg_number']);
-                    $total_cost = (float) $minimum_treshold_value + $room_cost_value;
-                    $feesBalance = $feesBalance + 900;
-                    if ($room_application->expiration_date >= $datenow) {
-
-                        if ($total_cost <= $feesBalance) {
-
-                            // allocate room
-                            $processresult = 'allocated application ';
-
-                            app('App\Http\Controllers\roomAllocationController')->Autoalocation($room_application);
-                            // updating room application
-                            log::info([
-                                'message' => 'approved application',
-                                'application_id' => $room_application->room_allocation_application_id,
-                                'regnumber' => $room_application->reg_number,
-
-                            ]);
-                            $result = [
-                                'message' => 'approved application',
-                                'application_id' => $room_application->room_allocation_application_id,
-                                'regnumber' => $room_application->reg_number,
-
-                            ];
-                        } else {
-
-                            log::info([
-                                'message' => 'stalled application',
-                                'application_id' => $room_application->room_allocation_application_id,
-                                'regnumber' => $room_application->reg_number,
-
-                            ]);
-                            $result = [
-                                'message' => 'stalled application',
-                                'application_id' => $room_application->room_allocation_application_id,
-                                'regnumber' => $room_application->reg_number,
-
-                            ];
-                        }
-                    } elseif ($room_application->expiration_date <= $datenow) {
-                        if ($total_cost <= $feesBalance) {
-                            // allocate room
-                            $processresult = 'allocated application ';
-
-                            app('App\Http\Controllers\roomAllocationController')->Autoalocation($room_application);
-                            // updating room application
-
-                            log::info([
-                                'message' => 'approved application',
-                                'application_id' => $room_application->room_allocation_application_id,
-                                'regnumber' => $room_application->reg_number,
-                                'room_cost' => $room_cost_value,
-                            ]);
-
-                            $result = [
-                                'message' => 'approved application',
-                                'application_id' => $room_application->room_allocation_application_id,
-                                'regnumber' => $room_application->reg_number,
-
-                            ];
-                        } else {
-
-                            // foreit application
-                            $room_application->application_status = 2;
-                            $room_application->update();
-
-                            $room_status['residence_session_id'] = $residenceSessionId;
-
-                            $room_status['room_id'] = $room_id;
-                            $room_status['active_period_id'] = $active_period_id;
-
-                            $room_status['room_status'] = '1';
-
-                            $result = app('App\Http\Controllers\roomstatusController')->updateRoomStatus($room_status);
-
-                            log::info([
-                                'message' => 'fofeited  application',
-                                'application_id' => $room_application->room_allocation_application_id,
-                                'regnumber' => $room_application->reg_number,
-
-                            ]);
-                            $result = [
-                                'message' => 'fofeited  application',
-                                'application_id' => $room_application->room_allocation_application_id,
-                                'regnumber' => $room_application->reg_number,
-
-                            ];
-                        }
-                    }
-
-                    log::info('process sucessfully done');
-                } catch (QueryException $ex) {
-                    if ($ex->errorInfo[1] == 1062) {
-                        $room_application->application_status = 1;
-                        $room_application->update();
-                        log::info([
-                            'message' => 'student already alocated',
-                            'application_id' => $room_application->room_allocation_application_id,
-                            'regnumber' => $room_application->reg_number,
-
-                        ]);
-                        $result = [
-                            'message' => 'student already alocated',
-                            'application_id' => $room_application->room_allocation_application_id,
-                            'regnumber' => $room_application->reg_number,
-
-                        ];
-                    } else {
-
-                        log::info([
-                            'message' => $ex->getMessage(),
-                            'application_id' => $room_application->room_allocation_application_id,
-                            'regnumber' => $room_application->reg_number,
-
-                        ]);
-                        $result = [
-                            'message' => $ex->getMessage(),
-                            'application_id' => $room_application->room_allocation_application_id,
-                            'regnumber' => $room_application->reg_number,
-
-                        ];
-                    }
-                }
-            }
-            log::channel('custom')->info('nothing done');
-
-            if (is_null($result)) {
-                return $result;
-            } else {
-                return implode(' ', $result);
-            }
-        }
-    }
 
     public function getMyApplication(Request $request)
     {
@@ -510,61 +233,18 @@ return response()->json(['message'=>'ýou are already allocated a room'],403);
         return response()->json($room_application);
     }
 
-    public function getStudentPendingApplications($regnumber)
+
+
+
+    public function  getApplications(Request $request)
     {
-        $datenow = $datenow = Carbon::now();
-        $datenow = $datenow = Carbon::now();
-        $newDate = Carbon::createFromFormat('Y-m-d H:i:s', $datenow)
-            ->format('Y-m-d');
 
-    $myapplication = DB::select("SELECT
-	COUNT(tbl_room_allocation_applications.room_allocation_application_id) as cntx
-FROM
-	tbl_room_allocation_applications
-	INNER JOIN tbl_rooms ON tbl_room_allocation_applications.room_id = tbl_rooms.room_id
-	INNER JOIN tbl_hostels ON tbl_rooms.hostel_id = tbl_hostels.hostel_id
-	INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
-	INNER JOIN tbl_residence_sessions ON tbl_room_allocation_applications.residence_session_id = tbl_residence_sessions.residence_session_id
-WHERE
-	tbl_room_allocation_applications.application_status <> 1
-	AND tbl_residence_sessions.end_date > '$newDate'
-	AND tbl_room_allocation_applications.reg_number = '$regnumber'
-");
+        $data = $request->validate(['residence_session_id' => 'required']);
 
+        $residence_session_id = $data['residence_session_id'];
 
-$my_allocation = DB::select("SELECT
-	COUNT(tbl_room_allocations.reg_number) as cntx
-FROM
-	tbl_room_allocations
-	INNER JOIN tbl_rooms ON tbl_room_allocations.room_id = tbl_rooms.room_id
-	INNER JOIN tbl_residence_sessions ON tbl_room_allocations.residence_session_id = tbl_residence_sessions.residence_session_id
-	INNER JOIN tbl_floors ON tbl_rooms.floor_id = tbl_floors.floor_id
-	INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
-	INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
-WHERE
-	tbl_room_allocations.reg_number = '$regnumber'
-	AND tbl_residence_sessions.end_date > '$newDate'
-	AND tbl_residence_sessions.available_status = 1
-");
-$application_pending=0;
-
-if($my_allocation[0]->cntx>0|| $myapplication[0]->cntx >0)
-{
-    $application_pending=1;
-}
-
-        return $application_pending;
-    }
-
-
-    public function  getApplications(Request $request){
-
-        $data=$request->validate(['residence_session_id'=>'required']);
-
-        $residence_session_id=$data['residence_session_id'];
-
-        try{
-            $applications=DB::select("SELECT
+        try {
+            $applications = DB::select("SELECT
             tbl_room_allocation_applications.room_allocation_application_id,
             tbl_room_allocation_applications.reg_number,
             tbl_room_application_status.`status`,
@@ -583,12 +263,9 @@ if($my_allocation[0]->cntx>0|| $myapplication[0]->cntx >0)
             INNER JOIN tbl_room_application_status ON tbl_room_allocation_applications.application_status = tbl_room_application_status.status_code
         WHERE
             tbl_room_allocation_applications.residence_session_id = $residence_session_id");
-           return response()->json(   $applications, 200);
-        }catch(QueryException $ex){
-            return response()->json(['success'=>'false', 'message' => $ex->getMessage()], 500);
+            return response()->json($applications, 200);
+        } catch (QueryException $ex) {
+            return response()->json(['success' => 'false', 'message' => $ex->getMessage()], 500);
         }
-
-
-
-          }
+    }
 }
