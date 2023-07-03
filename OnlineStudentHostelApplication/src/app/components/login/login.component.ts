@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit {
           this.loading = false;
 
           this.router.navigate(['student/home']);
+          // window.location.href='student/home';
         },
         (error) => {
           console.log(error);

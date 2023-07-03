@@ -2,22 +2,22 @@
 
 
     <!-- /.login-logo -->
-    <div class="card">
+    <div class="">
 
 
 
-        <div class="login-box card-body">
+        <div class="login-box">
           <h5>Student Online Hostel Application</h5>
           <div class="login-logo">
             <img src="assets/images/logo.png" style="height: 130px;" alt="">
           </div>
           <form #loginform="ngForm" (ngSubmit)="login(loginform)">
             <div class="user-box">
-              <input type="text" name="reg_number" (ngModelChange)="hideError()" required class="form-control myinput" [ngModel]="student.reg_number">
+              <input type="text" name="reg_number" (ngModelChange)="hideError()" required class="form-control myinput" [(ngModel)]="student.reg_number">
               <label>Username</label>
             </div>
             <div class="user-box">
-              <input type="password" (ngModelChange)="hideError()" required name="password" [ngModel]="student.password">
+              <input type="password" (ngModelChange)="hideError()" required name="password" [(ngModel)]="student.password">
               <label>Password</label>
             </div>
             <div *ngIf="error!=null" class="text-danger p-3">
@@ -73,7 +73,7 @@
 
 
 
-      </div> 
+      </div>
       <!-- /.login-card-body -->
     </div>
 

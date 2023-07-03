@@ -1,0 +1,45 @@
+<pf-dropdown hide-arrow class="user-menu">
+  <div slot="button">
+      <a class="nav-link">
+          <pf-image
+            
+              fallback-src="assets/img/default-profile.png"
+              class="user-image-small"
+              width="25"
+              height="25"
+              alt="User Image"
+              rounded
+          ></pf-image>
+      </a>
+  </div>
+  <div slot="menu">
+      <li class="user-header bg-primary">
+          <pf-image
+
+              fallback-src="assets/img/default-profile.png"
+              class="user-image-big"
+              alt="User Image"
+              width="90"
+              height="90"
+              rounded
+          ></pf-image>
+
+          <p>
+              <span>{{ studentname}}{{ studentsurname }}</span>
+
+          </p>
+      </li>
+      <!-- Menu Body -->
+      <li class="user-body">
+
+          <!-- /.row -->
+      </li>
+      <!-- Menu Footer-->
+      <li class="user-footer">
+
+          <a (click)="logout()" class="btn btn-default btn-flat float-right">
+              Sign out
+          </a>
+      </li>
+  </div>
+</pf-dropdown>

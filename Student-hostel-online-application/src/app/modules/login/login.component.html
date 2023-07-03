@@ -1,0 +1,79 @@
+<div class="login-page">
+
+
+  <!-- /.login-logo -->
+  <div class="">
+
+
+
+      <div class="login-box">
+        <h5>Student Online Hostel Application</h5>
+        <div class="login-logo">
+          <img src="assets/images/logo.png" style="height: 130px;" alt="">
+        </div>
+        <form #loginform="ngForm" (ngSubmit)="loginByAuth(loginform)">
+          <div class="user-box">
+            <input type="text" name="reg_number" (ngModelChange)="hideError()" required class="form-control myinput" [(ngModel)]="student.reg_number">
+            <label>Username</label>
+          </div>
+          <div class="user-box">
+            <input type="password" (ngModelChange)="hideError()" required name="password" [(ngModel)]="student.password">
+            <label>Password</label>
+          </div>
+          <div *ngIf="error!==null" class="text-danger p-3">
+            {{error}}
+          </div>
+          <button type="submit"  class="btn-sm" >
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Submit
+          </button>
+        </form>
+
+      </div>
+
+
+      <!-- <form #loginform="ngForm" >
+        <div class="input-group mb-3">
+          <input type="text" name="reg_number" (ngModelChange)="hideError()" required class="form-control myinput"
+            [ngModel]="student.reg_number" placeholder="Email/username">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control myinput"  placeholder="Password">
+          <div class="input-group-append ">
+            <div class="input-group-text ">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row pt-2">
+          <div class="col-8" style="float:right">
+
+
+
+          </div>
+         /.col
+          <div class="col-4">
+            <button type="submit"  class="btn  btn-block submit"
+             >Sign In &nbsp;<img *ngIf="loading" style="width:25%;"
+                src="https://i.gifer.com/ZKZg.gif" /></button>
+          </div>
+          /.col -->
+        <!-- </div>
+      </form> -->
+
+
+
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+
