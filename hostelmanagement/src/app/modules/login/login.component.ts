@@ -1,69 +1,81 @@
-import {
-    Component,
-    OnInit,
-    OnDestroy,
-    Renderer2,
-    HostBinding
-} from '@angular/core';
-import {UntypedFormGroup, UntypedFormControl, Validators} from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
-import {AppService} from '@services/app.service';
+import { NgFor } from '@angular/common';
+import { AuthService } from './../../services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ParamsService } from '@services/params.service';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
-    @HostBinding('class') class = 'login-box';
-    public loginForm: UntypedFormGroup;
-    public isAuthLoading = false;
-    public isGoogleLoading = false;
-    public isFacebookLoading = false;
+export class LoginComponent implements OnInit {
+  userrole: any;
+  user:any;
+  error:any;
+  success:any;
+  response:any;
+  rights:any;
+  rightarr = new Array();
+  constructor(private authService: AuthService, private router: Router,private paramservice:ParamsService) {}
+  ngOnInit(): void {
+    this.error=null;
+    this.success=null;
 
-    constructor(
-        private renderer: Renderer2,
-        private toastr: ToastrService,
-        private appService: AppService
-    ) {}
-
-    ngOnInit() {
-        this.renderer.addClass(
-            document.querySelector('app-root'),
-            'login-page'
-        );
-        this.loginForm = new UntypedFormGroup({
-            email: new UntypedFormControl(null, Validators.required),
-            password: new UntypedFormControl(null, Validators.required)
-        });
+  }
+  logout() {
+    if (this.authService.authenticated()) {
+      this.authService.logout();
     }
+  }
 
-    async loginByAuth() {
-        if (this.loginForm.valid) {
-            this.isAuthLoading = true;
-            await this.appService.loginByAuth(this.loginForm.value);
-            this.isAuthLoading = false;
-        } else {
-            this.toastr.error('Form is not valid!');
-        }
-    }
+  login(form: NgForm) {
+    this.error=null;
+    this.success=null;
+    const email = form.value.email;
+    const password = form.value.password;
 
-    async loginByGoogle() {
-        this.isGoogleLoading = true;
-        await this.appService.loginByGoogle();
-        this.isGoogleLoading = false;
-    }
+    this.authService.login({ email: email, password: password }).subscribe(
+      (res) => {
+      this.paramservice.setparam('user',res);
+console.log(res);
 
-    async loginByFacebook() {
-        this.isFacebookLoading = true;
-        await this.appService.loginByFacebook();
-        this.isFacebookLoading = false;
-    }
+        this.userrole = this.authService.getRole();
+        this.user=res;
 
-    ngOnDestroy() {
-        this.renderer.removeClass(
-            document.querySelector('app-root'),
-            'login-page'
-        );
-    }
+this.success=1;
+var myrights=this.user.myrights;
+if( myrights=this.user.myrights==null){
+  this.success=null;
+  this.error="currently you do not have rights in the system please contact your administrator";
+}
+else{
+
+
+
+
+  this.paramservice.setparam("myrights",JSON.parse(this.user.myrights.rights));
+
+          if(this.user.prompt_change==1){
+            this.router.navigate(['changepassword']);
+          }
+         else{
+          this.router.navigate(['hostels']);
+         }
+
+
+
+
+
+      }
+      },
+      (error) => {
+        this.error=error.error.message;
+
+        console.log(error);
+
+      }
+    );
+  }
 }

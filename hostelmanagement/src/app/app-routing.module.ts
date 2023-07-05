@@ -12,57 +12,108 @@ import {ForgotPasswordComponent} from '@modules/forgot-password/forgot-password.
 import {RecoverPasswordComponent} from '@modules/recover-password/recover-password.component';
 import {MainMenuComponent} from '@pages/main-menu/main-menu.component';
 import {SubMenuComponent} from '@pages/main-menu/sub-menu/sub-menu.component';
+import { HostelsComponent } from '@pages/hostels/hostels.component';
+import { CanallocateroomsGuard } from '@guards/canallocaterooms.guard';
+import { CanblackliststudentsGuard } from '@guards/canblackliststudents.guard';
+import { CancreateuserGuard } from '@guards/cancreateuser.guard';
+import { CanreserveroomsGuard } from '@guards/canreserverooms.guard';
+import { CansetroomcostGuard } from '@guards/cansetroomcost.guard';
+import { IsSuperadminGuard } from '@guards/is-superadmin.guard';
+import { BatchesComponent } from '@pages/batches/batches.component';
+import { BlacklistComponent } from '@pages/blacklist/blacklist.component';
+import { FloorsComponent } from '@pages/floors/floors.component';
+import { LevelPreferenceComponent } from '@pages/level-preference/level-preference.component';
+import { PeriodsComponent } from '@pages/periods/periods.component';
+import { ProgrampreferenceComponent } from '@pages/programpreference/programpreference.component';
+import { ReportsComponent } from '@pages/reports/reports.component';
+import { ResavationsComponent } from '@pages/resavations/resavations.component';
+import { RoomallocationComponent } from '@pages/roomallocation/roomallocation.component';
+import { RoomcostsComponent } from '@pages/roomcosts/roomcosts.component';
+import { RoomsComponent } from '@pages/rooms/rooms.component';
+import { RoomstypesComponent } from '@pages/roomstypes/roomstypes.component';
+import { UserRightsComponent } from '@pages/user-rights/user-rights.component';
+import { UsersComponent } from '@pages/users/users.component';
+import { ViewBatchComponent } from '@pages/view-batch/view-batch.component';
+import { NotfoundComponent } from '@pages/notfound/notfound.component';
 
 const routes: Routes = [
     {
         path: '',
         component: MainComponent,
         canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+
         children: [
             {
                 path: 'profile',
                 component: ProfileComponent
             },
-            {
-                path: 'blank',
-                component: BlankComponent
-            },
-            {
-                path: 'sub-menu-1',
-                component: SubMenuComponent
-            },
-            {
-                path: 'sub-menu-2',
-                component: BlankComponent
-            },
+
             {
                 path: '',
                 component: DashboardComponent
             }
+            ,
+            { path: 'hostels', component: HostelsComponent },
+            { path: 'allrooms', component: RoomsComponent },
+
+            { path: 'batches', component: BatchesComponent },
+
+            { path: 'viewbatch', component: ViewBatchComponent },
+
+             { path: 'allperiods', component: PeriodsComponent },
+            { path: 'rights', component: UserRightsComponent },
+            { path: 'Resevations', component: ResavationsComponent,canActivate:[CanreserveroomsGuard] },
+            { path: 'floors', component: FloorsComponent },
+
+            {
+              path: 'roomtypes',
+              component: RoomstypesComponent,
+              canActivate: [IsSuperadminGuard],
+            },
+            { path: 'roomallocation', component: RoomallocationComponent,canActivate:[CanallocateroomsGuard] },
+            {
+              path: 'roomcosts',
+              component: RoomcostsComponent,
+              canActivate: [CansetroomcostGuard],
+            },
+            { path: 'blacklist', component: BlacklistComponent, canActivate:[CanblackliststudentsGuard] },
+            { path: 'reports', component: ReportsComponent },
+            {
+              path: 'levelpreference',
+              component: LevelPreferenceComponent,
+            },
+            {
+              path: 'programmepreference',
+              component: ProgrampreferenceComponent,
+            },
+            {
+              path: 'user',
+              component: UsersComponent,
+              canActivate: [CancreateuserGuard],
+            },
         ]
     },
     {
         path: 'login',
         component: LoginComponent,
-        canActivate: [NonAuthGuard]
+        
     },
     {
         path: 'register',
         component: RegisterComponent,
-        canActivate: [NonAuthGuard]
+
     },
     {
         path: 'forgot-password',
         component: ForgotPasswordComponent,
-        canActivate: [NonAuthGuard]
+
     },
     {
         path: 'recover-password',
         component: RecoverPasswordComponent,
-        canActivate: [NonAuthGuard]
+
     },
-    {path: '**', redirectTo: ''}
+    {path: '**', component:NotfoundComponent}
 ];
 
 @NgModule({

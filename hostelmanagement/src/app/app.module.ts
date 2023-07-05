@@ -10,7 +10,7 @@ import {HeaderComponent} from '@modules/main/header/header.component';
 import {FooterComponent} from '@modules/main/footer/footer.component';
 import {MenuSidebarComponent} from '@modules/main/menu-sidebar/menu-sidebar.component';
 import {BlankComponent} from '@pages/blank/blank.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ProfileComponent} from '@pages/profile/profile.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RegisterComponent} from '@modules/register/register.component';
@@ -35,6 +35,28 @@ import {uiReducer} from './store/ui/reducer';
 import {ProfabricComponentsModule} from '@profabric/angular-components';
 import {defineCustomElements} from '@profabric/web-components/loader';
 import {SidebarSearchComponent} from './components/sidebar-search/sidebar-search.component';
+
+import { BatchesComponent } from './pages/batches/batches.component';
+import { BlacklistComponent } from './pages/blacklist/blacklist.component';
+import { PeriodsComponent } from './pages/periods/periods.component';
+
+import { FloorsComponent } from './pages/floors/floors.component';
+import { RoomsComponent } from './pages/rooms/rooms.component';
+import { RoomstypesComponent } from './pages/roomstypes/roomstypes.component';
+import { ResavationsComponent } from './pages/resavations/resavations.component';
+import { RoomcostsComponent } from './pages/roomcosts/roomcosts.component';
+import { RoomallocationComponent } from './pages/roomallocation/roomallocation.component';
+import { UsersComponent } from './pages/users/users.component';
+import { UserRightsComponent } from './pages/user-rights/user-rights.component';
+import { ViewBatchComponent } from './pages/view-batch/view-batch.component';
+import { ReportsComponent } from './pages/reports/reports.component';
+import { ProgrampreferenceComponent } from './pages/programpreference/programpreference.component';
+
+import { HostelsComponent } from './pages/hostels/hostels.component';
+import { LevelPreferenceComponent } from './pages/level-preference/level-preference.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { DataTablesModule } from 'angular-datatables';
+import { NotfoundComponent } from './pages/notfound/notfound.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
@@ -61,10 +83,32 @@ registerLocaleData(localeEn, 'en-EN');
         SubMenuComponent,
         MenuItemComponent,
         ControlSidebarComponent,
-        SidebarSearchComponent
+        SidebarSearchComponent,
+
+        BatchesComponent,
+        BlacklistComponent,
+        PeriodsComponent,
+
+        FloorsComponent,
+        RoomsComponent,
+        RoomstypesComponent,
+        ResavationsComponent,
+        RoomcostsComponent,
+        RoomallocationComponent,
+        UsersComponent,
+        UserRightsComponent,
+        ViewBatchComponent,
+        ReportsComponent,
+
+        ProgrampreferenceComponent,
+        HostelsComponent,
+        LevelPreferenceComponent,
+        NotfoundComponent
     ],
     imports: [
+      FormsModule,
         BrowserModule,
+        DataTablesModule,
         StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
         HttpClientModule,
         AppRoutingModule,
@@ -75,7 +119,9 @@ registerLocaleData(localeEn, 'en-EN');
             positionClass: 'toast-top-right',
             preventDuplicates: true
         }),
-        ProfabricComponentsModule
+        ProfabricComponentsModule,
+        NgMultiSelectDropDownModule.forRoot(),
+
     ],
     providers: [],
     bootstrap: [AppComponent]
