@@ -40,7 +40,7 @@ error:any;
   residenceSession: any;
   mystudent:any={};
   dtoptions: DataTables.Settings = {};
-  
+
   rejection_reason:any;
 
   dtTrigger1: Subject<any> = new Subject<any>();
@@ -82,8 +82,6 @@ error:any;
     private authservice: AuthService,
     private roomallocationservice: RoomallocationService,
     private params: ParamsService,
-    private activeperiodservice: ActiveperiodsService,
-    private batchesService: BatchesService,
     private studentd:StudentService,
     private toast:ToastService
   ) {}

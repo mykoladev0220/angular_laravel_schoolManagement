@@ -1,53 +1,67 @@
-import {
-    Component,
-    HostBinding,
-    OnDestroy,
-    OnInit,
-    Renderer2
-} from '@angular/core';
-import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
-import {AppService} from '@services/app.service';
+
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '@services/auth.service';
+import { param } from 'jquery';
+
 
 @Component({
-    selector: 'app-recover-password',
-    templateUrl: './recover-password.component.html',
-    styleUrls: ['./recover-password.component.scss']
+  selector: 'app-recover-password',
+  templateUrl: './recover-password.component.html',
+  styleUrls: ['./recover-password.component.scss']
 })
-export class RecoverPasswordComponent implements OnInit, OnDestroy {
-    @HostBinding('class') class = 'login-box';
+export class RecoverPasswordComponent implements OnInit{
+  error:any;
+  success:any;
+  token:any;
+  myparam:any;
+  constructor(private authservice:AuthService,private router:Router,private route: ActivatedRoute){}
+  ngOnInit(): void {
 
-    public recoverPasswordForm: UntypedFormGroup;
-    public isAuthLoading = false;
+    this.error=null;
+    this.success=null;
+    this.route.queryParams
+      .subscribe(param=> {
+        this.myparam=param;
 
-    constructor(
-        private renderer: Renderer2,
-        private toastr: ToastrService,
-        private appService: AppService
-    ) {}
+this.token=this.myparam.token;
+console.log(this.token);
 
-    ngOnInit(): void {
-        this.renderer.addClass(
-            document.querySelector('app-root'),
-            'login-page'
-        );
-        this.recoverPasswordForm = new UntypedFormGroup({
-            password: new UntypedFormControl(null, Validators.required),
-            confirmPassword: new UntypedFormControl(null, Validators.required)
-        });
+
+    })
+  }
+
+    changePassword(form:any){
+
+
+
+
+      // form.value.user_id=this.authservice.getUserId();
+
+      console.log(form.value);
+  if(form.value.password==form.value.c_password){
+
+
+    this.authservice.changePasswordForgot(form.value).subscribe(res=>{
+      this.success=1;
+  console.log(res);
+
+  setTimeout(() => {
+    this.router.navigate(['login']);
+  }, 3000);
+
+
+    },error=>{
+      console.log(error);
+      this.error=error.error.message;
+
+    })
+  }else{
+  this.error= "passwords does not match";
+  }
+
+
     }
 
-    recoverPassword() {
-        if (this.recoverPasswordForm.valid) {
-        } else {
-            this.toastr.error('Hello world!', 'Toastr fun!');
-        }
-    }
-
-    ngOnDestroy(): void {
-        this.renderer.removeClass(
-            document.querySelector('app-root'),
-            'login-page'
-        );
-    }
 }

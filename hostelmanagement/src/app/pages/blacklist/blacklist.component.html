@@ -1,6 +1,12 @@
-
+<ngx-ui-loader
+text="loading   please wait..."
+overlayColor="#fff"
+textColor="#c2a458"
+fgsColor="#c2a458"
+fgsType="square-jelly-box"
+></ngx-ui-loader>
 <div class="card">
-  <div class="card-header  " style="height: 33px;">
+  <div class="card-header  " >
 
 
 
@@ -108,7 +114,16 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
         <h3 class="card-title">Blacklisted Students</h3>
+
       </div>
       <!-- /.card-header -->
       <div class="card-body">

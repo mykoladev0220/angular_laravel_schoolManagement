@@ -1,51 +1,37 @@
-import {
-    Component,
-    HostBinding,
-    OnDestroy,
-    OnInit,
-    Renderer2
-} from '@angular/core';
-import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
-import {AppService} from '@services/app.service';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Router } from "@angular/router";
+import { AuthService } from "@services/auth.service";
 
 @Component({
-    selector: 'app-forgot-password',
-    templateUrl: './forgot-password.component.html',
-    styleUrls: ['./forgot-password.component.scss']
+  selector: 'app-forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.scss']
 })
-export class ForgotPasswordComponent implements OnInit, OnDestroy {
-    @HostBinding('class') class = 'login-box';
-    public forgotPasswordForm: UntypedFormGroup;
-    public isAuthLoading = false;
+export class ForgotPasswordComponent implements OnInit {
+  error:any;
+  success:any;
+  email:any;
+  myresponse:any
+  constructor(private authservice:AuthService,private router:Router){}
+  ngOnInit(): void {
 
-    constructor(
-        private renderer: Renderer2,
-        private toastr: ToastrService,
-        private appService: AppService
-    ) {}
+    this.error=null;
+    this.success=null;
 
-    ngOnInit(): void {
-        this.renderer.addClass(
-            document.querySelector('app-root'),
-            'login-page'
-        );
-        this.forgotPasswordForm = new UntypedFormGroup({
-            email: new UntypedFormControl(null, Validators.required)
-        });
     }
 
-    forgotPassword() {
-        if (this.forgotPasswordForm.valid) {
-        } else {
-            this.toastr.error('Hello world!', 'Toastr fun!');
-        }
-    }
+    requestResert(){
+      this.error=null;
+      this.success=null;
+      this.authservice.resertpassword({email:this.email}).subscribe(res=>{
+        console.log(res);
+        this.myresponse=res;
+        this.success=this.myresponse.message;
 
-    ngOnDestroy(): void {
-        this.renderer.removeClass(
-            document.querySelector('app-root'),
-            'login-page'
-        );
+      },error=>{
+        this.error=error.error.message;
+        console.log(error);
+
+      })
     }
 }

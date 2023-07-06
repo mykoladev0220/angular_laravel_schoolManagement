@@ -57,6 +57,8 @@ import { LevelPreferenceComponent } from './pages/level-preference/level-prefere
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { DataTablesModule } from 'angular-datatables';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
+import { ChangePasswordComponent } from './modules/change-password/change-password.component';
+import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from 'ngx-ui-loader';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
@@ -103,7 +105,8 @@ registerLocaleData(localeEn, 'en-EN');
         ProgrampreferenceComponent,
         HostelsComponent,
         LevelPreferenceComponent,
-        NotfoundComponent
+        NotfoundComponent,
+        ChangePasswordComponent
     ],
     imports: [
       FormsModule,
@@ -121,6 +124,12 @@ registerLocaleData(localeEn, 'en-EN');
         }),
         ProfabricComponentsModule,
         NgMultiSelectDropDownModule.forRoot(),
+        NgxUiLoaderModule,
+
+        NgxUiLoaderHttpModule.forRoot({
+          showForeground:true
+        })
+
 
     ],
     providers: [],

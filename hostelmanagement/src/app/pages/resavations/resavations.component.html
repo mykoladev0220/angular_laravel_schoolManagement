@@ -1,18 +1,11 @@
-<div class="row">
-  <div class="col-md-9"></div>
-  <div class="col-md-3">
-    <div *ngIf="feddback_message_status==1" class="alert alert-success alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <i class="icon fas fa-check "></i>
-      <small> {{ feedback_message }}</small>
-    </div>
-    <div *ngIf="feddback_message_status==2" class="alert alert-danger alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <i class="icon fas fa-ban"></i>
-      <small> {{ feedback_message }}</small>
-    </div>
-  </div>
-</div>
+<ngx-ui-loader
+text="loading   please wait..."
+overlayColor="#fff"
+textColor="#c2a458"
+fgsColor="#c2a458"
+fgsType="square-jelly-box"
+></ngx-ui-loader>
+
 
 <div class="card">
   <div class="card-header  " >

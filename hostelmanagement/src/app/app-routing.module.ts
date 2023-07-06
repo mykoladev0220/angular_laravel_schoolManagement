@@ -8,7 +8,7 @@ import {RegisterComponent} from '@modules/register/register.component';
 import {DashboardComponent} from '@pages/dashboard/dashboard.component';
 import {AuthGuard} from '@guards/auth.guard';
 import {NonAuthGuard} from '@guards/non-auth.guard';
-import {ForgotPasswordComponent} from '@modules/forgot-password/forgot-password.component';
+
 import {RecoverPasswordComponent} from '@modules/recover-password/recover-password.component';
 import {MainMenuComponent} from '@pages/main-menu/main-menu.component';
 import {SubMenuComponent} from '@pages/main-menu/sub-menu/sub-menu.component';
@@ -35,6 +35,8 @@ import { UserRightsComponent } from '@pages/user-rights/user-rights.component';
 import { UsersComponent } from '@pages/users/users.component';
 import { ViewBatchComponent } from '@pages/view-batch/view-batch.component';
 import { NotfoundComponent } from '@pages/notfound/notfound.component';
+import { ForgotPasswordComponent } from '@modules/forgot-password/forgot-password.component';
+import { ChangePasswordComponent } from '@modules/change-password/change-password.component';
 
 const routes: Routes = [
     {
@@ -43,14 +45,10 @@ const routes: Routes = [
         canActivate: [AuthGuard],
 
         children: [
-            {
-                path: 'profile',
-                component: ProfileComponent
-            },
 
             {
                 path: '',
-                component: DashboardComponent
+                component: HostelsComponent
             }
             ,
             { path: 'hostels', component: HostelsComponent },
@@ -94,9 +92,14 @@ const routes: Routes = [
         ]
     },
     {
+      path: '',
+      component: LoginComponent,
+
+  },
+    {
         path: 'login',
         component: LoginComponent,
-        
+
     },
     {
         path: 'register',
@@ -108,6 +111,11 @@ const routes: Routes = [
         component: ForgotPasswordComponent,
 
     },
+    {
+      path: 'changepassword',
+      component: ChangePasswordComponent,
+
+  },
     {
         path: 'recover-password',
         component: RecoverPasswordComponent,
