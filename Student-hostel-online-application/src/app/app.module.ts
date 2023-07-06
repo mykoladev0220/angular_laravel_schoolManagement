@@ -39,6 +39,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ApplicationComponent } from './pages/application/application.component';
 import { HistoryComponent } from './pages/history/history.component';
 import { DataTablesModule } from 'angular-datatables';
+import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from 'ngx-ui-loader';
 
 
 defineCustomElements();
@@ -73,7 +74,7 @@ registerLocaleData(localeEn, 'en-EN');
     ],
     imports: [
       FormsModule,
-      
+
         BrowserModule,
         StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
         HttpClientModule,
@@ -86,7 +87,12 @@ registerLocaleData(localeEn, 'en-EN');
             preventDuplicates: true
         }),
         ProfabricComponentsModule,
-DataTablesModule
+DataTablesModule,
+NgxUiLoaderModule,
+
+NgxUiLoaderHttpModule.forRoot({
+  showForeground:true
+})
     ],
     providers: [],
     bootstrap: [AppComponent]

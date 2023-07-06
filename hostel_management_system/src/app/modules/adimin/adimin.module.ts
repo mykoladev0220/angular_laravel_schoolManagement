@@ -11,7 +11,7 @@ import { UsermoduleModule } from '../usermodule/usermodule.module';
 
 import { FormsModule } from '@angular/forms';
 
-import { CreateactiveperiodComponent } from './components/createactiveperiod/createactiveperiod.component';
+
 import { ActiveperiodsService } from 'src/app/services/activeperiods.service';
 import { PeriodsService } from 'src/app/services/periods.service';
 import { LevelsService } from 'src/app/services/levels.service';
@@ -51,7 +51,7 @@ import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from 'ngx-ui-loader';
   declarations: [
     AdmindashboardComponent,
 
-    CreateactiveperiodComponent,
+
     PeriodsComponent,
     BatchesComponent,
 
@@ -82,7 +82,7 @@ import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from 'ngx-ui-loader';
    NgMultiSelectDropDownModule.forRoot(),
 
 
-  
+
 
   ],
   providers: [

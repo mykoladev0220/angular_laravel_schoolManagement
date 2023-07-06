@@ -1,4 +1,4 @@
-import { error } from 'jquery';
+
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 

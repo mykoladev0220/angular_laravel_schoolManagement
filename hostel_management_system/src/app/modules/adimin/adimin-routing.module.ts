@@ -1,7 +1,7 @@
 import { IsSuperadminGuard } from './../../guards/is-superadmin.guard';
 import { BatchesComponent } from './components/batches/batches.component';
 import { PeriodsComponent } from './components/periods/periods.component';
-import { CreateactiveperiodComponent } from './components/createactiveperiod/createactiveperiod.component';
+
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -48,7 +48,7 @@ const routes: Routes = [
 
       { path: 'viewbatch', component: ViewBatchComponent },
 
-      { path: 'createactiveperiods', component: CreateactiveperiodComponent },
+   
       { path: 'Allperiods', component: PeriodsComponent },
       { path: 'rights', component: UserRightsComponent },
       { path: 'Resevations', component: ResavationsComponent,canActivate:[CanreserveroomsGuard] },

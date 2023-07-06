@@ -59,6 +59,16 @@ class roomAllocationController extends Controller
                 return response()->json(['success' => false, 'message' => 'room is fully occupied '], 403);
             }
 
+            $studentroomapplicationcount=roomapplication::where('reg_number',$regnumber)->where('residence_session_id',$residenceSessionId)->where('application_status', '=', '0')->count();
+
+            if($studentroomapplicationcount>0)
+            {
+             $application=   roomapplication::where('reg_number',$regnumber)->where('residence_session_id',$residenceSessionId)->where('application_status', '=', '0')->first();
+
+             $application->application_status=2;
+             $application->save();
+                
+            }
             roomAllocation::create($room_allocation);
             // check if capacity is still available
             $roomoccupants = roomAllocation::where($matchconditions)->where('approved_status', '!=', '2')->count();

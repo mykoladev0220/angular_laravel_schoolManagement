@@ -1,4 +1,4 @@
-import { Floor } from './floor';
+
 export class Hostelpreference {
   hostel_preference_id: any;
   hostel_id: any;

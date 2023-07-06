@@ -2,7 +2,7 @@
   <div slot="button">
       <a class="nav-link">
           <pf-image
-            
+
               fallback-src="assets/img/default-profile.png"
               class="user-image-small"
               width="25"
@@ -25,9 +25,21 @@
           ></pf-image>
 
           <p>
-              <span>{{ studentname}}{{ studentsurname }}</span>
+              <span >{{ studentname}}{{ studentsurname }}
+              </span>
+              <br>
+           <small>
+
+            {{ student.programme_code }}</small>
+          <small>  {{ student.academic_level+"."+student.semester }}</small>
 
           </p>
+
+        <p>
+          <span>{{ student.sex }}</span>
+
+      </p>
+
       </li>
       <!-- Menu Body -->
       <li class="user-body">

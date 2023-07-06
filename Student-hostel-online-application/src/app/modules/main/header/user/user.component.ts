@@ -3,6 +3,7 @@ import {AppService} from '@services/app.service';
 import { AuthService } from '@services/auth.service';
 import { EncriprionserviceService } from '@services/encriprionservice.service';
 import { ParamsService } from '@services/params.service';
+
 import {DateTime} from 'luxon';
 
 @Component({
@@ -22,6 +23,7 @@ export class UserComponent implements OnInit {
       this.student=JSON.parse(this.encsercive.decrypt(this.student));
       this.studentname=this.student.first_name;
       this.studentsurname=this.student.surname;
+      console.log(this.student);
     }
 
     logout() {

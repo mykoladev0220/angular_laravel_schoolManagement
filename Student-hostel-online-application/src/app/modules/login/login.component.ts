@@ -45,22 +45,19 @@ export class LoginComponent implements OnInit, OnDestroy {
             document.querySelector('app-root'),
             'login-page'
         );
-        // this.loginForm = new UntypedFormGroup({
-        //     email: new UntypedFormControl(null, Validators.required),
-        //     password: new UntypedFormControl(null, Validators.required)
-        // });
+
     }
 
     async loginByAuth(form:any) {
 
-      console.log(this.student);
+
       if(this.student.reg_number==null){
         this.error='registration number is required '
 
       }else if(this.student.password==null){
         this.error='passwod is required '
       }else{
-        console.log("tapinda");
+    
         console.log(this.student);
         this.auhthservice.login(this.student).subscribe(
           (res) => {

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\active_period_hostel_online_application;
-use App\Models\blacklistedstudent;
-use App\Models\minimumTreshold;
-use App\Models\period;
-use Carbon\Carbon;
+use App\Http\Controllers\Traits;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 class studentDetailsController extends Controller
 {
+    use traits\studenttrait;
+
+
+
     public function findStudent(Request $request){
         $request->validate(['reg_number']);
         $regnumber=$request['reg_number'];
@@ -22,7 +22,7 @@ if($this->getStudentDetails($regnumber)==null){
 return response()->json($this->getStudentDetails($regnumber), 200);
 
     }
-   
+
 
 
 }

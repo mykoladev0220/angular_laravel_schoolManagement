@@ -136,7 +136,7 @@ this.getBatchHostels();
         (error) => {
           console.log(error);
 this.toast.fireError(error.error.message)
-      
+
         }
       );
   }
