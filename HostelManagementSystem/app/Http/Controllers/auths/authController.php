@@ -24,7 +24,7 @@ class authController extends Controller
             if ($user) {
                 if (Hash::check($request->password, $user->password)) {
                     if ($user->is_active == 0) {
-                        return response()->json(['success' => false, 'message' => 'account in active contact you administrator for assistance'], 401);
+                        return response()->json(['success' => false, 'message' => 'account inactive contact your administrator for assistance'], 401);
                     } else {
                         $prompt_change = 0;
 

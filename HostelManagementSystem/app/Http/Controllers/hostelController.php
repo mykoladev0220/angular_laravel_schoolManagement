@@ -27,7 +27,7 @@ $hostellist = hostel::join('tbl_locations', 'tbl_hostels.location_id', '=', 'tbl
 return response()->json(['message' => 'successfully created hostel', 'success' => true, 'hostels' =>$hostellist], 200);
 } catch (QueryException $ex) {
 if ($ex->errorInfo[1] == 1062) {
-    return response()->json(['message' => 'hostel already exist', 'success' => false], 500);
+    return response()->json(['message' => 'hostel already exist', 'success' => false], 403);
 } elseif ($ex->errorInfo[1] == 1452) {
     return response()->json(['message' => 'location not found ', 'success' => false], 502);
 } else {
@@ -54,7 +54,7 @@ return response()->json(['message' => 'successfully deleted hostel', 'success' =
 
 } catch (QueryException $e) {
 if ($e->errorInfo[1] == 1451) {
-        return response()->json(['success' => false, 'message' => 'hostel cannot be deleted, other parts of the system are dependent on this hostel'], 501);
+        return response()->json(['success' => false, 'message' => 'hostel cannot be deleted, other parts of the system are dependent on this hostel'], 403);
 
     } else {
     return response()->json(['error' => $e->getMessage(), 'success' => false], 500);

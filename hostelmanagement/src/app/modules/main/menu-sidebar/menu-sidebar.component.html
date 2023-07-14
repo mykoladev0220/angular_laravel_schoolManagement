@@ -27,8 +27,11 @@
             data-accordion="false"
         >
             <app-menu-item
+
                 *ngFor="let item of menu"
                 [menuItem]="item"
+                routerLink="{{item.path}}"
+            routerLinkActive="active"
             ></app-menu-item>
         </ul>
     </nav>

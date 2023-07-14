@@ -27,7 +27,7 @@ export class MenuSidebarComponent implements OnInit {
         this.ui.subscribe((state: UiState) => {
             this.classes = `${BASE_CLASSES} ${state.sidebarSkin}`;
         });
-        this.user = this.appService.user;
+
     }
 }
 
@@ -36,7 +36,8 @@ export const MENU = [
 {
   name: 'Hostels',
   iconClasses: 'nav-icon fas fa-copy',
-  path: ['hostels']
+  path: ['hostels'],
+  
 },
 {
   name: 'Users',

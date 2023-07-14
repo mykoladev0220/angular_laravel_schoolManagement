@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "adminlte": {
+        "hostelmanagement": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/adminlte",
+                        "outputPath": "dist/hostelmanagement",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -37,7 +37,13 @@
                         "scripts": [
                           "node_modules/jquery/dist/jquery.js",
                           "node_modules/datatables.net/js/jquery.dataTables.js",
-                          "node_modules/datatables.net-responsive/js/dataTables.responsive.js"
+                          "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
+                          "node_modules/jszip/dist/jszip.js",
+                          "node_modules/datatables.net-buttons/js/dataTables.buttons.js",
+                          "node_modules/datatables.net-buttons/js/buttons.colVis.js",
+                          "node_modules/datatables.net-buttons/js/buttons.flash.js",
+                          "node_modules/datatables.net-buttons/js/buttons.html5.js",
+                          "node_modules/datatables.net-buttons/js/buttons.print.js"
                         ],
                         "vendorChunk": true,
                         "extractLicenses": false,
@@ -85,18 +91,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "adminlte:build"
+                        "browserTarget": "hostelmanagement:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "adminlte:build:production"
+                            "browserTarget": "hostelmanagement:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "adminlte:build"
+                        "browserTarget": "hostelmanagement:build"
                     }
                 },
                 "test": {
@@ -130,11 +136,11 @@
                     "builder": "@angular-devkit/build-angular:protractor",
                     "options": {
                         "protractorConfig": "e2e/protractor.conf.js",
-                        "devServerTarget": "adminlte:serve"
+                        "devServerTarget": "hostelmanagement:serve"
                     },
                     "configurations": {
                         "production": {
-                            "devServerTarget": "adminlte:serve:production"
+                            "devServerTarget": "hostelmanagement:serve:production"
                         }
                     }
                 }

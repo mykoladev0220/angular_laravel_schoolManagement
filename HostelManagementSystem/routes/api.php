@@ -6,6 +6,7 @@ use App\Http\Controllers\auths\authController;
 use App\Http\Controllers\auths\forgetController;
 use App\Http\Controllers\auths\studentAuthcontroller;
 use App\Http\Controllers\blacklist;
+use App\Http\Controllers\checkinsandcheckoutsController;
 use App\Http\Controllers\floorsController;
 use App\Http\Controllers\hostelController;
 use App\Http\Controllers\hostelPreferenceController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\roomstatusController;
 use App\Http\Controllers\roomTypeController;
 use App\Http\Controllers\roomTypeCostController;
 use App\Http\Controllers\studentDetailsController;
+use App\Http\Controllers\subwardensController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\yearController;
 use Illuminate\Support\Facades\Route;
@@ -41,9 +43,16 @@ use Illuminate\Support\Facades\Route;
 
 
 
-    Route::post('sendresertlink', [forgetController::class, 'sendResertLink']);
 
-    Route::post('changeforgotPassword', [forgetController::class, 'changePassword']);
+
+Route::post('createsubwarden', [subwardensController::class, 'store']);
+Route::post('subwarden/assignhostel', [subwardensController::class, 'assignhostel']);
+Route::post('subwarden/unassignhostel', [subwardensController::class, 'deleteEntry']);
+
+Route::post('allocations/checkin', [checkinsandcheckoutsController::class, 'checkin']);
+Route::post('allocations/checkin/cancel', [checkinsandcheckoutsController::class, 'cancel_checkin']);
+Route::post('allocations/checkout', [checkinsandcheckoutsController::class, 'checkout']);
+Route::post('allocations/checkout/cancel', [checkinsandcheckoutsController::class, 'cancel_checkin']);
 
 
 
@@ -104,10 +113,10 @@ Route::middleware('auth:api')->group(function () {
     Route::post('getlevelpreference', [preferencelevelController::class, 'getLevelPreference']);
 
     // programme preference routes
-    Route::post('getsessionprogrammes', [programme_sessionController::class,'getSessionProgrammes']);
-    Route::post('createprogramsession', [programme_sessionController::class,'store']);
-    Route::post('getallprogrames', [programme_sessionController::class,'getAllProgrames']);
-    Route::post('deleteprogramsession', [programme_sessionController::class,'destroy']);
+    Route::post('getsessionprogrammes', [programme_sessionController::class, 'getSessionProgrammes']);
+    Route::post('createprogramsession', [programme_sessionController::class, 'store']);
+    Route::post('getallprogrames', [programme_sessionController::class, 'getAllProgrames']);
+    Route::post('deleteprogramsession', [programme_sessionController::class, 'destroy']);
 
 
     // room status routes
@@ -138,8 +147,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('approve_reject', [roomAllocationController::class, 'approve_reject']);
     Route::post('allocationsreport', [roomAllocationController::class, 'getAllocations']);
 
-// allpoication
-Route::post('getapplicationsreports', [roomApplicationController::class, 'getApplications']);
+    // allpoication
+    Route::post('getapplicationsreports', [roomApplicationController::class, 'getApplications']);
 
     //minimum treshold
 
@@ -149,44 +158,48 @@ Route::post('getapplicationsreports', [roomApplicationController::class, 'getApp
     // user Route
     Route::post('activateUser', [userController::class, 'activateUser']);
     Route::post('deactivateUser', [userController::class, 'DeactivateUser']);
-// blacklist routes
+    // blacklist routes
 
-Route::apiResource('blacklist', blacklist::class)->only(['store', 'index']);
-Route::post('removeblacklist', [blacklist::class, 'destroy']);
-// auth routes
+    Route::apiResource('blacklist', blacklist::class)->only(['store', 'index']);
+    Route::post('removeblacklist', [blacklist::class, 'destroy']);
+    // auth routes
     Route::post('register', [authController::class, 'register']);
-Route::get('getusers', [authController::class, 'getUsers']);
-Route::post('changePassword', [authController::class, 'changePassword']);
+    Route::get('getusers', [authController::class, 'getUsers']);
+    Route::post('changePassword', [authController::class, 'changePassword']);
 
-//rights routes
+    //rights routes
 
-Route::post('getrights', [userController::class, 'getrights']);
+    Route::post('getrights', [userController::class, 'getrights']);
 
-Route::post('createrights', [userController::class, 'createrights']);
+    Route::post('createrights', [userController::class, 'createrights']);
 
-Route::post('removeright', [userController::class, 'removeRight']);
+    Route::post('removeright', [userController::class, 'removeRight']);
 
 
-Route::post('allocationreport',[roomAllocationController::class,'getallocationReportInfo']);
-
+    Route::post('allocationreport', [roomAllocationController::class, 'getallocationReportInfo']);
 });
 
 Route::get('minimumfees', [studentDetailsController::class, 'getminimum_treshold']);
 Route::get('isregistered', [studentDetailsController::class, 'is_blacklisted']);
 
-    Route::middleware('auth:api-student')->group(function () {
+Route::middleware('auth:api-student')->group(
+    function () {
 
         Route::post('getstudentBatches', [residenceSessionsController::class, 'getStudentBatches']);
-          //room application routes
-    Route::post('getmyrooms', [roomApplicationController::class, 'getmyrooms']);
+        //room application routes
+        Route::post('getmyrooms', [roomApplicationController::class, 'getmyrooms']);
 
-    Route::post('createroomapplication', [roomApplicationController::class, 'createRoomApplication']);
-    Route::post('getstudentallocation', [roomAllocationController::class, 'getstudentallocation']);
+        Route::post('createroomapplication', [roomApplicationController::class, 'createRoomApplication']);
+        Route::post('getstudentallocation', [roomAllocationController::class, 'getstudentallocation']);
     }
 );
 
 // admin auth
 Route::post('login', [authController::class, 'login']);
+
+Route::post('sendresertlink', [forgetController::class, 'sendResertLink']);
+
+Route::post('changeforgotPassword', [forgetController::class, 'changePassword']);
 // student auth
 Route::post('student-login', [studentAuthcontroller::class, 'login']);
 
