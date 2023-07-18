@@ -67,7 +67,7 @@ class roomAllocationController extends Controller
 
              $application->application_status=2;
              $application->save();
-                
+
             }
             roomAllocation::create($room_allocation);
             // check if capacity is still available

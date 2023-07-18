@@ -48,8 +48,14 @@ use Illuminate\Support\Facades\Route;
 Route::post('createsubwarden', [subwardensController::class, 'store']);
 Route::post('subwarden/assignhostel', [subwardensController::class, 'assignhostel']);
 Route::post('subwarden/unassignhostel', [subwardensController::class, 'deleteEntry']);
+Route::get('subwarden/getsubwardens', [subwardensController::class, 'getwarden']);
+Route::post('subwarden/getassignments', [subwardensController::class, 'getwardenAssignments']);
 
 Route::post('allocations/checkin', [checkinsandcheckoutsController::class, 'checkin']);
+Route::post('allocations/getcheckindata', [checkinsandcheckoutsController::class, 'getCheckindata']);
+Route::post('allocations/getcheckinreport', [checkinsandcheckoutsController::class, 'getCheckinRepotdata']);
+Route::post('allocations/getcheckoutdata', [checkinsandcheckoutsController::class, 'getCheckoutdata']);
+Route::post('allocations/getcheckoutreportdata', [checkinsandcheckoutsController::class, 'getCheckoutReport']);
 Route::post('allocations/checkin/cancel', [checkinsandcheckoutsController::class, 'cancel_checkin']);
 Route::post('allocations/checkout', [checkinsandcheckoutsController::class, 'checkout']);
 Route::post('allocations/checkout/cancel', [checkinsandcheckoutsController::class, 'cancel_checkin']);

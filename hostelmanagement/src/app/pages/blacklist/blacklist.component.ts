@@ -34,7 +34,7 @@ export class BlacklistComponent implements OnInit {
 
       lengthChange: false,
       language: {
-        searchPlaceholder: 'Text Customer',
+        searchPlaceholder: 'search',
       },
       destroy: true,
       dom: 'Bfrtip',

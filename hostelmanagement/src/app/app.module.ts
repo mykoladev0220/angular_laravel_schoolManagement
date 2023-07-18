@@ -59,6 +59,12 @@ import { DataTablesModule } from 'angular-datatables';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from 'ngx-ui-loader';
+import { CreateSubwardenComponent } from './pages/create-subwarden/create-subwarden.component';
+import { CheckinComponent } from './pages/checkin/checkin.component';
+import { CheckinReportComponent } from './pages/checkin-report/checkin-report.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { WardenhostelsComponent } from './pages/wardenhostels/wardenhostels.component';
+import { CheckoutReportComponent } from './pages/checkout-report/checkout-report.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
@@ -106,7 +112,13 @@ registerLocaleData(localeEn, 'en-EN');
         HostelsComponent,
         LevelPreferenceComponent,
         NotfoundComponent,
-        ChangePasswordComponent
+        ChangePasswordComponent,
+        CreateSubwardenComponent,
+        CheckinComponent,
+        CheckinReportComponent,
+        CheckoutComponent,
+        WardenhostelsComponent,
+        CheckoutReportComponent
     ],
     imports: [
       FormsModule,

@@ -27,7 +27,7 @@ export class RoomstypesComponent implements OnInit  {
       //  paging:false
       lengthChange: false,
       language: {
-        searchPlaceholder: 'Text Customer',
+        searchPlaceholder:'search',
 
       },
       destroy:true,

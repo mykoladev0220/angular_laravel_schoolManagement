@@ -59,7 +59,7 @@ export class RoomsComponent implements OnInit {
 
       lengthChange: false,
       language: {
-        searchPlaceholder: 'Text Customer',
+        searchPlaceholder: 'search',
       },
       destroy: true,
       dom: 'Bfrtip',

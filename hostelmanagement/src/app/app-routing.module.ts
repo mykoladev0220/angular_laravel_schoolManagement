@@ -37,6 +37,12 @@ import { ViewBatchComponent } from '@pages/view-batch/view-batch.component';
 import { NotfoundComponent } from '@pages/notfound/notfound.component';
 import { ForgotPasswordComponent } from '@modules/forgot-password/forgot-password.component';
 import { ChangePasswordComponent } from '@modules/change-password/change-password.component';
+import { CreateSubwardenComponent } from '@pages/create-subwarden/create-subwarden.component';
+import { WardenhostelsComponent } from '@pages/wardenhostels/wardenhostels.component';
+import { CheckinComponent } from '@pages/checkin/checkin.component';
+import { CheckinReportComponent } from '@pages/checkin-report/checkin-report.component';
+import { CheckoutComponent } from '@pages/checkout/checkout.component';
+import { CheckoutReportComponent } from '@pages/checkout-report/checkout-report.component';
 
 const routes: Routes = [
     {
@@ -66,7 +72,7 @@ const routes: Routes = [
             {
               path: 'roomtypes',
               component: RoomstypesComponent,
-              canActivate: [IsSuperadminGuard],
+
             },
             { path: 'roomallocation', component: RoomallocationComponent,canActivate:[CanallocateroomsGuard] },
             {
@@ -83,6 +89,30 @@ const routes: Routes = [
             {
               path: 'programmepreference',
               component: ProgrampreferenceComponent,
+            },
+            {
+              path: 'subwarden',
+              component: CreateSubwardenComponent,
+            },
+            {
+              path: 'subwardendetails',
+              component: WardenhostelsComponent,
+            },
+            {
+              path: 'checkin',
+              component:CheckinComponent,
+            },
+            {
+              path: 'checkin-report',
+              component:CheckinReportComponent,
+            },
+            {
+              path: 'checkout',
+              component:CheckoutComponent,
+            },
+            {
+              path: 'checkout-report',
+              component:CheckoutReportComponent,
             },
             {
               path: 'user',

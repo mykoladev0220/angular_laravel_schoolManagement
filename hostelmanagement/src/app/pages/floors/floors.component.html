@@ -38,14 +38,7 @@ fgsType="square-jelly-box"
 </div>
 
 <div *ngIf="myrights.create_hostel" class="card card-default">
-  <div class="row">
-    <div class="col-md-9">
-      <div class="card-header">
 
-      </div>
-    </div>
-
-  </div>
   <div class="card-header">
     <h3 class="card-title">Create floors </h3>
 
@@ -137,7 +130,7 @@ fgsType="square-jelly-box"
           </thead>
           <tbody>
             <tr *ngFor="let floor of floors; let i = index">
-              <td>{{ i }}</td>
+              <td>{{ i + 1}}</td>
               <td>{{ floor.floor_name }}</td>
 
 

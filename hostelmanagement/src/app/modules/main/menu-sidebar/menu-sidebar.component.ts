@@ -37,7 +37,7 @@ export const MENU = [
   name: 'Hostels',
   iconClasses: 'nav-icon fas fa-copy',
   path: ['hostels'],
-  
+
 },
 {
   name: 'Users',
@@ -55,6 +55,11 @@ export const MENU = [
   path: ['allperiods']
 },
 {
+  name: 'Sub Wardens',
+  iconClasses: 'nav-icon fas fa-copy',
+  path: ['subwarden']
+},
+{
   name: 'Blacklist',
   iconClasses: 'nav-icon fas fa-copy',
   path: ['blacklist']
@@ -62,3 +67,4 @@ export const MENU = [
 
 
 ];
+

@@ -1,0 +1,166 @@
+<div class="card card-default">
+
+  <div class="card-header">
+    <h3 class="card-title"> Assingn Hostel to {{subwarden?.first_name +" " + subwarden?.surname}} </h3>
+
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+        <i class="fas fa-minus"></i>
+      </button>
+      <button type="button" class="btn btn-tool" data-card-widget="remove">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+
+    <form #assignwarden="ngForm" (ngSubmit)="AssignWarden()">
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Period</label>
+
+            <select class="form-control" required (change)="getBatches(period)" name="actiavte_period" [(ngModel)]="period">
+              <option value=null > select period</option>
+              <option *ngFor="let period of  activeperiods" [ngValue]="period">{{period.period_name}}</option>
+            </select>
+          </div>
+
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Batch</label>
+
+            <select class="form-control" required name="batch" [(ngModel)]="subwarden_session.residence_session_id">
+               <option value=null> select batch</option>
+              <option *ngFor="let batch of batches" [ngValue]="batch.residence_session_id">{{batch.session_name}}</option>
+            </select>
+          </div>
+
+        </div>
+
+
+
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Location</label>
+            <select class="form-control" required (change)=" getHostels(location)" name="location" [(ngModel)]="location">
+              <option value=null> select location</option>
+              <option *ngFor="let location of locations" [ngValue]="location" >{{location.location_name}}</option>
+            </select>
+          </div>
+
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Hostel</label>
+
+            <select class="form-control"  required name="hostel" [(ngModel)]="subwarden_session.hostel_id">
+              <option value=null> select Hostel</option>
+              <option *ngFor="let hostel of hostels" [ngValue]="hostel.hostel_id">{{hostel.hostel_name}}</option>
+            </select>
+          </div>
+
+        </div>
+
+
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-6">
+
+
+          <button class="btn btn-primary" [disabled]="assignwarden.form.invalid" type="submit">Assign</button>
+        </div>
+      </div>
+      <!-- /.row -->
+
+
+
+      <!-- /.card-body -->
+    </form>
+  </div>
+</div>
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Available Assignments</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table id="mytable" class="table table-bordered table-striped table-hover responsive" style="width: 100%;">
+          <thead>
+            <tr>
+
+
+              <th>location</th>
+              <th>Hostel</th>
+              <th>Period</th>
+              <th>Batch</th>
+
+              <th> Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let assignment of    asignments; let i=index">
+
+
+              <td>{{assignment?.location_name}}</td>
+              <td>{{assignment?.hostel_name}}</td>
+              <td>{{assignment?.period_name}}</td>
+              <td>{{assignment?.session_name}}</td>
+
+
+              <td class="btn-group">
+                <button class="btn btn-sm btn-danger" data-toggle="modal" [attr.data-target]="'#modal-sm' + i" > <i class="fa fa-eye" aria-hidden="true"></i>
+                  remove</button>
+
+              </td>
+              <!-- delete modal small -->
+              <div class="modal fade" id="modal-sm{{i}}">
+                <div class="modal-dialog modal-sm">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Confimation</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p class="text-sm">
+                        Are you sure you want to remove
+                        &hellip;
+                      </p>
+                    </div>
+
+
+                    <div class="modal-footer justify-content-between">
+                      <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                        Cancel
+                      </button>
+                      <button type="button" (click)="unAssign(assignment)" data-dismiss="modal"
+                        class="btn btn-danger btn-sm">
+                      remove
+                      </button>
+                    </div>
+                  </div>
+                  <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+              </div>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.content-header -->
+  </div>
+</section>

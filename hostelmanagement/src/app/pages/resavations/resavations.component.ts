@@ -50,14 +50,14 @@ toreservelist=[{}]
 
       lengthChange: false,
       language: {
-        searchPlaceholder: 'Text Customer',
+        searchPlaceholder: 'search',
       },
       destroy: true,
       dom: 'Bfrtip',
 
     };
 
- 
+
 
     this.myrights = this.params.getparam('myrights');
     this.getAllBatch();

@@ -203,7 +203,8 @@ fgsType="square-jelly-box"
               <td>{{ _room.room_number}}</td>
               <td>{{ _room.room_type }}</td>
               <td>{{ _room.hostel_name }}</td>
-              <td>{{ _room.room_gender }}</td>
+              <td *ngIf="_room.room_gender=='m'">Male</td>
+              <td *ngIf="_room.room_gender=='f'">female</td>
               <td class="btn-group">
 
 

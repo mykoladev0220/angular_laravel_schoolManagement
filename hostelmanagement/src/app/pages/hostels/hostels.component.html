@@ -97,7 +97,7 @@ fgsType="circle"
           </thead>
           <tbody>
             <tr *ngFor="let _hostel of hostels; let i = index">
-              <td>{{ i }}</td>
+              <td>{{ i + 1}}</td>
               <td> <a  class="name-link" (click)="navigate('hostel',_hostel,'allrooms')">{{ _hostel.hostel_name }} </a></td>
               <td>{{ _hostel.location_name }}</td>
 

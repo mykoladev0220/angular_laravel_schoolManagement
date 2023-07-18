@@ -9,17 +9,20 @@ item:any;
   constructor(private encription:EncriptionserviceService) { }
   setparam(key:any,value:any){
 
-    localStorage.setItem(key, this.encription.encrypt(JSON.stringify(value)));
+    sessionStorage.setItem(key, this.encription.encrypt(JSON.stringify(value)));
   }
   getparam(key:any){
- if(key in localStorage){
-  this.item=  localStorage.getItem(key);
+ if(key in sessionStorage){
+  this.item=  sessionStorage.getItem(key);
 
   return JSON.parse(this.encription.decrypt(this.item));
  }
  return this.item;
   }
+  removeparam(key:any){
+    sessionStorage.removeItem(key);
+  }
   clearAll(){
-    localStorage.clear();
+    sessionStorage.clear();
   }
 }
