@@ -15,14 +15,14 @@ export class CanallocateroomsGuard implements CanActivate {
 if(this.getright()){
   return true;
 }else{
-  this.router.navigate(['admin/hostels']);
+  this.router.navigate(['hostels']);
   return false;
 }
 
 
   }
   getright(){
-  
+
     var myrights=this.params.getparam('myrights');
     this.canallocate=myrights.allocate_rooms;
     this.canapprove=myrights.approve_allocations;

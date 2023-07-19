@@ -6,39 +6,8 @@
       <div class="card">
         <div class="card-header">
 
-            <div class="card-tools pl-5">
-              <a routerLink="../levelpreference" type="button"   class="btn btn-primary btn-tool nav-btn">
-                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-             Preference Levels
-              </a>
-
-              <a routerLink="../viewbatch" type="button"   class="btn btn-primary btn-tool nav-btn">
-                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-            Hostel Preference
-              </a>
-              <a routerLink="../reports" type="button" class="btn btn-primary btn-tool nav-btn">
-                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-              Reports
-              </a>
-
-
-              <a routerLink="../roomallocation" type="button" class="btn btn-primary btn-tool nav-btn">
-                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-                Allocation
-              </a>
-
-
-              <a routerLink="../batches" type="button" class="btn btn-primary btn-tool nav-btn">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
-                Batches
-              </a>
-
-
-
-
-              <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-              </button>
+            <div class="card-tools">
+              <app-dropdown-options></app-dropdown-options>
             </div>
 
             <h5 class="upper">Reports</h5>

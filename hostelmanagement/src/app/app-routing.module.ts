@@ -43,6 +43,7 @@ import { CheckinComponent } from '@pages/checkin/checkin.component';
 import { CheckinReportComponent } from '@pages/checkin-report/checkin-report.component';
 import { CheckoutComponent } from '@pages/checkout/checkout.component';
 import { CheckoutReportComponent } from '@pages/checkout-report/checkout-report.component';
+import { CancheckincheckoutGuard } from '@guards/cancheckincheckout.guard';
 
 const routes: Routes = [
     {
@@ -101,18 +102,22 @@ const routes: Routes = [
             {
               path: 'checkin',
               component:CheckinComponent,
+              canActivate:[CancheckincheckoutGuard]
             },
             {
               path: 'checkin-report',
               component:CheckinReportComponent,
+              canActivate:[CancheckincheckoutGuard]
             },
             {
               path: 'checkout',
               component:CheckoutComponent,
+              canActivate:[CancheckincheckoutGuard]
             },
             {
               path: 'checkout-report',
               component:CheckoutReportComponent,
+              canActivate:[CancheckincheckoutGuard]
             },
             {
               path: 'user',

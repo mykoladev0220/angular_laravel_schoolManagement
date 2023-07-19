@@ -8,4 +8,5 @@ export class UserRights {
   hostel_preference: boolean = false;
   reserve_rooms: boolean = false;
   blacklist_students:boolean = false;
+  check_checkout:boolean=false;
 }

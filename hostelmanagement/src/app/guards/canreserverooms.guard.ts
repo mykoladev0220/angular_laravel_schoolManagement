@@ -13,7 +13,7 @@ export class CanreserveroomsGuard implements CanActivate {
     if(this.getright()){
       return true;
     }else{
-      this.router.navigate(['admin/hostels']);
+      this.router.navigate(['hostels']);
       return false;
     }
   }

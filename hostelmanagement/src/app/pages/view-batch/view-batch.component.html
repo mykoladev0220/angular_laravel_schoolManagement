@@ -14,43 +14,12 @@ fgsType="square-jelly-box"
 
 
     <div class="card-tools">
-      <a routerLink="../programmepreference" type="button"   class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-      Add Programmes
-      </a>
-      <a routerLink="../levelpreference" type="button"   class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-     Preference Levels
-      </a>
 
-      <a routerLink="../reports" type="button" class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-      Reports
-      </a>
-
-      <a routerLink="../Resevations" type="button"  *ngIf="myrights.reserve_rooms" class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-       Resavations
-      </a>
-
-      <a routerLink="../roomallocation" type="button" *ngIf="myrights.allocate_rooms||myrights.approve_allocations" class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-        Allocation
-      </a>
-
-
-      <a routerLink="../batches" type="button" class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
-        Batches
-      </a>
+<app-dropdown-options></app-dropdown-options>
 
 
 
 
-
-      <button type="button" class="btn btn-tool" data-card-widget="remove">
-        <i class="fas fa-times"></i>
-      </button>
     </div>
     <h5 class="upper">Hostel peference</h5>
   </div>

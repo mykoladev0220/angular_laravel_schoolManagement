@@ -65,6 +65,7 @@ import { CheckinReportComponent } from './pages/checkin-report/checkin-report.co
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { WardenhostelsComponent } from './pages/wardenhostels/wardenhostels.component';
 import { CheckoutReportComponent } from './pages/checkout-report/checkout-report.component';
+import { DropdownOptionsComponent } from './pages/dropdown-options/dropdown-options.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
@@ -118,7 +119,8 @@ registerLocaleData(localeEn, 'en-EN');
         CheckinReportComponent,
         CheckoutComponent,
         WardenhostelsComponent,
-        CheckoutReportComponent
+        CheckoutReportComponent,
+        DropdownOptionsComponent
     ],
     imports: [
       FormsModule,

@@ -16,7 +16,7 @@ constructor(private params:ParamsService,private router:Router)
       if(this.getright()){
         return true;
       }else{
-this.router.navigate(['admin/hostels']);
+this.router.navigate(['hostels']);
         return false;
       }
 
