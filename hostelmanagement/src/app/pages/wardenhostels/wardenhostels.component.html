@@ -98,7 +98,7 @@
           <thead>
             <tr>
 
-
+<th>#</th>
               <th>location</th>
               <th>Hostel</th>
               <th>Period</th>
@@ -109,7 +109,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let assignment of    asignments; let i=index">
-
+<td>{{i+1}}</td>
 
               <td>{{assignment?.location_name}}</td>
               <td>{{assignment?.hostel_name}}</td>

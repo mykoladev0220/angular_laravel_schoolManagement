@@ -90,7 +90,7 @@ fgsType="square-jelly-box"
               </thead>
               <tbody>
                 <tr *ngFor="let allocation of batchallocations_appproved; let i = index">
-                  <td>{{ i }}</td>
+                  <td>{{ i+1 }}</td>
                   <td>{{ allocation.reg_number}}</td>
 
                   <td>{{ allocation.room_number }}</td>
@@ -196,7 +196,7 @@ fgsType="square-jelly-box"
                         </thead>
                         <tbody>
                           <tr *ngFor="let allocation of batchallocations_pending; let i = index">
-                            <td>{{ i }}</td>
+                            <td>{{ i+1 }}</td>
                             <td>{{ allocation.reg_number}}</td>
 
                             <td>{{ allocation.room_number }}</td>
@@ -358,7 +358,7 @@ fgsType="square-jelly-box"
       </thead>
       <tbody>
         <tr *ngFor="let room of roomstoallocate; let i = index">
-          <td>{{ i }}</td>
+          <td>{{ i+1 }}</td>
           <td>{{ room.room_number}}</td>
           <td *ngIf="room.room_gender=='m'">Male</td>
           <td *ngIf="room.room_gender=='f'">female</td>

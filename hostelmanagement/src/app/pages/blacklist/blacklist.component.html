@@ -11,25 +11,7 @@ fgsType="square-jelly-box"
 
 
 
-
-    <div class="card-tools">
-
-      <a routerLink="../hostels" type="button" class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
-        hostels
-      </a>
-
-      <a routerLink="../allrooms" type="button" class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-        rooms
-      </a>
-
-
-
-      <button type="button" class="btn btn-tool" data-card-widget="remove">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
+<h3>Blacklist</h3>
 
   </div>
 
@@ -142,7 +124,7 @@ fgsType="square-jelly-box"
           </thead>
           <tbody>
             <tr *ngFor="let blacklistedstudent of studentblacklist; let i=index">
-              <td>{{ i }}</td>
+              <td>{{ i+1 }}</td>
               <td>{{blacklistedstudent.student_regnumber}}</td>
               <td>{{blacklistedstudent.reason}}</td>
               <td>{{blacklistedstudent.created_at | date}}</td>

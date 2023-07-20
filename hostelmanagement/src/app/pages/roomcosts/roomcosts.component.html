@@ -5,38 +5,15 @@ textColor="#c2a458"
 fgsColor="#c2a458"
 fgsType="square-jelly-box"
 ></ngx-ui-loader>
-<div class="row">
-  <div class="col-md-9">
-    <div class="card-header">
 
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div *ngIf="feddback_message_status==1" class="alert alert-success alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <i class="icon fas fa-check "></i>
-      <small> {{ feedback_message }}</small>
-    </div>
-    <div *ngIf="feddback_message_status==2" class="alert alert-danger alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <i class="icon fas fa-ban"></i>
-      <small> {{ feedback_message }}</small>
-    </div>
-  </div>
-</div>
 <div *ngIf="myrights.create_room_costs" class="card">
   <div class="card-header  ">
 
     <div class="card-tools">
 
-      <a routerLink="../Allperiods" type="button" class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
-        Periods
-      </a>
+    <app-period-dropdown-options></app-period-dropdown-options>
 
-      <button type="button" class="btn btn-tool" data-card-widget="remove">
-        <i class="fas fa-times"></i>
-      </button>
+
     </div>
     <h5 class="upper">Room Costs</h5>
 
@@ -144,7 +121,7 @@ fgsType="square-jelly-box"
           </thead>
           <tbody>
             <tr *ngFor="let roomtypecost of roomTypeCost; let i = index">
-              <td>{{ i }}</td>
+              <td>{{ i+1 }}</td>
               <td>{{ roomtypecost.room_type }}</td>
               <td>{{roomtypecost.period_name }}</td>
               <td>{{roomtypecost.room_price}}</td>

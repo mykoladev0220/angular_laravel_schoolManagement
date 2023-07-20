@@ -9,6 +9,7 @@ import { ParamsService } from "@services/params.service";
 import { RoomService } from "@services/room.service";
 import { ToastService } from "@services/toast.service";
 import { DataTableDirective } from "angular-datatables";
+import { log } from "console";
 import { Subject } from "rxjs";
 
 @Component({
@@ -65,16 +66,12 @@ toreservelist=[{}]
     this.activePedriods();
     this.session_batch = this.params.getparam('batch');
 
-    if (this.session_batch == null) {
-      this.batchmodel.active_period_id = '';
-      this.batchmodel.residence_session_id = '';
-    } else {
-      this.batchmodel.active_period_id = this.session_batch.active_period_id;
+    this.batchmodel.active_period_id = this.session_batch.active_period_id;
       this.batchmodel.residence_session_id =
         this.session_batch.residence_session_id;
-      this.getroomsToresereve();
-      this.findResavation(this.session_batch.residence_session_id);
-    }
+
+ 
+        this.getroomsToresereve();
   }
   constructor(
     private authservice: AuthService,
@@ -91,15 +88,20 @@ toreservelist=[{}]
   checkedsingle(room:any){
 this.toreservelist.push(room);
   }
+
+
   getroomsToresereve() {
     this.roomservice
       .getRoomstoreserve(
+
         { residence_session_id: this.batchmodel.residence_session_id },
         { headers: this.authservice.getHeaders() }
       )
       .subscribe(
         (res) => {
           this.roomstoreserve = res;
+// mytable
+
           this.dtTrigger1.next(null);
         },
         (error) => {

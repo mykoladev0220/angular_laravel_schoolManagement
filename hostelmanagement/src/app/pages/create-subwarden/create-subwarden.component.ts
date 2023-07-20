@@ -6,6 +6,7 @@ import { AuthService } from '@services/auth.service';
 import { ParamsService } from '@services/params.service';
 import { SubwardenService } from '@services/subwarden.service';
 import { ToastService } from '@services/toast.service';
+import { Subject } from 'rxjs';
 
 
 
@@ -19,7 +20,8 @@ export class CreateSubwardenComponent implements OnInit {
   subwardens:any;
   subwardenmodel = new Subwarden();
   resp:any;
-
+  dtoptions:any = {};
+  dtTrigger: Subject<any> = new Subject<any>();
   constructor(private paramsService:ParamsService,private router:Router,private subwardenservice:SubwardenService,private authservice:AuthService,private toast:ToastService){}
   ngOnInit(): void {
     this.myrights=this.paramsService.getparam('myrights');

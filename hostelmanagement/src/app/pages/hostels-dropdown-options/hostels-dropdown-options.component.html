@@ -1,0 +1,27 @@
+<div class="btn-group mr-3">
+  <a data-toggle="dropdown"> <i class="fa fa-solid fa-list-ul"> </i> options</a>
+  <span class="sr-only">Toggle Dropdown</span>
+  <div class="dropdown-menu" style="margin-right: 100px;" role="menu">
+
+
+
+    <a routerLink="../hostels"  type="button" class="dropdown-item">
+      <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
+      hostels
+    </a>
+    <a routerLink="../roomtypes"  *ngIf="currenturl!='/roomtypes'" type="button" class="dropdown-item">
+      <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+      Room Types
+    </a>
+    <a routerLink="../floors" *ngIf="currenturl!='/floors'" type="button" class="dropdown-item">
+      <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+      floors
+    </a>
+    <a routerLink="../allrooms" *ngIf="currenturl!='/allrooms'" type="button" class="dropdown-item">
+      <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+      rooms
+    </a>
+
+  </div>
+
+</div>

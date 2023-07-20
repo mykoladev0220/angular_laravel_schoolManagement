@@ -9,19 +9,9 @@ fgsType="square-jelly-box"
   <div class="card-header  " >
 
     <div class="card-tools">
-      <a routerLink="../Allperiods"  type="button" class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
-        Periods
-      </a>
+     <app-period-dropdown-options></app-period-dropdown-options>
 
-      <a routerLink="../roomcosts" type="button" *ngIf="myrights.create_room_costs" class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
-        Room Costs
-      </a>
 
-      <button type="button" class="btn btn-tool" data-card-widget="remove">
-        <i class="fas fa-times"></i>
-      </button>
     </div>
     <h5 class="upper">Batches</h5>
   </div>
@@ -161,7 +151,7 @@ fgsType="square-jelly-box"
       </thead>
       <tbody>
         <tr *ngFor="let batch of batches; let i = index" class="text-sm">
-          <td>{{ i}}</td>
+          <td>{{ i+1}}</td>
           <td><a class="mylink" (click)="goTO('viewbatch',batch)">{{ batch.session_name }}</a></td>
           <td *ngIf="batch.available_status == 1">
             <a class="mylink text-success" (click)="setcreds(batch)" data-toggle="modal"

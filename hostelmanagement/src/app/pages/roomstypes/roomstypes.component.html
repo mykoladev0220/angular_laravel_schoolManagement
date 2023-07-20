@@ -16,18 +16,15 @@ fgsType="square-jelly-box"
 
     <div class="card-tools">
 
-      <a routerLink="../hostels" type="button" class="btn btn-primary btn-tool nav-btn">
-        <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
-        hostels
-      </a>
+      <app-hostels-dropdown-options></app-hostels-dropdown-options>
 
 
 
 
-      <button type="button" class="btn btn-tool" data-card-widget="remove">
-        <i class="fas fa-times"></i>
-      </button>
+
     </div>
+
+    Room Types
 
   </div>
 
@@ -111,7 +108,7 @@ fgsType="square-jelly-box"
           </thead>
           <tbody>
             <tr *ngFor="let roomtype of roomTypes; let i = index">
-              <td>{{ i }}</td>
+              <td>{{ i +1}}</td>
               <td>{{ roomtype.room_type }}</td>
               <th>{{roomtype.room_capacity}}</th>
 

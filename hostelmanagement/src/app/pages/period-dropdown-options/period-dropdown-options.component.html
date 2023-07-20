@@ -1,0 +1,25 @@
+<div class="btn-group mr-3">
+  <a data-toggle="dropdown"> <i class="fa fa-solid fa-list-ul"> </i> options</a>
+  <span class="sr-only">Toggle Dropdown</span>
+  <div class="dropdown-menu" style="margin-right: 100px;" role="menu">
+
+    <a routerLink="../allperiods" *ngIf="currenturl!='/allperiods'"  type="button" class="dropdown-item">
+      <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
+      Periods
+    </a>
+
+    <a routerLink="../roomcosts" type="button" *ngIf="myrights.create_room_costs&&currenturl!='/roomcosts'" class="dropdown-item">
+      <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+      Room Costs
+    </a>
+    <a routerLink="../batches" type="button" *ngIf="currenturl!='/batches'"  class="dropdown-item">
+      <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+      Batches
+    </a>
+
+
+
+  </div>
+
+</div>
+

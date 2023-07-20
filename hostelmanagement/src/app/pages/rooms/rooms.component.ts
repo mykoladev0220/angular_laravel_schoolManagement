@@ -219,6 +219,7 @@ this.toast.firesuccess(this.msg.message);
       )
       .subscribe((res) => {
         this.rooms = res;
+console.log("room",res);
 
         var table = $('#mytable').DataTable();
         table.destroy();

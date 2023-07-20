@@ -66,6 +66,8 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { WardenhostelsComponent } from './pages/wardenhostels/wardenhostels.component';
 import { CheckoutReportComponent } from './pages/checkout-report/checkout-report.component';
 import { DropdownOptionsComponent } from './pages/dropdown-options/dropdown-options.component';
+import { PeriodDropdownOptionsComponent } from './pages/period-dropdown-options/period-dropdown-options.component';
+import { HostelsDropdownOptionsComponent } from './pages/hostels-dropdown-options/hostels-dropdown-options.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
@@ -120,7 +122,9 @@ registerLocaleData(localeEn, 'en-EN');
         CheckoutComponent,
         WardenhostelsComponent,
         CheckoutReportComponent,
-        DropdownOptionsComponent
+        DropdownOptionsComponent,
+        PeriodDropdownOptionsComponent,
+        HostelsDropdownOptionsComponent
     ],
     imports: [
       FormsModule,

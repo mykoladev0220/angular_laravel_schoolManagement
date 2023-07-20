@@ -6,23 +6,7 @@ textColor="#c2a458"
 fgsColor="#c2a458"
 fgsType="square-jelly-box"
 ></ngx-ui-loader>
-<div class="row">
-  <div class="col-md-9">
 
-  </div>
-  <div class="col-md-3">
-    <div *ngIf="feedback_message_status==1" class="alert alert-success alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <i class="icon fas fa-check "></i>
-      <small> {{ feedback_message }}</small>
-    </div>
-    <div *ngIf="feedback_message_status==2" class="alert alert-danger alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <i class="icon fas fa-ban"></i>
-      <small> {{ feedback_message }}</small>
-    </div>
-  </div>
-</div>
 
 <!-- Main content -->
 <section class="content">
@@ -31,6 +15,9 @@ fgsType="square-jelly-box"
       <div class="card-header">
         <h3 class="card-title">ASIGN RIGHTS <small>To {{user.name}}</small></h3>
         <div class="card-tools">
+          <button type="button" routerLink="../user" class="btn btn-tool bg-dark btn-sm">
+            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>  back
+                       </button>
           <button type="button" class="btn btn-tool" data-card-widget="collapse">
             <i class="fas fa-minus"></i>
           </button>

@@ -13,7 +13,7 @@ class roomsController extends Controller
     public function createRoom(Request $request)
     {
         $request->validate([
-            'room_number' => 'required', 'room_type_id' => 'required', 'floor_id' => 'required','room_gender' => 'required', 'hostel_id' => 'required',
+            'room_number' => 'required', 'room_type_id' => 'required', 'floor_id' => 'required', 'room_gender' => 'required', 'hostel_id' => 'required',
         ]);
         $room = new room();
         try {
@@ -27,9 +27,9 @@ class roomsController extends Controller
             $room->hostel_id = $request->input('hostel_id');
             $room->save();
             $hostel_id = $request['hostel_id'];
-            $rooms = room::join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
-                ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
-                ->where('tbl_rooms.hostel_id', $hostel_id)->get();
+            $rooms = room::join('tbl_floors', 'tbl_floors.floor_id', '=', 'tbl_rooms.floor_id')->join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
+            ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
+            ->where('tbl_rooms.hostel_id', $hostel_id)->get();
             return response()->json(['message' => 'successfully created room', 'success' => true, 'rooms' => $rooms], 200);
         } catch (QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
@@ -58,9 +58,9 @@ class roomsController extends Controller
 
             $room->update();
             $hostel_id = $request['hostel_id'];
-            $rooms = room::join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
-                ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
-                ->where('tbl_rooms.hostel_id', $hostel_id)->get();
+            $rooms = room::join('tbl_floors', 'tbl_floors.floor_id', '=', 'tbl_rooms.floor_id')->join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
+            ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
+            ->where('tbl_rooms.hostel_id', $hostel_id)->get();
             return response()->json(['message' => 'successfully updated room', 'success' => true, 'rooms' => $rooms], 200);
         } catch (QueryException $ex) {
             if ($ex->errorInfo[1] == 1062) {
@@ -74,20 +74,20 @@ class roomsController extends Controller
     public function deleteRoom(Request $request)
     {
         $request->validate([
-            'room_number' => 'required','room_id'=>'required' , 'room_type_id' => 'required', 'room_gender' => 'required', 'hostel_id' => 'required',
+            'room_number' => 'required', 'room_id' => 'required', 'room_type_id' => 'required', 'room_gender' => 'required', 'hostel_id' => 'required',
         ]);
         $room_id = $request['room_id'];
-        $hostel_id=$request['hostel_id'];
+        $hostel_id = $request['hostel_id'];
 
         try {
 
             $room = room::find($request['room_id']);
 
             $room->delete();
-            $rooms = room::join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
+            $rooms = room::join('tbl_floors', 'tbl_floors.floor_id', '=', 'tbl_rooms.floor_id')->join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
             ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
             ->where('tbl_rooms.hostel_id', $hostel_id)->get();
-            return response()->json(['message' => 'successfully deleted room', 'success' => true, 'rooms' =>$rooms], 200);
+            return response()->json(['message' => 'successfully deleted room', 'success' => true, 'rooms' => $rooms], 200);
         } catch (QueryException $e) {
 
             if ($e->errorInfo[1] == 1451) {
@@ -96,8 +96,6 @@ class roomsController extends Controller
                 return response()->json(['error' => $e->getMessage(), 'success' => false], 500);
             }
         }
-
-
     }
 
     public function searchRoom(Request $request)
@@ -119,7 +117,7 @@ class roomsController extends Controller
         $hostel_id = $request['hostel_id'];
         try {
 
-            $rooms = room::join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
+            $rooms = room::join('tbl_floors', 'tbl_floors.floor_id', '=', 'tbl_rooms.floor_id')->join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
                 ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
                 ->where('tbl_rooms.hostel_id', $hostel_id)->get();
 

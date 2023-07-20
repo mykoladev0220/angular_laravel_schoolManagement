@@ -100,7 +100,7 @@ fgsType="square-jelly-box"
       </thead>
       <tbody>
         <tr *ngFor="let period of active_periods; let i = index">
-          <td>{{ i }}</td>
+          <td>{{ i+1 }}</td>
           <td>
 
             <a class="mylink" (click)="gotoBatches(period)" >{{ period.period_name }}</a>

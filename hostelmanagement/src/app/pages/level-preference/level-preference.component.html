@@ -150,7 +150,7 @@ fgsType="square-jelly-box"
       </thead>
       <tbody>
         <tr *ngFor="let preference of preferences; let i=index">
-          <td>{{i}}</td>
+          <td>{{i+1}}</td>
           <td><a (click)="gotoprogrampreference(preference)">{{preference.academic_level}}.{{preference.semester}}</a></td>
 
 

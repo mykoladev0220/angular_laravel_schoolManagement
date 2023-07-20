@@ -20,7 +20,7 @@ fgsType="square-jelly-box"
 
 
 
-  
+
     </div>
 
     <h5 class="upper">Reservations</h5>
@@ -57,7 +57,7 @@ fgsType="square-jelly-box"
             aria-labelledby="custom-tabs-one-home-tab">
             <div class="card-body">
 
-              <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger2"  id="mytable2"  class="table table-bordered table-striped table-hover   table-responsive-lg" >
+              <table style="width: 100%;" datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger2"  id="mytable2"  class="table table-bordered table-striped table-hover   responsive" >
                 <thead>
                 <tr>
 
@@ -74,7 +74,7 @@ fgsType="square-jelly-box"
                 <tbody>
                   <tr *ngFor="let _room of rooms, let i=index">
 
-                    <td>{{ i }}</td>
+                    <td>{{ i +1}}</td>
                     <td>{{  _room.room_number}}</td>
                     <td>{{ _room.floor_name }}</td>
                     <td>{{ _room.hostel_name }}</td>
