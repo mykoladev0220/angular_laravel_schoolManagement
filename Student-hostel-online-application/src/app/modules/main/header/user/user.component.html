@@ -13,7 +13,7 @@
       </a>
   </div>
   <div slot="menu">
-      <li class="user-header bg-primary">
+      <li class="user-header">
           <pf-image
 
               fallback-src="assets/img/default-profile.png"
@@ -24,32 +24,24 @@
               rounded
           ></pf-image>
 
-          <p>
-              <span >{{ studentname}}{{ studentsurname }}
-              </span>
-              <br>
-           <small>
 
-            {{ student.programme_code }}</small>
-          <small>  {{ student.academic_level+"."+student.semester }}</small>
 
-          </p>
-
-        <p>
-          <span>{{ student.sex }}</span>
-
-      </p>
 
       </li>
       <!-- Menu Body -->
       <li class="user-body">
-
-          <!-- /.row -->
+        <span >{{ studentname}}{{ studentsurname }}
+        </span>
+        <br>
+     <small>
+      {{ student.programme_code }}</small>
+      <br>
+    <small>  {{ student.academic_level+"."+student.semester }}</small>
       </li>
       <!-- Menu Footer-->
       <li class="user-footer">
 
-          <a (click)="logout()" class="btn btn-default btn-flat float-right">
+          <a (click)="logout()" class="btn btn-flat float-right">
               Sign out
           </a>
       </li>

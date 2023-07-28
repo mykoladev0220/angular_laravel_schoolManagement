@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       }else if(this.student.password==null){
         this.error='passwod is required '
       }else{
-    
+
         console.log(this.student);
         this.auhthservice.login(this.student).subscribe(
           (res) => {
@@ -69,15 +69,16 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.params.setparam('hasapplied', this.encservice.encrypt(JSON.stringify(this.studentdetails.hasapplied)));
             this.params.setparam('student',this.encservice.encrypt(JSON.stringify(this.studentdetails.student)));
 
-
-
-
-
-
             this.loading = false;
+console.log(this.studentdetails.hasapplied);
 
-            this.router.navigate(['home']);
-            // window.location.href='student/home';
+            if(this.studentdetails.hasapplied==1){
+              this.router.navigate(['history']);
+            }else{
+              this.router.navigate(['home']);
+            }
+
+
           },
           (error) => {
             console.log(error);

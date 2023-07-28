@@ -15,7 +15,7 @@ trait applicationtrait{
     use Traits\studenttrait;
     use Traits\roomstatustrait;
 
-    public function getStudentPendingApplications($regnumber)
+    public function getStudentPendingApplications($regnumber,$period_id)
     {
 
         $datenow = Carbon::now();
@@ -23,33 +23,38 @@ trait applicationtrait{
             ->format('Y-m-d');
 
     $myapplication = DB::select("SELECT
-	COUNT(tbl_room_allocation_applications.room_allocation_application_id) as cntx
+	COUNT( tbl_room_allocation_applications.room_allocation_application_id ) AS cntx
 FROM
 	tbl_room_allocation_applications
 	INNER JOIN tbl_rooms ON tbl_room_allocation_applications.room_id = tbl_rooms.room_id
 	INNER JOIN tbl_hostels ON tbl_rooms.hostel_id = tbl_hostels.hostel_id
 	INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
 	INNER JOIN tbl_residence_sessions ON tbl_room_allocation_applications.residence_session_id = tbl_residence_sessions.residence_session_id
+	INNER JOIN tbl_active_period_hostel_online_application ON tbl_residence_sessions.active_period_id = tbl_active_period_hostel_online_application.active_period_id
 WHERE
 	tbl_room_allocation_applications.application_status <> 1
 	AND tbl_residence_sessions.end_date > '$newDate'
 	AND tbl_room_allocation_applications.reg_number = '$regnumber'
+	AND tbl_active_period_hostel_online_application.period_id = $period_id
 ");
 
 
 $my_allocation = DB::select("SELECT
-	COUNT(tbl_room_allocations.reg_number) as cntx
+COUNT( tbl_room_allocations.reg_number ) AS cntx
 FROM
-	tbl_room_allocations
-	INNER JOIN tbl_rooms ON tbl_room_allocations.room_id = tbl_rooms.room_id
-	INNER JOIN tbl_residence_sessions ON tbl_room_allocations.residence_session_id = tbl_residence_sessions.residence_session_id
-	INNER JOIN tbl_floors ON tbl_rooms.floor_id = tbl_floors.floor_id
-	INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
-	INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
+tbl_room_allocations
+INNER JOIN tbl_rooms ON tbl_room_allocations.room_id = tbl_rooms.room_id
+INNER JOIN tbl_residence_sessions ON tbl_room_allocations.residence_session_id = tbl_residence_sessions.residence_session_id
+INNER JOIN tbl_floors ON tbl_rooms.floor_id = tbl_floors.floor_id
+INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
+INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
+INNER JOIN tbl_active_period_hostel_online_application ON tbl_residence_sessions.active_period_id = tbl_active_period_hostel_online_application.active_period_id
+AND tbl_room_allocations.active_period_id = tbl_active_period_hostel_online_application.active_period_id
 WHERE
-	tbl_room_allocations.reg_number = '$regnumber'
-	AND tbl_residence_sessions.end_date > '$newDate'
-	AND tbl_residence_sessions.available_status = 1
+tbl_room_allocations.reg_number = '$regnumber'
+AND tbl_residence_sessions.end_date > '$newDate'
+AND tbl_residence_sessions.available_status <> 2
+AND tbl_active_period_hostel_online_application.period_id = $period_id
 ");
 $application_pending=0;
 

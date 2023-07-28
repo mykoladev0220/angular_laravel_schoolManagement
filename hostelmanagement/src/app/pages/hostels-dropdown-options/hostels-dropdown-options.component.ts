@@ -1,5 +1,5 @@
 import { UserRights } from '@/models/user-rights';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { ParamsService } from '@services/params.service';
 
@@ -8,7 +8,7 @@ import { ParamsService } from '@services/params.service';
   templateUrl: './hostels-dropdown-options.component.html',
   styleUrls: ['./hostels-dropdown-options.component.scss']
 })
-export class HostelsDropdownOptionsComponent {
+export class HostelsDropdownOptionsComponent implements OnInit {
   myrights= new UserRights();
   currenturl=null;
   constructor(

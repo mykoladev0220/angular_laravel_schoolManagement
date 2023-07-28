@@ -50,8 +50,10 @@ class studentAuthcontroller extends Controller
                 $student_id = $student_id[0]->student_id;
 
                 $is_registered = $this->is_student_registered($student_id);
+                $period_id = $student_details[0]->period_id;
 
-                $hasapplication = $this->getStudentPendingApplications($regnumber);
+
+                $hasapplication = $this->getStudentPendingApplications($regnumber,$period_id);
 
 
                 // if ($is_registered == 0) {
@@ -64,10 +66,9 @@ class studentAuthcontroller extends Controller
                 $fees_balance = $this->getFeesBalance($regnumber);
 
 
-                $period_id = $student_details[0]->period_id;
 
                 $minimum_threshhold = $this->getminimum_treshold($period_id);
-            
+
 
                 // if($minimum_threshhold>$fees_balance){
                 //     return response()->json(['success' => false, 'message' => "sorry your fees does not meet the minimum fees threshold " ], 403);

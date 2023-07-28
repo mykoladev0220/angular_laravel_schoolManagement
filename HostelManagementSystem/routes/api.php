@@ -45,25 +45,30 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::post('createsubwarden', [subwardensController::class, 'store']);
-Route::post('subwarden/assignhostel', [subwardensController::class, 'assignhostel']);
-Route::post('subwarden/unassignhostel', [subwardensController::class, 'deleteEntry']);
-Route::get('subwarden/getsubwardens', [subwardensController::class, 'getwarden']);
-Route::post('subwarden/getassignments', [subwardensController::class, 'getwardenAssignments']);
 
-Route::post('allocations/checkin', [checkinsandcheckoutsController::class, 'checkin']);
-Route::post('allocations/getcheckindata', [checkinsandcheckoutsController::class, 'getCheckindata']);
-Route::post('allocations/getcheckinreport', [checkinsandcheckoutsController::class, 'getCheckinRepotdata']);
-Route::post('allocations/getcheckoutdata', [checkinsandcheckoutsController::class, 'getCheckoutdata']);
-Route::post('allocations/getcheckoutreportdata', [checkinsandcheckoutsController::class, 'getCheckoutReport']);
-Route::post('allocations/checkin/cancel', [checkinsandcheckoutsController::class, 'cancel_checkin']);
-Route::post('allocations/checkout', [checkinsandcheckoutsController::class, 'checkout']);
-Route::post('allocations/checkout/cancel', [checkinsandcheckoutsController::class, 'cancel_checkin']);
+
+
 
 
 
 //passport protected routes
 Route::middleware('auth:api')->group(function () {
+    // check check out routes
+    Route::post('allocations/checkin', [checkinsandcheckoutsController::class, 'checkin']);
+    Route::post('allocations/checkout', [checkinsandcheckoutsController::class, 'checkout']);
+    Route::post('allocations/getcheckindata', [checkinsandcheckoutsController::class, 'getCheckindata']);
+    Route::post('allocations/getcheckinreport', [checkinsandcheckoutsController::class, 'getCheckinRepotdata']);
+    Route::post('allocations/getcheckoutdata', [checkinsandcheckoutsController::class, 'getCheckoutdata']);
+    Route::post('allocations/getcheckoutreportdata', [checkinsandcheckoutsController::class, 'getCheckoutReport']);
+    Route::post('allocations/checkin/cancel', [checkinsandcheckoutsController::class, 'cancel_checkin']);
+
+    Route::post('allocations/checkout/cancel', [checkinsandcheckoutsController::class, 'cancel_checkin']);
+    // subwarden routes
+    Route::post('createsubwarden', [subwardensController::class, 'store']);
+    Route::post('subwarden/assignhostel', [subwardensController::class, 'assignhostel']);
+    Route::post('subwarden/unassignhostel', [subwardensController::class, 'deleteEntry']);
+    Route::get('subwarden/getsubwardens', [subwardensController::class, 'getwarden']);
+    Route::post('subwarden/getassignments', [subwardensController::class, 'getwardenAssignments']);
     // hostel routes
     Route::get('hostellist', [hostelController::class, 'getHostels']);
     Route::post('addhostel', [hostelController::class, 'createHostel']);
@@ -143,7 +148,6 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('resavations', resavationsController::class)->only(['store']);
     Route::post('getreservedrooms', [resavationsController::class, 'index']);
     Route::post('unreserve', [resavationsController::class, 'unReserve']);
-    Route::post('findresevedrooms', [resavationsController::class, 'findResevation']);
     Route::post('getroomstoreserve', [resavationsController::class, 'getToomsToreserve']);
 
     // room allocation
@@ -188,8 +192,16 @@ Route::middleware('auth:api')->group(function () {
 Route::get('minimumfees', [studentDetailsController::class, 'getminimum_treshold']);
 Route::get('isregistered', [studentDetailsController::class, 'is_blacklisted']);
 
+
+
+
 Route::middleware('auth:api-student')->group(
     function () {
+        Route::post('warden/checkin', [checkinsandcheckoutsController::class, 'checkin']);
+        Route::post('warden/checkout', [checkinsandcheckoutsController::class, 'checkout']);
+        Route::post('warden/getcheckindata', [checkinsandcheckoutsController::class, 'getCheckindata']);
+        Route::post('warden/getcheckoutdata', [checkinsandcheckoutsController::class, 'getCheckoutdata']);
+
 
         Route::post('getstudentBatches', [residenceSessionsController::class, 'getStudentBatches']);
         //room application routes

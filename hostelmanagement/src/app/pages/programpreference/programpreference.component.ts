@@ -115,6 +115,9 @@ getprogramesessions(){
   }).subscribe(res=>{
 
     this.programmesessions=res;
+
+    var table=$('#mytable').DataTable();
+    table.destroy();
     this.dtTrigger.next(null);
   },error=>{
     console.log(error);

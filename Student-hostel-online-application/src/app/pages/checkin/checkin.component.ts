@@ -1,13 +1,8 @@
-
+import { CheckcheckoutService } from './../../services/checkcheckout.service';
 import { Checkin } from '@/models/checkin.model';
-import { UserRights } from '@/models/user-rights';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@services/auth.service';
-import { ChekckCheckoutService } from '@services/chekck-checkout.service';
 import { ParamsService } from '@services/params.service';
-import { StudentService } from '@services/student.service';
-import { ToastService } from '@services/toast.service';
-
 import { Subject } from 'rxjs';
 
 @Component({
@@ -18,7 +13,6 @@ import { Subject } from 'rxjs';
 export class CheckinComponent implements OnInit {
   residenceSession:any;
   batchallocations_appproved:any;
-  myrights=new UserRights();
   dtoptions:any = {};
   dtTrigger: Subject<any> = new Subject<any>();
   checkinmodel= new Checkin();
@@ -28,9 +22,9 @@ export class CheckinComponent implements OnInit {
   msg:any;
   constructor(
     private authservice: AuthService,
-    private checkservice:ChekckCheckoutService,
+    private checkservice:CheckcheckoutService,
     private params: ParamsService,
-    private toast:ToastService
+
   ){}
   ngOnInit(): void {
     this.dtoptions = {
@@ -80,17 +74,17 @@ export class CheckinComponent implements OnInit {
   checkin(allocation:any){
     this.checkinmodel=allocation;
     this.checkinmodel.date_checked=this.datechecked;
-    this.checkinmodel.checked_by=this.authservice.getUserId();
+
     this.checkinmodel.receipt_number=this.receipt_number;
 
     this.checkservice.Checkin(  this.checkinmodel,
       { headers: this.authservice.getHeaders() }).subscribe(res=>{
         this.msg=res;
         this.getCheckInData();
-this.toast.firesuccess(this.msg.message);
+console.log(this.msg.message);
+
       },error=>{
-        this.toast.fireError(error.error.message);
+        console.log(this.msg.message);
       })
   }
-
 }

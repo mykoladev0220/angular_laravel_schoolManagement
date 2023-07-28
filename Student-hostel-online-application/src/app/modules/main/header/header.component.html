@@ -34,12 +34,13 @@
 </form>
 
 <ul class="navbar-nav ml-auto">
-
+  <li class="nav-item">
+    <pf-checkbox class="dark-toggle mt-2 mr-3" (change)="handleDarkModeChange($event)">
+      Dark mode
+  </pf-checkbox>
+  </li>
 
     <app-user></app-user>
-    <li class="nav-item">
-        <button class="nav-link" (click)="onToggleControlSidebar()">
-            <i class="fas fa-th-large"></i>
-        </button>
-    </li>
+
+
 </ul>

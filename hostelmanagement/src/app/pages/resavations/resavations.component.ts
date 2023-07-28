@@ -47,7 +47,7 @@ toreservelist=[{}]
       pagingType: 'full_numbers',
       searching: true,
       processing:true,
-      //  paging:false
+       paging:false,
 
       lengthChange: false,
       language: {
@@ -70,8 +70,9 @@ toreservelist=[{}]
       this.batchmodel.residence_session_id =
         this.session_batch.residence_session_id;
 
- 
+
         this.getroomsToresereve();
+        this.getResevations();
   }
   constructor(
     private authservice: AuthService,
@@ -190,10 +191,7 @@ table2.destroy();
       );
   }
 
-  batchChange() {
-    this.findResavation(this.batchmodel.residence_session_id);
-    this.getroomsToresereve();
-  }
+
 
   unReserve() {
     console.log(this.resevation);
@@ -259,7 +257,7 @@ this.toast.firesuccess(this.msg.message)
 
   getResevations() {
     this.roomservice
-      .getReservedRoom({ headers: this.authservice.getHeaders() })
+      .getReservedRoom(this.session_batch,{ headers: this.authservice.getHeaders() })
       .subscribe(
         (res) => {
           this.rooms = res;

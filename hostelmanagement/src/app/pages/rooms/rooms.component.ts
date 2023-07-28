@@ -162,7 +162,7 @@ this.toast.firesuccess(this.msg.message);
           this.feedback_message = this.msg.message;
           this.rooms = this.msg.rooms;
           this.toast.firesuccess(this.msg.message);
-          var table = $('#mytable').DataTable();
+          var table = $('.table').DataTable();
           table.clear();
           table.destroy();
           this.dtTrigger.next(null);
@@ -190,8 +190,8 @@ this.toast.firesuccess(this.msg.message);
           // this.feedback_message = this.msg.message;
           this.toast.firesuccess(this.msg.message);
           this.rooms = this.msg.rooms;
-          var table = $('#mytable').DataTable();
-
+          var table = $('.table').DataTable();
+          table.clear();
           table.destroy();
           this.dtTrigger.next(null);
         },

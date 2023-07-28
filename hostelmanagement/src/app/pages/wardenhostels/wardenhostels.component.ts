@@ -17,6 +17,7 @@ import { Activeperiods } from '@/models/activeperiods';
 import { Batch } from '@/models/batch';
 import { Hostel } from '@/models/hostel';
 import { WardernSession } from '@/models/wardern-session.model';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-wardenhostels',
@@ -37,7 +38,8 @@ export class WardenhostelsComponent implements OnInit, OnDestroy {
     period:Activeperiods=null;
     location:any=null;
   subwarden_session= new WardernSession();
-
+  dtoptions:any = {};
+  dtTrigger: Subject<any> = new Subject<any>();
     resp: any;
     constructor(
         private paramservice: ParamsService,
@@ -62,7 +64,10 @@ this.subwardenreg=this.subwarden.reg_number;
 this.subwardenservice.unassignwarden(assignment,{headers: this.authservice.getHeaders()}).subscribe(
   res=>{
     this.resp=res;
+    var table=$('#mytable').DataTable();
+    table.destroy();
     this.asignments = this.resp?.assignments;
+this.dtTrigger.next(null);
 this.toast.firesuccess(this.resp.message);
   },error=>{
 this.toast.fireError(error.error.message);
@@ -76,7 +81,11 @@ this.toast.fireError(error.error.message);
 this.subwardenservice.assignwarden(this.subwarden_session,{headers: this.authservice.getHeaders()}).subscribe(
   res=>{
     this.resp=res;
+    var table=$('#mytable').DataTable();
+    table.destroy();
     this.asignments = this.resp?.assignments;
+
+    this.dtTrigger.next(null);
 this.toast.firesuccess(this.resp.message);
   },error=>{
 this.toast.fireError(error.error.message);
@@ -118,8 +127,11 @@ this.batches=res;
             .subscribe((res) => {
                 this.resp = res;
                 // console.log(res);
+                var table=$('#mytable').DataTable();
+                table.destroy();
                 this.subwarden = this.resp?.student;
                 this.asignments = this.resp?.assignments;
+                this.dtTrigger.next(null);
             });
     }
     ngOnDestroy(): void {

@@ -32,6 +32,9 @@ this.subwardenservice.getsubwardens({ headers: this.authservice.getHeaders() }).
   res=>{
 this.resp=res;
 this.subwardens=this.resp?.subwardewns;
+var table=$('#mytable').DataTable();
+table.destroy();
+this.dtTrigger.next(null);
   }
 )
 }
@@ -43,9 +46,12 @@ console.log(  this.subwardenmodel.created_by)
 this.resp=res;
 
 this.subwardens=this.resp?.subwardens;
-console.log(this.resp);
+var table=$('#mytable').DataTable();
+table.destroy();
+// console.log(this.resp);
 
     this.toast.firesuccess(this.resp.message);
+    this.dtTrigger.next(null);
   },error=>{
 this.toast.fireError(error.error.message);
   })

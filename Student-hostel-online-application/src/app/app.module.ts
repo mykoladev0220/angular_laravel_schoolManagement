@@ -35,12 +35,13 @@ import {uiReducer} from './store/ui/reducer';
 import {ProfabricComponentsModule} from '@profabric/angular-components';
 import {defineCustomElements} from '@profabric/web-components/loader';
 import {SidebarSearchComponent} from './components/sidebar-search/sidebar-search.component';
-import { HomeComponent } from './pages/home/home.component';
-import { ApplicationComponent } from './pages/application/application.component';
-import { HistoryComponent } from './pages/history/history.component';
-import { DataTablesModule } from 'angular-datatables';
-import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from 'ngx-ui-loader';
-
+import {HomeComponent} from './pages/home/home.component';
+import {ApplicationComponent} from './pages/application/application.component';
+import {HistoryComponent} from './pages/history/history.component';
+import {DataTablesModule} from 'angular-datatables';
+import {NgxUiLoaderModule, NgxUiLoaderHttpModule} from 'ngx-ui-loader';
+import { CheckinComponent } from './pages/checkin/checkin.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
@@ -70,10 +71,12 @@ registerLocaleData(localeEn, 'en-EN');
         SidebarSearchComponent,
         HomeComponent,
         ApplicationComponent,
-        HistoryComponent
+        HistoryComponent,
+        CheckinComponent,
+        CheckoutComponent
     ],
     imports: [
-      FormsModule,
+        FormsModule,
 
         BrowserModule,
         StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
@@ -87,12 +90,12 @@ registerLocaleData(localeEn, 'en-EN');
             preventDuplicates: true
         }),
         ProfabricComponentsModule,
-DataTablesModule,
-NgxUiLoaderModule,
+        DataTablesModule,
+        NgxUiLoaderModule,
 
-NgxUiLoaderHttpModule.forRoot({
-  showForeground:true
-})
+        NgxUiLoaderHttpModule.forRoot({
+            showForeground: true
+        })
     ],
     providers: [],
     bootstrap: [AppComponent]

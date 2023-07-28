@@ -43,7 +43,7 @@ try{
         return response()->json(['success' => false, 'message' => 'cannot cancel check in'], 403);
 
     } else {
-    return response()->json(['error' => $ex->getMessage(), 'success' => false], 500);
+    return response()->json(['message' => $ex->getMessage(), 'success' => false], 500);
     }
 
 }
@@ -60,7 +60,7 @@ try{
                 return response()->json(['success' => false, 'message' => 'chekck out'], 403);
 
             } else {
-            return response()->json(['error' => $ex->getMessage(), 'success' => false], 500);
+            return response()->json(['message' => $ex->getMessage(), 'success' => false], 500);
             }
 
         }
@@ -281,7 +281,7 @@ return response()->json(['checkoutreportdata' =>  $checkoutreportdata],200);
         $check_out->delete();
         return response()->json(['message' => 'successfully cancelled checkout', 'success' => true], 200);
        }catch(QueryException $ex){
-        return response()->json(['error' => $ex->getMessage(), 'success' => false], 500);
+        return response()->json(['message' => $ex->getMessage(), 'success' => false], 500);
        }
 
 

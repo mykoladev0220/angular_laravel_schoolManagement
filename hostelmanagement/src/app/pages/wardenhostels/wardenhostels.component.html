@@ -4,6 +4,9 @@
     <h3 class="card-title"> Assingn Hostel to {{subwarden?.first_name +" " + subwarden?.surname}} </h3>
 
     <div class="card-tools">
+      <button type="button" routerLink="../subwarden" class="btn btn-tool bg-dark btn-sm">
+        <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>  back
+                   </button>
       <button type="button" class="btn btn-tool" data-card-widget="collapse">
         <i class="fas fa-minus"></i>
       </button>
@@ -94,7 +97,8 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body">
-        <table id="mytable" class="table table-bordered table-striped table-hover responsive" style="width: 100%;">
+        <table id="mytable" class="table table-bordered table-striped table-hover responsive" style="width: 100%;" datatable [dtOptions]="dtoptions"
+        [dtTrigger]="dtTrigger">
           <thead>
             <tr>
 

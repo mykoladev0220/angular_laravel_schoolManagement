@@ -1,5 +1,5 @@
 import {AppState} from '@/store/state';
-import {ToggleControlSidebar, ToggleSidebarMenu} from '@/store/ui/actions';
+import {ToggleControlSidebar, ToggleDarkMode, ToggleSidebarMenu} from '@/store/ui/actions';
 import {UiState} from '@/store/ui/state';
 import {Component, HostBinding, OnInit} from '@angular/core';
 import {UntypedFormGroup, UntypedFormControl} from '@angular/forms';
@@ -44,4 +44,8 @@ export class HeaderComponent implements OnInit {
     onToggleControlSidebar() {
         this.store.dispatch(new ToggleControlSidebar());
     }
+    public handleDarkModeChange(event: any) {
+      console.log('value', event.target.checked);
+      this.store.dispatch(new ToggleDarkMode());
+  }
 }

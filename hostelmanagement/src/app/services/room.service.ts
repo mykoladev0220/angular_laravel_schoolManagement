@@ -30,8 +30,8 @@ export class RoomService {
         );
     }
 
-    getReservedRoom(headers: any) {
-        return this.http.get(this.serverIP + '/resavations', headers);
+    getReservedRoom(data:any,headers: any) {
+        return this.http.post(this.serverIP + '/getreservedrooms',data, headers);
     }
     updateroom(data: any, headers: any) {
         return this.http.post(this.serverIP + '/updateRoom', data, headers);
