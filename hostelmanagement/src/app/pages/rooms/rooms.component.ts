@@ -204,7 +204,7 @@ this.toast.firesuccess(this.msg.message);
 
   setRoomId(room: any) {
     this.room = room;
-    this.getroomtpes();
+    // this.getroomtpes();
   }
   gethostel() {
     const hostel = this.paramsService.getparam('hostel');

@@ -24,6 +24,19 @@ use Traits\studenttrait;
     }
 
 
+    public function isWarden(Request $request){
+        $data= $request->validate(['residence_session_id'=>'required','reg_number'=>'required']);
+        $residence_session_id=$data['residence_session_id'];
+        $regnumber=$request['reg_number'];
+
+$subWardens=subwarden::join('tbl_subwaden_ressidence_sessions','tbl_subwaden_ressidence_sessions.subwarden_id','=','tbl_subwardens.subwarden_id')->where('reg_number',$regnumber)->where('residence_session_id',"$residence_session_id")->first();
+
+
+
+return response()->json($subWardens,200);
+
+    }
+
 
     public function store(Request $request)
     {

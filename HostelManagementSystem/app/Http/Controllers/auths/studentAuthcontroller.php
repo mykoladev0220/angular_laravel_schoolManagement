@@ -53,7 +53,7 @@ class studentAuthcontroller extends Controller
                 $period_id = $student_details[0]->period_id;
 
 
-                $hasapplication = $this->getStudentPendingApplications($regnumber,$period_id);
+                $hasapplication = $this->getStudentPendingApplications($regnumber, $period_id);
 
 
                 // if ($is_registered == 0) {
@@ -74,16 +74,22 @@ class studentAuthcontroller extends Controller
                 //     return response()->json(['success' => false, 'message' => "sorry your fees does not meet the minimum fees threshold " ], 403);
                 // }
 
-
+                $subwarden_session =  $this->getwardenDetails($regnumber);
 
                 $token = $students->createToken('Laravel Password Grant Client')->accessToken;
 
-                return response()->json(['student' => $student_details[0], 'hasapplied' => $hasapplication, 'access_token' => $token]);
+                return response()->json(['student' => $student_details[0],
+                'hasapplied' => $hasapplication,
+                 'access_token' => $token,
+                 'subwarden'=> $subwarden_session
+                 ]
+
+                );
             }
 
             return response()->json(['success' => false, 'message' => 'username or password not correct'], 401);
         } catch (QueryException $ex) {
-            return response()->json(['success' => false, $ex->getMessage()], 401);
+            return response()->json(['success' => false, 'message' => $ex->getMessage()], 401);
         }
     }
 }

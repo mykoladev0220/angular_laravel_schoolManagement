@@ -15,7 +15,7 @@
       <div class="tab-content" id="custom-tabs-one-tabContent">
         <div class="tab-pane fade show active" id="applications" role="tabpanel" aria-labelledby="applications">
 
-          <table  class="hover table-bordered table-scrollable width-100"  style="width: 100%;"  >
+          <table  class="hover table-striped table-scrollable width-100"  style="width: 100%;"  >
             <thead>
               <tr>
 
@@ -26,7 +26,7 @@
 
                 <th>Room Number</th>
                 <th>Expiry Date </th>
-                 <th>status</th>
+
 
 
 
@@ -41,9 +41,10 @@
                 <td>{{application.hostel_name}}</td>
 
                 <td>{{application.room_number}}</td>
-                <td>{{application.expiration_date}}</td>
-                <td *ngIf="application.application_status===0" class="text-success">Pending</td>
-                <td *ngIf="application.application_status===2" class="text-danger">Forfeited</td>
+                <td *ngIf="application.application_status===0" class="text-success" >{{application.expiration_date |date}}</td>
+                <td *ngIf="application.application_status===2" class="text-danger">{{application.expiration_date |date}}</td>
+
+
 
 
 
@@ -58,7 +59,7 @@
 
 
 
-          <table class="hover  responsive" style="width: 100%;" >
+          <table class="hover  table-striped  responsive" style="width: 100%;" >
             <thead>
               <tr>
 

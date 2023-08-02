@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\projector;
+
+use App\Http\Controllers\Traits;
 
 class demoController extends Controller
 {
-    //
-    function index(){
-return projector::all();
-    }
+
+
+
+
 }

@@ -42,6 +42,7 @@ import {DataTablesModule} from 'angular-datatables';
 import {NgxUiLoaderModule, NgxUiLoaderHttpModule} from 'ngx-ui-loader';
 import { CheckinComponent } from './pages/checkin/checkin.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { CheckinCheckoutDropdownComponent } from './pages/checkin-checkout-dropdown/checkin-checkout-dropdown.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
@@ -73,7 +74,8 @@ registerLocaleData(localeEn, 'en-EN');
         ApplicationComponent,
         HistoryComponent,
         CheckinComponent,
-        CheckoutComponent
+        CheckoutComponent,
+        CheckinCheckoutDropdownComponent
     ],
     imports: [
         FormsModule,

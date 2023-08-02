@@ -130,6 +130,7 @@ class residenceSessionsController extends Controller
         }
     }
 
+
     public function activateBatch(Request $request)
 
     {
@@ -249,7 +250,7 @@ class residenceSessionsController extends Controller
             ORDER BY
                 tbl_residence_sessions.residence_session_id DESC");
             }
-            $allPeriods = residenceSession::all();
+            // $allPeriods = residenceSession::all();
         } catch (QueryException $e) {
 
             if ($e->errorInfo[1] == 1062) {

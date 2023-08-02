@@ -2,7 +2,10 @@ import { CheckcheckoutService } from './../../services/checkcheckout.service';
 import { Checkin } from '@/models/checkin.model';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@services/auth.service';
+import { EncriprionserviceService } from '@services/encriprionservice.service';
 import { ParamsService } from '@services/params.service';
+import { ToastService } from '@services/toast.service';
+import { log } from 'console';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -20,10 +23,13 @@ export class CheckinComponent implements OnInit {
   receipt_number:string;
 
   msg:any;
+  studentdatails: any;
   constructor(
     private authservice: AuthService,
     private checkservice:CheckcheckoutService,
     private params: ParamsService,
+    private ennceservice: EncriprionserviceService,
+    private toast:ToastService
 
   ){}
   ngOnInit(): void {
@@ -41,11 +47,13 @@ export class CheckinComponent implements OnInit {
         'copy', 'csv', 'excel', 'pdf'
     ]
     };
-    this.residenceSession = this.params.getparam('batch');
+    this.residenceSession = this.ennceservice.decrypt(this.params.getparam('mybatch'));
+    this.studentdatails = this.ennceservice.decrypt(this.params.getparam('student'));
     this.getCheckInData();
   }
 
   getCheckInData() {
+
     this.checkservice.getcheckindata
       (
       this.residenceSession,
@@ -74,17 +82,19 @@ export class CheckinComponent implements OnInit {
   checkin(allocation:any){
     this.checkinmodel=allocation;
     this.checkinmodel.date_checked=this.datechecked;
-
+    this.checkinmodel.checked_by = JSON.parse(this.studentdatails).reg_number;
     this.checkinmodel.receipt_number=this.receipt_number;
 
     this.checkservice.Checkin(  this.checkinmodel,
       { headers: this.authservice.getHeaders() }).subscribe(res=>{
         this.msg=res;
         this.getCheckInData();
-console.log(this.msg.message);
+        this.toast.firesuccess(this.msg.message)
+
 
       },error=>{
-        console.log(this.msg.message);
+        this.toast.fireError(error.error.message);
+     
       })
   }
 }

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Traits;
 
 use Carbon\Carbon;
+use App\Models\subwarden;
 use App\Models\minimumTreshold;
 use App\Models\blacklistedstudent;
 use Illuminate\Support\Facades\DB;
@@ -121,6 +122,16 @@ trait studenttrait{
 
         return $student;
     }
-}
 
-?>
+
+    public function getwardenDetails($reg_number){
+        $warden_session=subwarden::join('tbl_subwaden_ressidence_sessions','tbl_subwaden_ressidence_sessions.subwarden_id','=','tbl_subwardens.subwarden_id')->where('tbl_subwardens.reg_number',$reg_number)->orderby('tbl_subwaden_ressidence_sessions.subwarden_residence_session_id','Desc')->first();
+if($warden_session)
+
+     {
+        return $warden_session;
+     }
+     return null;
+
+    }
+}

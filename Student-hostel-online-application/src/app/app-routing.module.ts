@@ -9,6 +9,10 @@ import {NonAuthGuard} from '@guards/non-auth.guard';
 import {ApplicationComponent} from '@pages/application/application.component';
 import { HasappliedGuard } from '@guards/hasapplied.guard';
 import { AuthGuard } from '@guards/auth.guard';
+import { Checkin } from './models/checkin.model';
+import { CheckinComponent } from '@pages/checkin/checkin.component';
+import { CheckoutComponent } from '@pages/checkout/checkout.component';
+import { IssubwardenGuard } from '@guards/issubwarden.guard';
 
 const routes: Routes = [
     {
@@ -28,11 +32,24 @@ canActivate:[AuthGuard],
                 component: HomeComponent,
 
             },
+
+
             {
                 path: 'history',
                 component: HistoryComponent,
 
             },
+            {
+                path:'checkin',
+                component:CheckinComponent,
+                canActivate:[IssubwardenGuard]
+            },
+            {
+                path:'checkout',
+                component:CheckoutComponent,
+                canActivate:[IssubwardenGuard]
+            }
+
 
         ]
     },

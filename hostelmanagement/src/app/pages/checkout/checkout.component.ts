@@ -82,7 +82,7 @@ export class CheckoutComponent implements OnInit {
     this.checkoutmodel.date_checked=this.datechecked;
     this.checkoutmodel.checked_by=this.authservice.getUserId();
 
-console.log(this.checkoutmodel);
+// console.log(this.checkoutmodel);
 
     this.checkservice.Checkout( this.checkoutmodel,
       { headers: this.authservice.getHeaders() }).subscribe(res=>{
@@ -91,7 +91,7 @@ console.log(this.checkoutmodel);
         this.getCheckoutData();
 this.toast.firesuccess(this.msg.message);
       },error=>{
-        console.log(error.error.message);
+        // console.log(error.error.message);
 
         this.toast.fireError(error.error.message);
       })

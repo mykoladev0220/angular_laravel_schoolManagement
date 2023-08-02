@@ -7,6 +7,7 @@ use App\Http\Controllers\auths\forgetController;
 use App\Http\Controllers\auths\studentAuthcontroller;
 use App\Http\Controllers\blacklist;
 use App\Http\Controllers\checkinsandcheckoutsController;
+use App\Http\Controllers\demoController;
 use App\Http\Controllers\floorsController;
 use App\Http\Controllers\hostelController;
 use App\Http\Controllers\hostelPreferenceController;
@@ -42,7 +43,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
+//
 
 
 
@@ -197,6 +198,12 @@ Route::get('isregistered', [studentDetailsController::class, 'is_blacklisted']);
 
 Route::middleware('auth:api-student')->group(
     function () {
+
+
+
+
+// subwarden routes
+Route::post('iswarden', [subwardensController::class, 'isWarden']);
         Route::post('warden/checkin', [checkinsandcheckoutsController::class, 'checkin']);
         Route::post('warden/checkout', [checkinsandcheckoutsController::class, 'checkout']);
         Route::post('warden/getcheckindata', [checkinsandcheckoutsController::class, 'getCheckindata']);
@@ -222,3 +229,7 @@ Route::post('changeforgotPassword', [forgetController::class, 'changePassword'])
 Route::post('student-login', [studentAuthcontroller::class, 'login']);
 
 Route::post('getbal', [studentDetailsController::class, 'getFeesBalance']);
+
+
+
+Route::post('getwardendetails', [demoController::class, 'getMyWadenDetails']);

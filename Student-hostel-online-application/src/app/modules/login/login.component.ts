@@ -61,16 +61,18 @@ export class LoginComponent implements OnInit, OnDestroy {
         console.log(this.student);
         this.auhthservice.login(this.student).subscribe(
           (res) => {
-            console.log(res);
+            // console.log(res);
 
             this.studentdetails = res;
 
             this.params.setparam('accesstocken',this.encservice.encrypt(this.studentdetails.access_token));
             this.params.setparam('hasapplied', this.encservice.encrypt(JSON.stringify(this.studentdetails.hasapplied)));
             this.params.setparam('student',this.encservice.encrypt(JSON.stringify(this.studentdetails.student)));
+            this.params.setparam('subwarden',this.encservice.encrypt(JSON.stringify(this.studentdetails.subwarden)));
+            // subwarden
 
             this.loading = false;
-console.log(this.studentdetails.hasapplied);
+// console.log(this.studentdetails.hasapplied);
 
             if(this.studentdetails.hasapplied==1){
               this.router.navigate(['history']);
@@ -81,7 +83,7 @@ console.log(this.studentdetails.hasapplied);
 
           },
           (error) => {
-            console.log(error);
+            // console.log(error);
 
             this.error = error.error.message;
 

@@ -1,18 +1,13 @@
 <!-- Main content -->
-<ngx-ui-loader
-text="loading   please wait..."
-overlayColor="#fff"
-textColor="#c2a458"
-fgsColor="#c2a458"
-fgsType="square-jelly-box"
-></ngx-ui-loader>
+<ngx-ui-loader text="loading   please wait..." overlayColor="#fff" textColor="#c2a458" fgsColor="#c2a458"
+  fgsType="square-jelly-box"></ngx-ui-loader>
 <section class="content">
   <div class="container-fluid">
     <!--  -->
 
 
     <div class="card">
-      <div class="card-header  " >
+      <div class="card-header  ">
 
 
 
@@ -36,104 +31,106 @@ fgsType="square-jelly-box"
     </div>
 
 
-      <div *ngIf="myrights.create_hostel"  class="card">
+    <div *ngIf="myrights.create_hostel" class="card">
 
 
-          <div class="card-header">
-            <h3 class="card-title">Create Rooms </h3>
+      <div class="card-header">
+        <h3 class="card-title">Create Rooms </h3>
 
 
 
 
-            <div class="card-tools">
+        <div class="card-tools">
 
-              <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-              </button>
+          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <form #createroomsForm="ngForm" (ngSubmit)="createRooms()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Hostel</label>
+                <select class="form-control select2" #hostel_id name="hostel_id" (change)="getFloors(room.hostel_id)"
+                  required [(ngModel)]="room.hostel_id" disabled style="width: 100%;">
+                  <option value="">select hostel</option>
+                  <option *ngFor="let hostel of hostels" [ngValue]="hostel.hostel_id">{{ hostel.hostel_name }}
+                  </option>
+                </select>
+              </div>
+
             </div>
 
+            <div class="col-md-6">
+              <label>Floor Name</label>
+              <div class="input-group mb-3">
+
+                <select class="form-control" required name="floor_id" [(ngModel)]="room.floor_id">
+                  <option value="">select floor</option>
+                  <option *ngFor="let floor of floors" [ngValue]="floor.floor_id">{{ floor.floor_name }}</option>
+
+                </select>
+                <a routerLink="../floors" class="input-group-append btn btn-primary"><i class="fa fa-plus-circle"
+                    aria-hidden="true"></i></a>
+              </div>
+
+
+            </div>
+            <!-- /.col -->
           </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            <form #createroomsForm="ngForm" (ngSubmit)="createRooms()">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Hostel</label>
-                    <select class="form-control select2" #hostel_id name="hostel_id"
-                      (change)="getFloors(room.hostel_id)" required [(ngModel)]="room.hostel_id" disabled style="width: 100%;">
-                      <option value="">select hostel</option>
-                      <option *ngFor="let hostel of hostels" [ngValue]="hostel.hostel_id">{{ hostel.hostel_name }}
-                      </option>
-                    </select>
-                  </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label>Room Type</label>
+              <div class="input-group mb-3">
 
-                </div>
-
-                <div class="col-md-6">
-                  <label>Floor Name</label>
-                  <div class="input-group mb-3">
-
-                    <select class="form-control" required name="floor_id" [(ngModel)]="room.floor_id">
-                      <option value="">select floor</option>
-                      <option *ngFor="let floor of floors" [ngValue]="floor.floor_id">{{ floor.floor_name }}</option>
-
-                    </select>
-                   <a routerLink="../floors" class="input-group-append btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                  </div>
+                <select class="form-control" name="room_type_id" [(ngModel)]="room.room_type_id">
+                  <option value="">select room type</option>
+                  <option *ngFor="let roomtype of roomtypes" [ngValue]="roomtype.room_type_id">
+                    {{roomtype.room_type}}
+                  </option>
 
 
-                </div>
-                <!-- /.col -->
+                </select>
+                <a routerLink="../roomtypes" class="input-group-append btn btn-primary"><i class="fa fa-plus-circle"
+                    aria-hidden="true"></i></a>
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <label>Room Type</label>
-                  <div class="input-group mb-3">
 
-                    <select class="form-control" name="room_type_id" [(ngModel)]="room.room_type_id">
-                      <option value="">select room type</option>
-                      <option *ngFor="let roomtype of roomtypes" [ngValue]="roomtype.room_type_id">
-                        {{roomtype.room_type}}
-                      </option>
+            </div>
 
-
-                    </select>
-                    <a routerLink="../roomtypes" class="input-group-append btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                  </div>
-
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Room Gender</label>
-                    <select class="form-control select2" required name="location_id" [(ngModel)]="room.room_gender"
-                      style="width: 100%;">
-                      <option value="">select room gender</option>
-                      <option [ngValue]="roomgender.male">Male</option>
-                      <option [ngValue]="roomgender.female">Female</option>
-                    </select>
-                  </div>
-
-                </div>
-                <!-- /.col -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Room Gender</label>
+                <select class="form-control select2" required name="location_id" [(ngModel)]="room.room_gender"
+                  style="width: 100%;">
+                  <option value="">select room gender</option>
+                  <option [ngValue]="roomgender.male">Male</option>
+                  <option [ngValue]="roomgender.female">Female</option>
+                </select>
               </div>
-              <!-- /.row -->
 
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Room Number</label>
-                    <input type="text" class="form-control" name="hostel_name" required [(ngModel)]="room.room_number"
-                      placeholder="Enter ">
-                  </div>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
 
-                </div>
-                <!-- /.col -->
-                <!-- <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Room Number</label>
+                <input type="text" class="form-control" name="hostel_name" required [(ngModel)]="room.room_number"
+                  placeholder="Enter ">
+              </div>
+
+            </div>
+            <!-- /.col -->
+            <!-- <div class="col-md-6">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Room Capacity</label>
                   <input type="number" required class="form-control" name="room_capacity" required
@@ -141,19 +138,18 @@ fgsType="square-jelly-box"
                 </div>
 
               </div> -->
-                <!-- /.col -->
-              </div>
-              <div class="row">
-                <div class="col-12 col-sm-6">
-                  <button class="btn btn-primary" [disabled]="createroomsForm.form.invalid"
-                    type="submit">Create</button>
-                </div>
-
-              </div>
-              <!-- /.card-body -->
-            </form>
+            <!-- /.col -->
           </div>
-        </div>
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <button class="btn btn-primary" [disabled]="createroomsForm.form.invalid" type="submit">Create</button>
+            </div>
+
+          </div>
+          <!-- /.card-body -->
+        </form>
+      </div>
+    </div>
 
 
 
@@ -174,8 +170,8 @@ fgsType="square-jelly-box"
       <!-- /.card-header -->
       <div class="card-body">
 
-        <table datatable [dtOptions]="dtoptions"   [dtTrigger]="dtTrigger"
-          class="table responsive table-hover table-bordered table-striped" style="width: 100%;" >
+        <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger"
+          class="table responsive table-hover table-bordered table-striped" style="width: 100%;">
           <thead>
             <tr>
 
@@ -211,8 +207,8 @@ fgsType="square-jelly-box"
                   <div class="dropdown-menu" role="menu">
 
 
-                    <button class="dropdown-item" (click)="setRoomId(_room)" data-toggle="modal" *ngIf="myrights.create_hostel"
-                      [attr.data-target]="'#edit-modal-lg'+i">Edit</button>
+                    <button class="dropdown-item" (click)="setRoomId(_room)" data-toggle="modal"
+                      *ngIf="myrights.create_hostel" [attr.data-target]="'#edit-modal-lg'+i">Edit</button>
 
                     <button class="dropdown-item text-danger" (click)="setRoomId(_room)" *ngIf="myrights.create_hostel"
                       data-toggle="modal" [attr.data-target]="'#modal-sm'+ i ">Delete</button>
