@@ -43,6 +43,7 @@ import {NgxUiLoaderModule, NgxUiLoaderHttpModule} from 'ngx-ui-loader';
 import { CheckinComponent } from './pages/checkin/checkin.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { CheckinCheckoutDropdownComponent } from './pages/checkin-checkout-dropdown/checkin-checkout-dropdown.component';
+import { ViewRoomComponent } from './pages/view-room/view-room.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'en-EN');
@@ -75,7 +76,8 @@ registerLocaleData(localeEn, 'en-EN');
         HistoryComponent,
         CheckinComponent,
         CheckoutComponent,
-        CheckinCheckoutDropdownComponent
+        CheckinCheckoutDropdownComponent,
+        ViewRoomComponent
     ],
     imports: [
         FormsModule,

@@ -11,6 +11,8 @@ import { EncriprionserviceService } from '@services/encriprionservice.service';
 import { ParamsService } from '@services/params.service';
 
 
+
+
 @Component({
   selector: 'app-application',
   templateUrl: './application.component.html',
@@ -123,6 +125,29 @@ export class ApplicationComponent implements OnInit {
           this.feedback_message = error.error.message;
         }
       );
+  }
+
+  getroomDetails(room_id:number,i:number){
+
+var data={
+room_id:room_id,
+residence_session_id:  this.application.residence_session_id
+}
+console.log(data);
+
+
+    this.applicationservice.getRoomInfo(data,{
+      headers: this.authservice.getHeaders()
+    }).subscribe(res=>{
+      // {{ i }}
+
+
+
+    },error=>{
+      console.log(error);
+
+    })
+
   }
 
   getroomstoApply() {

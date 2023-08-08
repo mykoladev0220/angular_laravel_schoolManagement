@@ -11,11 +11,7 @@ setparam(key:any,value:any){
 sessionStorage.setItem(key,value);
 }
 getparam(key:any){
-
-
 this.item=sessionStorage.getItem(key);
-
-
  return this.item;
 
 

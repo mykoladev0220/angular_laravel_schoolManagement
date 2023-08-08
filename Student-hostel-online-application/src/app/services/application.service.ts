@@ -32,4 +32,12 @@ export class ApplicationService {
       headers
     );
   }
+  getRoomInfo(data: any, headers: any) {
+    return this.httpclient.post(
+      this.serverIp + '/roomdetails',
+      data,
+      headers
+    );
+  }
+
 }
