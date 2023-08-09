@@ -1,107 +1,55 @@
-<div class="col-12 col-sm-12">
-  <div class="card card-primary card-tabs">
-    <div class="card-header bg p-0 pt-1">
-      <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#applications" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Applications</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#allocations" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Allocations</a>
-        </li>
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+<div class="content ">
+<div class="card">
+  <div class="card-header m-4">
+    <h3 class="card-title">
+Recents
+    </h3>
+  </div>
+  <div class="card-body">
+    <table class="hover  table-striped  responsive" style="width: 100%;" >
+      <thead>
+        <tr>
 
-      </ul>
-    </div>
-    <div class="card-body">
-      <div class="tab-content" id="custom-tabs-one-tabContent">
-        <div class="tab-pane fade show active" id="applications" role="tabpanel" aria-labelledby="applications">
+          <th>Type</th>
 
-          <table  class="hover table-striped table-scrollable width-100"  style="width: 100%;"  >
-            <thead>
-              <tr>
-
-
-
-                <th>location Name</th>
-                <th>hostel Name</th>
-
-                <th>Room Number</th>
-                <th>Expiry Date </th>
+          <th>location Name</th>
+          <th>hostel Name</th>
+          <th>floor Name</th>
+          <th>Room Number</th>
+          <th>Batch</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Expiry Date</th>
 
 
 
 
 
+        </tr>
+      </thead>
+      <tbody >
+        <tr class="text-capital" *ngFor="let allocation of myallocations,let i=index">
+          <td class="text-upper">{{allocation.type}}</td>
+          <td >{{allocation.location_name}}</td>
 
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let application of myapplication,let i=index">
-
-                <td>{{application.location_name}}</td>
-                <td>{{application.hostel_name}}</td>
-
-                <td>{{application.room_number}}</td>
-                <td *ngIf="application.application_status===0" class="text-success" >{{application.expiration_date |date}}</td>
-                <td *ngIf="application.application_status===2" class="text-danger">{{application.expiration_date |date}}</td>
-
-
-
-
-
-
-
-
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="tab-pane fade" id="allocations" role="tabpanel" aria-labelledby="allocations">
-
-
-
-          <table class="hover  table-striped  responsive" style="width: 100%;" >
-            <thead>
-              <tr>
-
-
-
-                <th>location Name</th>
-                <th>hostel Name</th>
-                <th>floor Name</th>
-                <th>Room Number</th>
+          <td>{{allocation.hostel_name}}</td>
+          <td>{{allocation.floor_name}}</td>
+          <td>{{allocation.room_number}}</td>
+          <td>{{allocation.session_name}}</td>
+          <td class="text-danger" *ngIf="allocation.status=='forfeited'||allocation.status=='rejected'" >{{allocation.status}}</td>
+          <td class="text-success" *ngIf="allocation.status=='pending'||allocation.status=='approved'">{{allocation.status}}</td>
+          <td>{{allocation?.DATE|date}}</td>
+          <td>{{allocation?.expiration_date|date}}</td>
 
 
 
 
 
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let allocation of myallocations,let i=index">
-
-                <td>{{allocation.location_name}}</td>
-                <td>{{allocation.hostel_name}}</td>
-                <td>{{allocation.floor_name}}</td>
-                <td>{{allocation.room_number}}</td>
-
-
-
-
-
-
-              </tr>
-            </tbody>
-          </table>
-
-                </div>
-
-      </div>
-    </div>
-    <!-- /.card -->
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
-
-
-
-
+</div>

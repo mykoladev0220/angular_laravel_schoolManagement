@@ -268,4 +268,7 @@ $result=$this->updateRoomStatus($room_status);
             return response()->json(['success' => 'false', 'message' => $ex->getMessage()], 500);
         }
     }
+
+
+   
 }

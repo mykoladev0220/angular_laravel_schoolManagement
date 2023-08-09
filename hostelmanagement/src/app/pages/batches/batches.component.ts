@@ -86,7 +86,7 @@ buttons: [
     this.feedback_status=0;
 
     this.batch.available_status="0";
-// console.log(this.batch.is_program_driven);
+
 
     if(this.batch.is_program_driven){
       this.batch.is_program_driven="1";
@@ -103,9 +103,9 @@ if(this.batch.end_date<=this.batch.start_date){
 
     this.batchservice.createBatch(this.batch,{ headers: this.authservice.getHeaders() }).subscribe(res=>{
 
-        // this.feedback_status=1;
+  
         this.msg = res;
-        // this.feedbackmsg=this.msg.message;
+
 
 this.toast.firesuccess(this.msg.message);
         this.batches = this.msg.residence_session;

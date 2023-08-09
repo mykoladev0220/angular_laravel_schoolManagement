@@ -47,7 +47,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
+Route::post('roomdetails', [roomsController::class, 'getRoomOccupants']);
 
 
 
@@ -202,8 +202,8 @@ Route::middleware('auth:api-student')->group(
 
 
 
-// subwarden routes
-Route::post('iswarden', [subwardensController::class, 'isWarden']);
+        // subwarden routes
+        Route::post('iswarden', [subwardensController::class, 'isWarden']);
         Route::post('warden/checkin', [checkinsandcheckoutsController::class, 'checkin']);
         Route::post('warden/checkout', [checkinsandcheckoutsController::class, 'checkout']);
         Route::post('warden/getcheckindata', [checkinsandcheckoutsController::class, 'getCheckindata']);

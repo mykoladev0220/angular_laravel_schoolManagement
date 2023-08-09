@@ -57,14 +57,9 @@ else{
 
   this.paramservice.setparam("myrights",JSON.parse(this.user.myrights.rights));
 
-          if(this.user.prompt_change==1){
-            this.router.navigate(['changepassword']);
-          }
-         else{
-          this.router.navigate(['hostels']);
-         }
+  
 
-
+         this.router.navigate(['hostels']);
 
 
 

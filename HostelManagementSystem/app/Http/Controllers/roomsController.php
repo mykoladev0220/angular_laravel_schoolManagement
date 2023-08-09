@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\room;
 use App\Models\roomtype;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use App\Models\roomAllocation;
+use App\Models\roomapplication;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class roomsController extends Controller
 {
@@ -28,8 +31,8 @@ class roomsController extends Controller
             $room->save();
             $hostel_id = $request['hostel_id'];
             $rooms = room::join('tbl_floors', 'tbl_floors.floor_id', '=', 'tbl_rooms.floor_id')->join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
-            ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
-            ->where('tbl_rooms.hostel_id', $hostel_id)->get();
+                ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
+                ->where('tbl_rooms.hostel_id', $hostel_id)->get();
             return response()->json(['message' => 'successfully created room', 'success' => true, 'rooms' => $rooms], 200);
         } catch (QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
@@ -59,8 +62,8 @@ class roomsController extends Controller
             $room->update();
             $hostel_id = $request['hostel_id'];
             $rooms = room::join('tbl_floors', 'tbl_floors.floor_id', '=', 'tbl_rooms.floor_id')->join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
-            ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
-            ->where('tbl_rooms.hostel_id', $hostel_id)->get();
+                ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
+                ->where('tbl_rooms.hostel_id', $hostel_id)->get();
             return response()->json(['message' => 'successfully updated room', 'success' => true, 'rooms' => $rooms], 200);
         } catch (QueryException $ex) {
             if ($ex->errorInfo[1] == 1062) {
@@ -85,8 +88,8 @@ class roomsController extends Controller
 
             $room->delete();
             $rooms = room::join('tbl_floors', 'tbl_floors.floor_id', '=', 'tbl_rooms.floor_id')->join('tbl_hostels', 'tbl_hostels.hostel_id', '=', 'tbl_rooms.hostel_id')
-            ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
-            ->where('tbl_rooms.hostel_id', $hostel_id)->get();
+                ->join('tbl_room_types', 'tbl_room_types.room_type_id', '=', 'tbl_rooms.room_type_id')
+                ->where('tbl_rooms.hostel_id', $hostel_id)->get();
             return response()->json(['message' => 'successfully deleted room', 'success' => true, 'rooms' => $rooms], 200);
         } catch (QueryException $e) {
 
@@ -125,5 +128,27 @@ class roomsController extends Controller
         } catch (QueryException $ex) {
             return response()->json(['error' => $ex->getMessage()]);
         }
+    }
+
+
+    public function getRoomOccupants(Request $request)
+    {
+        $validdata = $request->validate(['residence_session_id' => 'required|numeric', 'room_id' => 'required|numeric']);
+        $residence_session_id = $validdata['residence_session_id'];
+        $room_id = $validdata['room_id'];
+
+        $matchconditions = ['residence_session_id' => $residence_session_id, 'room_id' => $room_id];
+        $roomoccupants = roomAllocation::join('registry.tblstudent','registry.tblstudent.reg_number','=','tbl_room_allocations.reg_number')->where($matchconditions)->where('approved_status', '!=', '2')->get('registry.tblstudent.*');
+
+        $applicants = roomapplication::join('registry.tblstudent','registry.tblstudent.reg_number','=','tbl_room_allocation_applications.reg_number')->where($matchconditions)->where('application_status', '=', '0')->get('registry.tblstudent.*');
+
+
+        foreach($applicants as $applicant ){
+
+        $roomoccupants->push($applicant);
+        }
+
+        return response()->json( $roomoccupants);
+
     }
 }

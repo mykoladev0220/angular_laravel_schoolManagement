@@ -13,6 +13,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Traits;
+
 class roomAllocationController extends Controller
 {
     use Traits\roomstatustrait;
@@ -48,10 +49,11 @@ class roomAllocationController extends Controller
             $matchconditions = ['residence_session_id' => $residenceSessionId, 'room_id' => $room_id];
             $roomoccupants = roomAllocation::where($matchconditions)->where('approved_status', '!=', '2')->count();
 
-            $applicants = roomapplication::where($matchconditions)->where('application_status', '=', '0')->count();
+            $applicants = roomapplication::where($matchconditions)->where('application_status','=','0')->count();
 
             $room_capacity = room::where('room_id', $room_id)->first();
             $room_capacity = $room_capacity->room_capacity;
+
 
             //   check if room is full occupied
 
@@ -59,15 +61,13 @@ class roomAllocationController extends Controller
                 return response()->json(['success' => false, 'message' => 'room is fully occupied '], 403);
             }
 
-            $studentroomapplicationcount=roomapplication::where('reg_number',$regnumber)->where('residence_session_id',$residenceSessionId)->where('application_status', '=', '0')->count();
+            $studentroomapplicationcount = roomapplication::where('reg_number', $regnumber)->where('residence_session_id', $residenceSessionId)->where('application_status', '=', '0')->count();
 
-            if($studentroomapplicationcount>0)
-            {
-             $application=   roomapplication::where('reg_number',$regnumber)->where('residence_session_id',$residenceSessionId)->where('application_status', '=', '0')->first();
+            if ($studentroomapplicationcount > 0) {
+                $application =   roomapplication::where('reg_number', $regnumber)->where('residence_session_id', $residenceSessionId)->where('application_status', '=', '0')->first();
 
-             $application->application_status=2;
-             $application->save();
-
+                $application->application_status = 2;
+                $application->save();
             }
             roomAllocation::create($room_allocation);
             // check if capacity is still available
@@ -81,6 +81,7 @@ class roomAllocationController extends Controller
 
             $room_status['room_id'] = $room_id;
             $room_status['active_period_id'] = $room_allocation['active_period_id'];
+
 
             if (($roomoccupants + $applicants) >= $room_capacity) {
 
@@ -359,16 +360,16 @@ tbl_room_allocations.room_allocation_id DESC");
 
         if ($room_allocation->approved_status == 2) {
 
-$request->validate(['reason'=>'required|string','userid'=>'required
+            $request->validate(['reason' => 'required|string', 'userid' => 'required
 ']);
-$reason=$request['reason'];
-$userid=$request['userid'];
+            $reason = $request['reason'];
+            $userid = $request['userid'];
 
-$rejectedall= new allocation_rejection_reason();
-$rejectedall->reason=$reason;
-$rejectedall->rejected_by=$userid;
-$rejectedall->allocation_id=$room_allocation_id;
-$rejectedall->save();
+            $rejectedall = new allocation_rejection_reason();
+            $rejectedall->reason = $reason;
+            $rejectedall->rejected_by = $userid;
+            $rejectedall->allocation_id = $room_allocation_id;
+            $rejectedall->save();
 
             $roomstatus = roomstatus::where('room_id', $room_id)->where('residence_session_id', $residenceSessionId)->first();
             if ($roomstatus) {
@@ -423,22 +424,24 @@ tbl_room_allocations.room_allocation_id DESC");
             ->format('Y/m/d');
 
         $Myapplication = DB::select("SELECT
-	tbl_locations.location_name,
-	tbl_hostels.hostel_name,
-	tbl_rooms.room_id,
-	tbl_rooms.room_gender,
-	tbl_rooms.room_number,
-	tbl_rooms.room_capacity,
-	tbl_room_allocation_applications.date_of_application,
-    tbl_room_allocation_applications.application_status,
-	tbl_room_allocation_applications.expiration_date,
-	tbl_residence_sessions.session_name
-FROM
-	tbl_room_allocation_applications
-	INNER JOIN tbl_rooms ON tbl_room_allocation_applications.room_id = tbl_rooms.room_id
-	INNER JOIN tbl_hostels ON tbl_rooms.hostel_id = tbl_hostels.hostel_id
-	INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
-	INNER JOIN tbl_residence_sessions ON tbl_room_allocation_applications.residence_session_id = tbl_residence_sessions.residence_session_id
+        tbl_locations.location_name,
+        tbl_hostels.hostel_name,
+        tbl_rooms.room_id,
+        tbl_rooms.room_number,
+        tbl_room_allocation_applications.date_of_application AS DATE,
+        tbl_room_allocation_applications.application_status,
+        tbl_room_allocation_applications.expiration_date,
+        tbl_residence_sessions.session_name,
+        tbl_floors.floor_name,
+        tbl_room_application_status.`status` AS `status`
+    FROM
+        tbl_room_allocation_applications
+        INNER JOIN tbl_rooms ON tbl_room_allocation_applications.room_id = tbl_rooms.room_id
+        INNER JOIN tbl_residence_sessions ON tbl_room_allocation_applications.residence_session_id = tbl_residence_sessions.residence_session_id
+        INNER JOIN tbl_floors ON tbl_rooms.floor_id = tbl_floors.floor_id
+        INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
+        INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
+        INNER JOIN tbl_room_application_status ON tbl_room_allocation_applications.application_status = tbl_room_application_status.status_code
 WHERE
 	tbl_room_allocation_applications.application_status <> 1
 	AND tbl_residence_sessions.end_date > '$newDate'
@@ -448,19 +451,22 @@ ORDER BY
 	LIMIT 1");
 
         $my_allocation = DB::select("SELECT
-	tbl_locations.location_name,
-	tbl_hostels.hostel_name,
-	tbl_floors.floor_name,
-	tbl_rooms.room_number,
-	tbl_room_allocations.date_allocated,
-	tbl_residence_sessions.session_name
-FROM
-	tbl_room_allocations
-	INNER JOIN tbl_rooms ON tbl_room_allocations.room_id = tbl_rooms.room_id
-	INNER JOIN tbl_residence_sessions ON tbl_room_allocations.residence_session_id = tbl_residence_sessions.residence_session_id
-	INNER JOIN tbl_floors ON tbl_rooms.floor_id = tbl_floors.floor_id
-	INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
-	INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
+        tbl_locations.location_name,
+        tbl_hostels.hostel_name,
+        tbl_floors.floor_name,
+        tbl_rooms.room_number,
+        tbl_room_allocations.date_allocated AS DATE,
+        tbl_residence_sessions.session_name,
+        tbl_room_allocations.approved_status,
+        tbl_room_allocation_status.`status`
+    FROM
+        tbl_room_allocations
+        INNER JOIN tbl_rooms ON tbl_room_allocations.room_id = tbl_rooms.room_id
+        INNER JOIN tbl_residence_sessions ON tbl_room_allocations.residence_session_id = tbl_residence_sessions.residence_session_id
+        INNER JOIN tbl_floors ON tbl_rooms.floor_id = tbl_floors.floor_id
+        INNER JOIN tbl_hostels ON tbl_floors.hostel_id = tbl_hostels.hostel_id
+        INNER JOIN tbl_locations ON tbl_hostels.location_id = tbl_locations.location_id
+        INNER JOIN tbl_room_allocation_status ON tbl_room_allocations.approved_status = tbl_room_allocation_status.status_code
 WHERE
 	tbl_room_allocations.reg_number = '$regnumber'
 	AND tbl_residence_sessions.end_date > '$newDate'
@@ -469,7 +475,25 @@ ORDER BY
 	tbl_room_allocations.room_allocation_id DESC
 	LIMIT 1");
 
-        return response()->json(['myallocation' => $my_allocation, 'myapplication' => $Myapplication], 200);
+foreach($my_allocation as $allocation ){
+
+    $allocation->type="allocation";
+    }
+
+    foreach($Myapplication as $application ){
+
+        $application->type="application";
+
+
+array_push($my_allocation,$application);
+        }
+
+
+
+
+
+
+        return response()->json(['myallocation' => $my_allocation], 200);
     }
 
 
